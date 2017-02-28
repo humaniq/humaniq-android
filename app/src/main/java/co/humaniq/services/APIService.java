@@ -3,6 +3,7 @@ package co.humaniq.services;
 import android.util.Log;
 import co.humaniq.Client;
 import co.humaniq.models.APIErrors;
+import co.humaniq.models.DummyModel;
 import co.humaniq.models.ResultData;
 import co.humaniq.views.ViewContext;
 import retrofit2.Call;
@@ -23,7 +24,7 @@ public class APIService<T> extends BaseService<T> {
         requestCall(call, ViewContext.DUMMY_REQUEST);
     }
 
-    private void requestCall(Call<T> call, final int requestCode) {
+    void requestCall(Call<T> call, final int requestCode) {
         final ViewContext context = getContext();
 
         if (!Client.isOnline(getContext())) {
@@ -38,11 +39,43 @@ public class APIService<T> extends BaseService<T> {
                 context.hideProgressbar(requestCode);
 
                 if (!hasStatusError(response, requestCode))
-                    context.success(new ResultData<T>(response), requestCode);
+                    context.success(new ResultData<>(response), requestCode);
             }
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
+                context.hideProgressbar(requestCode);
+                t.printStackTrace();
+                context.criticalError(new APIErrors(), requestCode);
+            }
+        });
+    }
+
+    void request(Call<DummyModel> call) {
+        request(call, ViewContext.DUMMY_REQUEST);
+    }
+
+    void request(Call<DummyModel> call, final int requestCode) {
+        final ViewContext context = getContext();
+
+        if (!Client.isOnline(getContext())) {
+            context.connectionError(requestCode);
+            return;
+        }
+
+        context.showProgressbar(requestCode);
+        call.enqueue(new Callback<DummyModel>() {
+
+            @Override
+            public void onResponse(Call<DummyModel> call, Response<DummyModel> response) {
+                context.hideProgressbar(requestCode);
+
+                if (!hasStatusError(response, requestCode))
+                    context.success(new ResultData<>(response), requestCode);
+            }
+
+            @Override
+            public void onFailure(Call<DummyModel> call, Throwable t) {
                 context.hideProgressbar(requestCode);
                 t.printStackTrace();
                 context.criticalError(new APIErrors(), requestCode);
