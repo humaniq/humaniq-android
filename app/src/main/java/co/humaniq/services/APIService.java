@@ -25,30 +25,7 @@ public class APIService<T> extends BaseService<T> {
     }
 
     void requestCall(Call<T> call, final int requestCode) {
-        final ViewContext context = getContext();
-
-        if (!Client.isOnline(getContext())) {
-            context.connectionError(requestCode);
-            return;
-        }
-
-        context.showProgressbar(requestCode);
-        call.enqueue(new Callback<T>() {
-            @Override
-            public void onResponse(Call<T> call, Response<T> response) {
-                context.hideProgressbar(requestCode);
-
-                if (!hasStatusError(response, requestCode))
-                    context.success(new ResultData<>(response), requestCode);
-            }
-
-            @Override
-            public void onFailure(Call<T> call, Throwable t) {
-                context.hideProgressbar(requestCode);
-                t.printStackTrace();
-                context.criticalError(new APIErrors(), requestCode);
-            }
-        });
+        APIService.doRequest(this, getContext(), call, requestCode);
     }
 
     void request(Call<DummyModel> call) {
@@ -56,26 +33,29 @@ public class APIService<T> extends BaseService<T> {
     }
 
     void request(Call<DummyModel> call, final int requestCode) {
-        final ViewContext context = getContext();
+        APIService.doRequest(this, getContext(), call, requestCode);
+    }
 
-        if (!Client.isOnline(getContext())) {
+    private static <E> void doRequest(APIService service, ViewContext context, Call<E> call,
+                                      final int requestCode)
+    {
+        if (!Client.isOnline(context)) {
             context.connectionError(requestCode);
             return;
         }
 
         context.showProgressbar(requestCode);
-        call.enqueue(new Callback<DummyModel>() {
-
+        call.enqueue(new Callback<E>() {
             @Override
-            public void onResponse(Call<DummyModel> call, Response<DummyModel> response) {
+            public void onResponse(Call<E> call, Response<E> response) {
                 context.hideProgressbar(requestCode);
 
-                if (!hasStatusError(response, requestCode))
+                if (!service.hasStatusError(response, requestCode))
                     context.success(new ResultData<>(response), requestCode);
             }
 
             @Override
-            public void onFailure(Call<DummyModel> call, Throwable t) {
+            public void onFailure(Call<E> call, Throwable t) {
                 context.hideProgressbar(requestCode);
                 t.printStackTrace();
                 context.criticalError(new APIErrors(), requestCode);
