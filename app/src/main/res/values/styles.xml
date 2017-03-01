@@ -8,5 +8,6 @@
     </style>
 
     <style name="RegularButton">
+        <item name="android:background">@drawable/regular_button_selector</item>
     </style>
 </resources>
