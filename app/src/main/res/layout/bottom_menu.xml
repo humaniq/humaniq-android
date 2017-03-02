@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:paddingTop="1dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/tab1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="20dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginEnd="1dp"
+        android:background="@color/darkBlue"
+        app:srcCompat="@mipmap/schedule" />
+
+    <ImageView
+        android:id="@+id/tab2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_weight="1"
+        android:background="@color/lightBlue"
+        android:padding="15dp"
+        app:srcCompat="@mipmap/do_transfer_coins" />
+
+    <ImageView
+        android:id="@+id/tab3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_weight="1"
+        android:background="@color/lightBlue"
+        android:padding="15dp"
+        app:srcCompat="@mipmap/do_revieve_coins" />
+
+    <ImageView
+        android:id="@+id/tab4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/lightBlue"
+        android:padding="20dp"
+        app:srcCompat="@mipmap/settings" />
+</LinearLayout>

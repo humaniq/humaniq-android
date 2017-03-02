@@ -42,5 +42,5 @@ dependencies {
     compile 'com.github.rahatarmanahmed:circularprogressview:2.4.0'
 
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
 }

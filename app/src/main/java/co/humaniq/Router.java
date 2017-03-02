@@ -136,9 +136,9 @@ public class Router {
         if (bundle != null)
             ((BaseFragment) fragmentInstance).setArguments(bundle);
 
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.contentLayout, (BaseFragment) fragmentInstance)
-                .commit();
+//        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.contentLayout, (BaseFragment) fragmentInstance)
+//                .commit();
     }
 }
