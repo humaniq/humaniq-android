@@ -8,7 +8,7 @@
     </style>
 
     <style name="RegularButton">
-        <item name="android:background">@drawable/regular_button_selector</item>
+        <item name="android:background">@drawable/selector_regular_button</item>
     </style>
 
     <style name="ToolbarTitle">
