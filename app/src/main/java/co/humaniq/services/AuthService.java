@@ -7,6 +7,7 @@ import co.humaniq.views.ViewContext;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 
@@ -14,9 +15,11 @@ public class AuthService extends APIService<AuthToken> {
     static final String TAG = "AuthService";
 
     interface RetrofitService {
+        @FormUrlEncoded
         @POST("user/register/")
         Call<AuthToken> register(@Field("photo") String photoBase64);
 
+        @FormUrlEncoded
         @POST("user/login/")
         Call<AuthToken> login(@Field("photo") String photoBase64);
 
@@ -27,7 +30,7 @@ public class AuthService extends APIService<AuthToken> {
     private RetrofitService anonymousRetrofitService;
     private RetrofitService authRetrofitService;
 
-    AuthService(ViewContext context) {
+    public AuthService(ViewContext context) {
         super(context);
 
         anonymousRetrofitService = Client.getAnonymousRetrofitInstance()

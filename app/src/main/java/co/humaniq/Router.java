@@ -45,7 +45,7 @@ public class Router {
     private static HashMap<Integer, Route> routes = new HashMap<>();
     static {
         routes.put(GREETER, new Route(GreeterActivity.class));
-        routes.put(LOGIN, new Route(LoginRegisterActivity.class));
+        routes.put(LOGIN, new Route(LoginActivity.class));
         routes.put(REGISTER, new Route(RegisterActivity.class));
         routes.put(DASHBOARD, new Route(DashboardActivity.class));
     }

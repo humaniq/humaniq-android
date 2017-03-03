@@ -16,7 +16,7 @@ import java.io.IOException;
 public class APIService<T> extends BaseService<T> {
     private static final String TAG = "APIService";
 
-    APIService(ViewContext context) {
+    public APIService(ViewContext context) {
         super(context);
     }
 
