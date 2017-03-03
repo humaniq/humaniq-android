@@ -38,7 +38,7 @@
         android:layout_weight="1"
         android:background="@color/lightBlue"
         android:padding="15dp"
-        app:srcCompat="@mipmap/do_revieve_coins" />
+        app:srcCompat="@mipmap/do_reveive_coins" />
 
     <ImageView
         android:id="@+id/tab4"

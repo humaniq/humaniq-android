@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@color/colorPrimary">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp" app:srcCompat="@mipmap/qrcode"
+        android:id="@+id/imageView14" android:tint="@android:color/black"
+        android:background="@drawable/little_rounded_rect_white"
+        android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        android:padding="40dp"
+        app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.488" android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent" android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintDimensionRatio="h,1:1"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp" app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="16dp" app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0" android:id="@+id/linearLayout5"
+        app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="match_parent" app:srcCompat="@mipmap/wallet"
+            tools:layout_editor_absoluteY="70dp" tools:layout_editor_absoluteX="29dp"
+            android:id="@+id/imageView12"/>
+        <TextView
+            android:text="0xC167677A59104RA2B56159B6C2E01B3C8E838E1B"
+            android:layout_width="181dp"
+            android:layout_height="wrap_content" tools:layout_editor_absoluteY="188dp"
+            tools:layout_editor_absoluteX="79dp" android:id="@+id/textView8"
+            android:textColor="#fff" android:layout_weight="1" android:textSize="21sp"
+            android:layout_margin="10dp"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="match_parent" app:srcCompat="@mipmap/lists"
+            android:id="@+id/imageView13" tools:layout_editor_absoluteY="76dp"
+            tools:layout_editor_absoluteX="218dp" android:padding="4dp"
+        />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

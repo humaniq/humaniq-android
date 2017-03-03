@@ -22,7 +22,7 @@
             android:textColor="@color/white" android:textSize="20sp"/>
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="match_parent" app:srcCompat="@mipmap/recieved_coins"
+            android:layout_height="match_parent" app:srcCompat="@mipmap/received_coins"
             android:id="@+id/imageView2" android:layout_weight="0.4"/>
         <TextView
             android:text="13.14 HC"
