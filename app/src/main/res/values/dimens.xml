@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="bottom_menu_height">100dp</dimen>
+    <dimen name="bottom_menu_height">65dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="settings_button_height">125dp</dimen>
 </resources>

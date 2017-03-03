@@ -1,10 +1,11 @@
-package co.humaniq.views;
+package co.humaniq.views.dashboard_fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import co.humaniq.R;
+import co.humaniq.views.BaseFragment;
 
 
 public class TransferCoinsFragment extends BaseFragment {

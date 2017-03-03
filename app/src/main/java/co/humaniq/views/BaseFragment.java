@@ -14,7 +14,7 @@ public class BaseFragment extends Fragment implements ViewContext {
 
     @Override
     public BaseActivity getActivityInstance() {
-        return null;
+        return (BaseActivity) getActivity();
     }
 
     @Override

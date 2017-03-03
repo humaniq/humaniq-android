@@ -1,14 +1,16 @@
 package co.humaniq.views;
 
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
 import co.humaniq.R;
+import co.humaniq.views.dashboard_fragments.HistoryFragment;
+import co.humaniq.views.dashboard_fragments.ReceiveCoinsFragment;
+import co.humaniq.views.dashboard_fragments.SettingsFragment;
+import co.humaniq.views.dashboard_fragments.TransferCoinsFragment;
 import co.humaniq.views.widgets.BottomMenuView;
 
 import java.util.ArrayList;

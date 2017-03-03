@@ -42,12 +42,11 @@
     <include
         layout="@layout/bottom_menu"
         android:layout_width="wrap_content"
-        android:layout_height="65dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/bottomMenu"
-        android:layout_marginBottom="0dp"/>
+        android:layout_marginBottom="0dp" android:layout_height="@dimen/bottom_menu_height"/>
 
 </android.support.constraint.ConstraintLayout>
