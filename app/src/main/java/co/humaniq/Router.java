@@ -25,6 +25,7 @@ public class Router {
     public static Integer REGISTER = 2001;
 
     public static Integer DASHBOARD = 3000;
+    public static Integer PROFILE = 4000;
 
     private static Integer lastScreen = null;
 
@@ -48,6 +49,7 @@ public class Router {
         routes.put(LOGIN, new Route(LoginActivity.class));
         routes.put(REGISTER, new Route(RegisterActivity.class));
         routes.put(DASHBOARD, new Route(DashboardActivity.class));
+        routes.put(PROFILE, new Route(ProfileActivity.class));
     }
 
     private Router() {}

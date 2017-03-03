@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import co.humaniq.R;
+import co.humaniq.Router;
+import co.humaniq.models.AuthToken;
 
 
 public class ToolbarActivity extends BaseActivity {
@@ -55,6 +57,13 @@ public class ToolbarActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+
+            case R.id.help:
+                if (AuthToken.getInstance() != null && AuthToken.getInstance().getUser() != null)
+                    Router.goActivity(this, Router.PROFILE);
+
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

@@ -19,7 +19,7 @@ public class LoginActivity extends LoginRegisterActivity {
         AuthToken token = (AuthToken) response.data();
         AuthToken.updateInstance(token);
 
-        setResult(RESULT_OK);
+        setResult(AuthToken.RESULT_GOT_TOKEN);
         finish();
     }
 }

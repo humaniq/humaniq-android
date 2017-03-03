@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.DashboardActivity">
+        <activity android:name=".views.GreeterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -29,6 +29,12 @@
                   android:theme="@style/AppTheme"/>
         <activity android:name=".views.RegisterActivity"
                   android:label="New user"
+                  android:theme="@style/AppTheme"/>
+        <activity android:name=".views.DashboardActivity"
+                  android:label="Profile"
+                  android:theme="@style/AppTheme"/>
+        <activity android:name=".views.ProfileActivity"
+                  android:label="Profile"
                   android:theme="@style/AppTheme"/>
 
         <provider

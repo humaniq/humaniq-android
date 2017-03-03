@@ -23,7 +23,7 @@ public class RegisterActivity extends LoginRegisterActivity {
 
         Log.d(TAG, token.getAuthorization());
 
-        setResult(RESULT_OK);
+        setResult(AuthToken.RESULT_GOT_TOKEN);
         finish();
     }
 }

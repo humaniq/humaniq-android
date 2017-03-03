@@ -2,8 +2,10 @@ package co.humaniq.models;
 
 
 public class AuthToken extends DummyModel {
-    public User user;
-    public String token;
+    public static final int RESULT_GOT_TOKEN = 5000;
+
+    private User user;
+    private String token;
 
     private static AuthToken clientToken = null;
 
@@ -23,5 +25,9 @@ public class AuthToken extends DummyModel {
 
     public String getAuthorization() {
         return "Token "+token;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

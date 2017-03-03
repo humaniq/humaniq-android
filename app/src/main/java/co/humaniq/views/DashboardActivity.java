@@ -17,8 +17,6 @@ import java.util.ArrayList;
 
 
 public class DashboardActivity extends ToolbarActivity {
-    private PagerAdapter pagerAdapter;
-    private ViewPager viewPager;
     private BottomMenuView bottomMenuView;
 
     private class PagerAdapter extends FragmentPagerAdapter {
@@ -55,8 +53,8 @@ public class DashboardActivity extends ToolbarActivity {
         initToolbar();
         getActivityActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white);
 
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         View bottomMenu = findViewById(R.id.bottomMenu);
 
         pagerAdapter.addFragment(new HistoryFragment());
