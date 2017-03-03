@@ -2,5 +2,5 @@
 <resources>
     <dimen name="bottom_menu_height">65dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
-    <dimen name="settings_button_height">125dp</dimen>
+    <dimen name="settings_button_height">110dp</dimen>
 </resources>

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class APIErrors implements Errors {
@@ -15,6 +16,7 @@ public class APIErrors implements Errors {
     private JSONObject errors = null;
     private Throwable throwable = null;
     private Response response;
+    private String errorBody = "";
 
     public APIErrors() {
         errors = new JSONObject();
@@ -26,6 +28,7 @@ public class APIErrors implements Errors {
 
     public APIErrors(Response response) {
         try {
+            errorBody = response.toString();
             Log.e(TAG, response.errorBody().string());
             errors = new JSONObject(response.errorBody().string());
             this.response = response;
@@ -61,5 +64,13 @@ public class APIErrors implements Errors {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toString() {
+        if (!errorBody.equals(""))
+            return errorBody;
+
+        return super.toString();
     }
 }

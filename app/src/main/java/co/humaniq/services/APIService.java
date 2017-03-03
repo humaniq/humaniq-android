@@ -58,6 +58,7 @@ public class APIService<T> extends BaseService<T> {
             public void onFailure(Call<E> call, Throwable t) {
                 context.hideProgressbar(requestCode);
                 t.printStackTrace();
+                Log.e(TAG, t.toString());
                 context.criticalError(new APIErrors(), requestCode);
             }
         });
@@ -94,6 +95,8 @@ public class APIService<T> extends BaseService<T> {
                 break;
 
             default:
+                Log.e(TAG, Integer.toString(response.code()));
+                Log.e(TAG, response.message());
                 context.criticalError(new APIErrors(), requestCode);
         }
 
