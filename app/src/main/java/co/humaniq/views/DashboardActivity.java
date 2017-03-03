@@ -1,6 +1,96 @@
 package co.humaniq.views;
 
+import android.os.Bundle;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
+import android.view.View;
+import co.humaniq.R;
+import co.humaniq.views.widgets.BottomMenuView;
+
+import java.util.ArrayList;
+
 
 public class DashboardActivity extends ToolbarActivity {
+    private PagerAdapter pagerAdapter;
+    private ViewPager viewPager;
+    private BottomMenuView bottomMenuView;
 
+    private class PagerAdapter extends FragmentPagerAdapter {
+        ArrayList<BaseFragment> fragments = new ArrayList<>();
+
+        PagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public BaseFragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public String getPageTitle(int position) {
+            return "";
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        void addFragment(BaseFragment fragment) {
+            fragments.add(fragment);
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dashboard);
+        initToolbar();
+        getActivityActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white);
+
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        View bottomMenu = findViewById(R.id.bottomMenu);
+
+        pagerAdapter.addFragment(new HistoryFragment());
+        pagerAdapter.addFragment(new TransferCoinsFragment());
+        pagerAdapter.addFragment(new ReceiveCoinsFragment());
+        pagerAdapter.addFragment(new SettingsFragment());
+
+        viewPager.setAdapter(pagerAdapter);
+        bottomMenuView = new BottomMenuView(bottomMenu, viewPager);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                bottomMenuView.selectTab(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

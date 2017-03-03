@@ -6,7 +6,6 @@
             android:shape="rectangle">
 
             <solid android:color="@color/takePhotoPressed"/>
-            <corners android:radius="49dp"/>
         </shape>
     </item>
 
@@ -16,7 +15,6 @@
             android:shape="rectangle">
 
             <solid android:color="#00000000"/>
-            <corners android:radius="49dp"/>
         </shape>
     </item>
 </selector>

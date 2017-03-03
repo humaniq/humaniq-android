@@ -3,6 +3,8 @@ package co.humaniq.views;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import co.humaniq.R;
@@ -11,15 +13,19 @@ import co.humaniq.R;
 public class ToolbarActivity extends BaseActivity {
     private Toolbar toolbar;
     private TextView toolbarTitle;
+    private ActionBar actionBar;
 
     public Toolbar getToolbar() {
         return toolbar;
     }
+    public ActionBar getActivityActionBar() {
+        return actionBar;
+    }
 
     protected void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
 
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -53,5 +59,12 @@ public class ToolbarActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.default_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

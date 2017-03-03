@@ -7,18 +7,19 @@
     android:paddingTop="1dp"
     android:orientation="horizontal">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/tab1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:padding="20dp"
+        android:padding="10dp"
         android:layout_marginRight="1dp"
         android:layout_marginEnd="1dp"
         android:background="@color/darkBlue"
-        app:srcCompat="@mipmap/schedule" />
+        app:srcCompat="@mipmap/schedule"
+        android:foreground="@drawable/selector_bottom_menu_button" android:scaleType="fitCenter"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/tab2"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -27,9 +28,10 @@
         android:layout_weight="1"
         android:background="@color/lightBlue"
         android:padding="15dp"
-        app:srcCompat="@mipmap/do_transfer_coins" />
+        app:srcCompat="@mipmap/do_transfer_coins"
+        android:foreground="@drawable/selector_bottom_menu_button" android:scaleType="fitCenter"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/tab3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -38,14 +40,16 @@
         android:layout_weight="1"
         android:background="@color/lightBlue"
         android:padding="15dp"
-        app:srcCompat="@mipmap/do_reveive_coins" />
+        app:srcCompat="@mipmap/do_reveive_coins"
+        android:foreground="@drawable/selector_bottom_menu_button" android:scaleType="fitCenter"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/tab4"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/lightBlue"
-        android:padding="20dp"
-        app:srcCompat="@mipmap/settings" />
+        android:padding="15dp"
+        app:srcCompat="@mipmap/settings"
+        android:foreground="@drawable/selector_bottom_menu_button" android:scaleType="fitCenter"/>
 </LinearLayout>

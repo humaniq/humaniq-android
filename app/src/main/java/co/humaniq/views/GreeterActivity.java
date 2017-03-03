@@ -10,7 +10,6 @@ import co.humaniq.Router;
 
 
 public class GreeterActivity extends BaseActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
