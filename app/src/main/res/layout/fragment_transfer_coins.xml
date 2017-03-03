@@ -152,10 +152,10 @@
             android:textColor="@color/darkBlue" android:textSize="32sp"
             android:layout_marginStart="10dp" android:layout_marginLeft="10dp"/>
         <TextView
-            android:text="HC"
+            android:text="HMQ"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" android:id="@+id/textView6"
-            android:textColor="@color/darkBlue" android:textSize="22sp"
+            android:textColor="@color/darkBlue" android:textSize="16sp"
             android:layout_marginStart="10dp" android:layout_weight="1"
             android:gravity="bottom|right|end" android:paddingBottom="8dp"
             android:paddingEnd="8dp" android:paddingRight="8dp" android:layout_marginLeft="10dp"/>

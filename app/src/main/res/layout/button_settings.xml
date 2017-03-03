@@ -18,8 +18,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="0.0" />
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp" app:srcCompat="@mipmap/twitter"
+        android:layout_width="50dp"
+        android:layout_height="50dp" app:srcCompat="@mipmap/twitter"
         android:id="@+id/imageView16"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -34,11 +34,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView9" android:textStyle="bold"
         android:textColor="@color/orange"
-        android:textSize="18sp"
+        android:textSize="16sp"
         tools:layout_constraintTop_creator="1" android:layout_marginStart="53dp"
-        android:layout_marginTop="42dp" tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/imageView16"
-        app:layout_constraintTop_toTopOf="@+id/imageView16" android:layout_marginLeft="53dp"/>
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp" android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent" android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintHorizontal_bias="0.75"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -51,14 +53,14 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp">
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp" app:srcCompat="@mipmap/add_coins"
+            android:layout_width="25dp"
+            android:layout_height="25dp" app:srcCompat="@mipmap/add_coins"
             android:id="@+id/imageView17" android:layout_margin="3dp"/>
         <TextView
-            android:text="1.71 HC"
+            android:text="1.71 HMQ"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" android:id="@+id/textView10"
-            android:textSize="24sp" android:textColor="#fff" android:layout_margin="3dp"
+            android:textSize="18sp" android:textColor="#fff" android:layout_margin="3dp"
             android:gravity="center_vertical"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

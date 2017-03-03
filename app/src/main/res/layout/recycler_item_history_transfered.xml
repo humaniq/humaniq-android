@@ -25,7 +25,7 @@
             android:layout_height="match_parent" app:srcCompat="@mipmap/transfered_coin"
             android:id="@+id/imageView2" android:layout_weight="0.4"/>
         <TextView
-            android:text="148.61 HC"
+            android:text="148.61 HMQ"
             android:layout_width="0dp"
             android:layout_height="match_parent" android:id="@+id/textView4"
             android:layout_weight="1" android:gravity="center_vertical|center_horizontal"
