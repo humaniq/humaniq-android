@@ -11,7 +11,7 @@ public class MainActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.fragment_settings);
 //        initToolbar();
 //        setTitle("New user");
     }
