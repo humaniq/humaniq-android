@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.humaniq.views.MainActivity" android:background="@color/colorPrimary">
+    tools:context="co.humaniq.views.GreeterActivity" android:background="@color/colorPrimary">
 
     <ImageView
         android:layout_width="242dp"
@@ -35,7 +35,7 @@
             android:layout_width="125dp"
             android:layout_height="80dp"
             app:srcCompat="@mipmap/register"
-            android:id="@+id/imageButton3"
+            android:id="@+id/buttonRegister"
             style="@style/RegularButton" tools:layout_editor_absoluteY="454dp"
             tools:layout_editor_absoluteX="73dp"
             android:paddingBottom="15dp" android:paddingTop="15dp"
@@ -45,7 +45,7 @@
             android:layout_width="125dp"
             android:layout_height="80dp"
             app:srcCompat="@mipmap/login"
-            android:id="@+id/imageButton4"
+            android:id="@+id/buttonLogin"
             style="@style/RegularButton" tools:layout_editor_absoluteY="454dp"
             tools:layout_editor_absoluteX="73dp"
             android:paddingBottom="15dp" android:paddingTop="15dp"

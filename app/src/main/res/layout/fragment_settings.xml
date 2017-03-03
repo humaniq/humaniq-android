@@ -20,8 +20,7 @@
                                           android:id="@+id/guideline4"
                                           app:layout_constraintGuide_percent="0.5"
                                           android:orientation="vertical"
-                                          tools:layout_editor_absoluteY="0dp"
-                                          tools:layout_editor_absoluteX="160dp"/>
+    />
     <include android:layout_width="0dp" android:layout_height="140dp"
              layout="@layout/button_settings"
              android:layout_marginTop="8dp"

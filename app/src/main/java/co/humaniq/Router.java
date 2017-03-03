@@ -2,7 +2,6 @@ package co.humaniq;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import co.humaniq.views.*;
 
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class Router {
     //
     // Это необходимо чтобы было меньше конфликтов при слиянии веток.
 
-    public static Integer LOADING = 1000;
+    public static Integer GREETER = 1000;
     public static Integer LOGIN = 2000;
     public static Integer REGISTER = 2001;
 
@@ -45,8 +44,8 @@ public class Router {
 
     private static HashMap<Integer, Route> routes = new HashMap<>();
     static {
-        routes.put(LOADING, new Route(LoadingActivity.class));
-        routes.put(LOGIN, new Route(LoginActivity.class));
+        routes.put(GREETER, new Route(GreeterActivity.class));
+        routes.put(LOGIN, new Route(LoginRegisterActivity.class));
         routes.put(REGISTER, new Route(RegisterActivity.class));
         routes.put(DASHBOARD, new Route(DashboardActivity.class));
     }

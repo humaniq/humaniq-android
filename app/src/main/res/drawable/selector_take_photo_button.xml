@@ -5,8 +5,8 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="rectangle">
 
-            <solid android:color="@color/darkBlue"/>
-            <corners android:radius="30dp"/>
+            <solid android:color="@color/takePhotoPressed"/>
+            <corners android:radius="60dp"/>
         </shape>
     </item>
 
@@ -15,8 +15,8 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="rectangle">
 
-            <solid android:color="@color/darkBlue"/>
-            <corners android:radius="30dp"/>
+            <solid android:color="#00000000"/>
+            <corners android:radius="60dp"/>
         </shape>
     </item>
 </selector>

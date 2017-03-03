@@ -3,6 +3,7 @@ package co.humaniq.views;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 import co.humaniq.R;
 
@@ -28,6 +29,7 @@ public class ToolbarActivity extends BaseActivity {
 //        actionBar.setHomeAsUpIndicator(R.mipmap.back);
 
         toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(getTitle());
     }
 
     @Override
@@ -40,5 +42,16 @@ public class ToolbarActivity extends BaseActivity {
     public void setTitle(@StringRes int titleId) {
         toolbarTitle.setText(titleId);
         super.setTitle(titleId);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="co.humaniq.views.MainActivity"
+    tools:context="co.humaniq.views.GreeterActivity"
     android:background="@color/colorPrimary">
 
     <android.support.v7.widget.Toolbar
@@ -30,7 +30,7 @@
         android:layout_width="125dp"
         android:layout_height="80dp"
         app:srcCompat="@mipmap/clipboard"
-        android:id="@+id/takePhotoButton"
+        android:id="@+id/buttonSignature"
         style="@style/RegularButton"
         android:paddingBottom="15dp" android:paddingTop="15dp" android:paddingLeft="10dp"
         android:paddingRight="10dp" android:scaleType="fitCenter"
@@ -45,37 +45,77 @@
         android:layout_height="356dp" app:srcCompat="@mipmap/take_photo"
         android:id="@+id/imageView"
         app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
-        android:layout_marginRight="7dp" app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="8dp" app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp" app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="7dp"
         android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/tool_bar"
-        app:layout_constraintVertical_bias="0.038"/>
+        app:layout_constraintVertical_bias="0.0" app:layout_constraintHorizontal_bias="0.508"/>
 
     <ImageView
         android:id="@+id/photo"
-        android:layout_width="243dp"
-        android:layout_height="244dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="7dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView"/>
-
-    <ImageView
-        android:id="@+id/frame"
-        android:layout_width="244dp"
-        android:layout_height="244dp"
+        android:layout_width="245dp"
+        android:layout_height="245dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView" android:scaleType="centerCrop"
+        app:layout_constraintHorizontal_bias="0.508"
+        android:paddingRight="1dp" android:paddingEnd="1dp"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp" app:srcCompat="@drawable/ic_success"
+        android:id="@+id/imageStatus" android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/buttonTakePhoto" android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/buttonTakePhoto"
+        app:layout_constraintTop_toTopOf="@+id/buttonTakePhoto" android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonTakePhoto"
+        android:layout_marginBottom="8dp"/>
+    <ImageView
+        android:id="@+id/frame"
+        android:layout_width="245dp"
+        android:layout_height="245dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/register_photo_frame"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.5"/>
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/buttonTakePhoto"
+        android:layout_marginLeft="1dp" app:layout_constraintLeft_toLeftOf="@+id/frame"
+        app:layout_constraintTop_toTopOf="@+id/frame" android:layout_marginTop="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/frame" android:layout_marginBottom="0dp"
+        android:layout_marginRight="0dp" app:layout_constraintRight_toRightOf="@+id/frame"
+        android:background="@drawable/selector_take_photo_button"
+        app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0"/>
+    <com.github.rahatarmanahmed.cpv.CircularProgressView
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:id="@+id/progressBar"
+        android:layout_alignParentBottom="false"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        app:cpv_animAutostart="true"
+        app:cpv_indeterminate="true"
+        app:cpv_color="@color/white"
+        android:alpha="1"
+        app:layout_constraintTop_toTopOf="@+id/imageStatus"
+        android:layout_marginTop="8dp" android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/imageStatus" android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/imageStatus"
+        app:layout_constraintBottom_toBottomOf="@+id/imageStatus"
+        android:layout_marginBottom="8dp"/>
 </android.support.constraint.ConstraintLayout>

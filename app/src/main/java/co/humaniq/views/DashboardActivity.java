@@ -1,5 +1,5 @@
 package co.humaniq.views;
 
 
-public class DashboardActivity extends BaseActivity {
+public class DashboardActivity extends ToolbarActivity {
 }
