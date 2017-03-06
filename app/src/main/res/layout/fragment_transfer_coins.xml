@@ -208,8 +208,8 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingStart="15dp"
-            android:text="1b712155-6e43-4026-8431-50bacf5a13c8"
-            android:textColor="@color/darkBlue" />
+            android:textColor="@color/darkBlue" android:hint="wallet"
+            android:textColorHint="@color/takePhotoPressed"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

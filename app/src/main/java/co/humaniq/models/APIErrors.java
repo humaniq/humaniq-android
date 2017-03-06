@@ -28,7 +28,7 @@ public class APIErrors implements Errors {
 
     public APIErrors(Response response) {
         try {
-            errorBody = response.toString();
+            errorBody = response.errorBody().string();
             Log.e(TAG, response.errorBody().string());
             errors = new JSONObject(response.errorBody().string());
             this.response = response;
