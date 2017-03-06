@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.DashboardActivity" android:screenOrientation="portrait">
+        <activity android:name=".views.GreeterActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -32,10 +32,10 @@
                   android:label="New user"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
-        <!--<activity android:name=".views.DashboardActivity"-->
-                  <!--android:label="HumanIQ"-->
-                  <!--android:screenOrientation="portrait"-->
-                  <!--android:theme="@style/AppTheme"/>-->
+        <activity android:name=".views.DashboardActivity"
+                  android:label="HumanIQ"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme"/>
         <activity android:name=".views.ProfileActivity"
                   android:label="Profile"
                   android:screenOrientation="portrait"

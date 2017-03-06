@@ -1,10 +1,7 @@
 package co.humaniq.views;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import co.humaniq.R;
 import co.humaniq.Router;
@@ -20,15 +17,17 @@ public class GreeterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_greeter);
 
-        attachOnClick(R.id.buttonLogin);
-        attachOnClick(R.id.buttonRegister);
+        attachOnClickView(R.id.buttonLogin);
+        attachOnClickView(R.id.buttonRegister);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonLogin:
-                Router.goActivity(this, Router.LOGIN, LOGIN_REQUEST);
+//                Router.goActivity(this, Router.LOGIN, LOGIN_REQUEST);
+                AuthToken.updateInstance(new AuthToken("e55ab33fa614c3b0107495ec4c4e3206d0d0c6be"));
+                Router.goActivity(this, Router.DASHBOARD);
                 break;
 
             case R.id.buttonRegister:

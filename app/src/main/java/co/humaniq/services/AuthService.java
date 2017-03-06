@@ -11,7 +11,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 
-public class AuthService extends APIService<AuthToken> {
+public class AuthService extends APIService {
     static final String TAG = "AuthService";
 
     interface RetrofitService {
@@ -41,16 +41,16 @@ public class AuthService extends APIService<AuthToken> {
 
     public void register(final String photoBase64, final int requestCode) {
         Call<AuthToken> call = anonymousRetrofitService.register(photoBase64);
-        requestCall(call, requestCode);
+        APIService.doRequest(this, call, requestCode);
     }
 
     public void login(final String photoBase64, final int requestCode) {
         Call<AuthToken> call = anonymousRetrofitService.login(photoBase64);
-        requestCall(call, requestCode);
+        APIService.doRequest(this, call, requestCode);
     }
 
     public void logout(final int requestCode) {
         Call<DummyModel> call = authRetrofitService.logout();
-        request(call, requestCode);
+        APIService.doRequest(this, call, requestCode);
     }
 }

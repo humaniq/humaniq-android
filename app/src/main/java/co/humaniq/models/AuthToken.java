@@ -9,6 +9,18 @@ public class AuthToken extends DummyModel {
 
     private static AuthToken clientToken = null;
 
+    public AuthToken(User user, String token) {
+        this.user = user;
+        this.token = token;
+    }
+
+    public AuthToken(String token) {
+        this.token = token;
+    }
+
+    private AuthToken() {
+    }
+
     static public AuthToken updateInstance(AuthToken token) {
         clientToken = token;
         return clientToken;

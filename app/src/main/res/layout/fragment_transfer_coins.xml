@@ -44,17 +44,21 @@
             android:layout_width="23dp"
             android:layout_height="match_parent" app:srcCompat="@mipmap/blue_wallet"
             android:id="@+id/imageView10" android:layout_weight="1"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"/>
+
         <ImageButton
+            android:id="@+id/buttonTransfer"
+            style="@style/RegularButton"
             android:layout_width="130dp"
             android:layout_height="55dp"
-            app:srcCompat="@mipmap/fly_coin"
-            android:id="@+id/imageButton"
-            style="@style/RegularButton" tools:layout_editor_absoluteY="226dp"
-            tools:layout_editor_absoluteX="98dp"
+            android:layout_weight="1"
+            android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:scaleType="fitCenter"
-            android:layout_weight="1" android:paddingBottom="10dp"/>
+            app:srcCompat="@mipmap/fly_coin"
+            tools:layout_editor_absoluteX="98dp"
+            tools:layout_editor_absoluteY="226dp" />
         <ImageView
             android:layout_width="23dp"
             android:layout_height="match_parent" app:srcCompat="@mipmap/blue_wallet_flipped"
@@ -77,14 +81,16 @@
             android:id="@+id/imageView3"
             android:layout_weight="1" android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"/>
+
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textTotalInWallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
             android:text="@string/history_total_hc"
             android:textColor="@color/white"
-            android:textSize="32sp"
-            android:layout_weight="1" android:paddingTop="10dp"/>
+            android:textSize="32sp" />
     </LinearLayout>
 
     <View
@@ -144,13 +150,21 @@
             android:layout_height="match_parent"
             android:background="@color/lightBlue"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
-        <TextView
-            android:text="3005.71"
+
+        <EditText
+            android:id="@+id/textEditCoins"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" android:id="@+id/textView5"
-            android:gravity="center_vertical" android:textStyle="bold"
-            android:textColor="@color/darkBlue" android:textSize="32sp"
-            android:layout_marginStart="10dp" android:layout_marginLeft="10dp"/>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:gravity="center_vertical"
+            android:hint="coins"
+            android:textColor="@color/darkBlue"
+            android:textColorHint="@color/takePhotoPressed"
+            android:textSize="32sp"
+            android:textStyle="bold" />
         <TextView
             android:text="HMQ"
             android:layout_width="wrap_content"
@@ -179,15 +193,23 @@
             android:paddingTop="10dp"
             android:scaleType="fitCenter"
             android:paddingBottom="10dp"/>
-        <TextView
-            android:text="0xC167677A59104RA2B56159B6C2E01B3C8E838E1B"
+
+        <EditText
+            android:id="@+id/textEditWallet"
             android:layout_width="0dp"
-            android:layout_height="match_parent" android:id="@+id/textView7"
-            android:layout_weight="1" android:background="@drawable/rounded_rect_white"
-            android:layout_marginStart="6dp" android:layout_marginLeft="6dp"
-            android:gravity="center_vertical" android:paddingEnd="15dp" android:paddingLeft="15dp"
-            android:paddingRight="15dp" android:paddingStart="15dp"
-            android:textColor="@color/darkBlue"/>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_rect_white"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:paddingEnd="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingStart="15dp"
+            android:text="1b712155-6e43-4026-8431-50bacf5a13c8"
+            android:textColor="@color/darkBlue" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

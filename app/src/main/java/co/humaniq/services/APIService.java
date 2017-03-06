@@ -13,32 +13,23 @@ import retrofit2.Response;
 import java.io.IOException;
 
 
-public class APIService<T> extends BaseService<T> {
+public class APIService {
     private static final String TAG = "APIService";
 
+    private ViewContext context;
+
+    public ViewContext getContext() {
+        return context;
+    }
+
     public APIService(ViewContext context) {
-        super(context);
+        this.context = context;
     }
 
-    void requestCall(Call<T> call) {
-        requestCall(call, ViewContext.DUMMY_REQUEST);
-    }
-
-    void requestCall(Call<T> call, final int requestCode) {
-        APIService.doRequest(this, getContext(), call, requestCode);
-    }
-
-    void request(Call<DummyModel> call) {
-        request(call, ViewContext.DUMMY_REQUEST);
-    }
-
-    void request(Call<DummyModel> call, final int requestCode) {
-        APIService.doRequest(this, getContext(), call, requestCode);
-    }
-
-    private static <E> void doRequest(APIService service, ViewContext context, Call<E> call,
-                                      final int requestCode)
+    static <E> void doRequest(APIService service, Call<E> call,
+                              final int requestCode)
     {
+        final ViewContext context = service.getContext();
         if (!Client.isOnline(context)) {
             context.connectionError(requestCode);
             return;
@@ -50,8 +41,11 @@ public class APIService<T> extends BaseService<T> {
             public void onResponse(Call<E> call, Response<E> response) {
                 context.hideProgressbar(requestCode);
 
-                if (!service.hasStatusError(response, requestCode))
+                if (!service.hasStatusError(response, requestCode)) {
+                    Log.d(TAG, Integer.toString(response.code()));
+                    Log.d(TAG, response.body().toString());
                     context.success(new ResultData<>(response), requestCode);
+                }
             }
 
             @Override

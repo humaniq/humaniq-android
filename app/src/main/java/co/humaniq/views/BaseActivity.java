@@ -13,9 +13,8 @@ import co.humaniq.models.ResultData;
 
 
 public class BaseActivity extends AppCompatActivity implements ViewContext, View.OnClickListener {
-    public void attachOnClick(@IdRes int id) {
-        View v = this.findViewById(id);
-        v.setOnClickListener(this);
+    public void attachOnClickView(@IdRes int id) {
+        this.findViewById(id).setOnClickListener(this);
     }
 
     final boolean grantPermission(String permission, int requestCode) {

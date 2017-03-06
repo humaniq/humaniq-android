@@ -3,14 +3,14 @@ package co.humaniq.services;
 import co.humaniq.views.ViewContext;
 
 
-public class BaseService<T> {
+abstract public class DataService<T> {
     private ViewContext context;
 
     public ViewContext getContext() {
         return context;
     }
 
-    BaseService(ViewContext context) {
+    DataService(ViewContext context) {
         this.context = context;
     }
 

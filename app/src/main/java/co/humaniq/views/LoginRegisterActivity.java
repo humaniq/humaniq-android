@@ -15,8 +15,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
 import co.humaniq.ImageTool;
@@ -52,8 +50,8 @@ public class LoginRegisterActivity extends ToolbarActivity {
         setContentView(R.layout.activity_login_register);
         initToolbar();
 
-        attachOnClick(R.id.buttonTakePhoto);
-        attachOnClick(R.id.buttonSignature);
+        attachOnClickView(R.id.buttonTakePhoto);
+        attachOnClickView(R.id.buttonSignature);
 
         photo = (ImageView) findViewById(R.id.photo);
         imageStatus = (ImageView) findViewById(R.id.imageStatus);
