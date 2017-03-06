@@ -28,11 +28,11 @@ public class GreeterActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.buttonLogin:
                 Router.goActivity(this, Router.LOGIN, LOGIN_REQUEST);
-                Wallet wallet = new Wallet(45, "424d590c-84c7-492c-866a-176aa947ab5c", 444, false, "HMQ");
-                User user = new User(45, "", wallet);
-                AuthToken token = new AuthToken("e55ab33fa614c3b0107495ec4c4e3206d0d0c6be", user);
-                AuthToken.updateInstance(token);
-                Router.goActivity(this, Router.DASHBOARD);
+//                Wallet wallet = new Wallet(45, "424d590c-84c7-492c-866a-176aa947ab5c", 444, false, "HMQ");
+//                User user = new User(45, "", wallet);
+//                AuthToken token = new AuthToken("e55ab33fa614c3b0107495ec4c4e3206d0d0c6be", user);
+//                AuthToken.updateInstance(token);
+//                Router.goActivity(this, Router.DASHBOARD);
                 break;
 
             case R.id.buttonRegister:
