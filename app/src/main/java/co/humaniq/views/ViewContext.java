@@ -6,7 +6,7 @@ import co.humaniq.models.ResultData;
 
 
 public interface ViewContext {
-    public static final int DUMMY_REQUEST = 1000;
+    public static final int GENERAL_REQUEST = 1000;
 
     Context getInstance();
     BaseActivity getActivityInstance();
@@ -15,7 +15,7 @@ public interface ViewContext {
     void authorizationError(Errors errors, int requestCode);
     void criticalError(Errors errors, int requestCode);
     void connectionError(int requestCode);
-    void success(ResultData response, int requestCode);
+    void success(ResultData result, int requestCode);
     void showProgressbar(int requestCode);
     void hideProgressbar(int requestCode);
 }

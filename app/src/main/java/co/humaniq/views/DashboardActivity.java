@@ -74,6 +74,7 @@ public class DashboardActivity extends ToolbarActivity {
             @Override
             public void onPageSelected(int position) {
                 bottomMenuView.selectTab(position);
+                pagerAdapter.getItem(position).onResume();
             }
 
             @Override

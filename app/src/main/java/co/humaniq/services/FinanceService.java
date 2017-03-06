@@ -8,6 +8,7 @@ import co.humaniq.views.ViewContext;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 
@@ -15,23 +16,22 @@ public class FinanceService extends APIService {
     static final String TAG = "FinanceService";
 
     interface RetrofitService {
-        @FormUrlEncoded
-        @POST("finance/history/")
+        @GET("finance/history/")
         Call<Page<HistoryItem>> history();
 
         @FormUrlEncoded
-        @POST("user/transfer/")
+        @POST("finance/transfer/")
         Call<Wallet> transfer(
                 @Field("from_wallet") String fromWallet,
                 @Field("to_wallet") String toWallet,
-                @Field("coins") float coins
+                @Field("coins") String coins
         );
 
         @FormUrlEncoded
-        @POST("user/transfer/")
+        @POST("finance/transfer/")
         Call<Wallet> transfer(
                 @Field("to_wallet") String toWallet,
-                @Field("coins") float coins
+                @Field("coins") String coins
         );
     }
 
@@ -39,7 +39,7 @@ public class FinanceService extends APIService {
 
     public FinanceService(ViewContext context) {
         super(context);
-        retrofitService = Client.getAnonymousRetrofitInstance()
+        retrofitService = Client.getAuthRetrofitInstance()
                 .create(RetrofitService.class);
     }
 
@@ -49,13 +49,13 @@ public class FinanceService extends APIService {
     }
 
     public void transfer(final String fromWallet, final String toWallet,
-                         final float coins, final int requestCode)
+                         final String coins, final int requestCode)
     {
         Call<Wallet> call = retrofitService.transfer(fromWallet, toWallet, coins);
         APIService.doRequest(this, call, requestCode);
     }
 
-    public void transfer(final String toWallet, final float coins,
+    public void transfer(final String toWallet, final String coins,
                          final int requestCode)
     {
         Call<Wallet> call = retrofitService.transfer(toWallet, coins);

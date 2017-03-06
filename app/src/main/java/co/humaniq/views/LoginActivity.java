@@ -13,10 +13,10 @@ public class LoginActivity extends LoginRegisterActivity {
     }
 
     @Override
-    public void success(ResultData response, int requestCode) {
-        super.success(response, requestCode);
+    public void success(ResultData result, int requestCode) {
+        super.success(result, requestCode);
 
-        AuthToken token = (AuthToken) response.data();
+        AuthToken token = (AuthToken) result.data();
         AuthToken.updateInstance(token);
 
         setResult(AuthToken.RESULT_GOT_TOKEN);

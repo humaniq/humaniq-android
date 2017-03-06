@@ -21,7 +21,7 @@ public class Client {
     private static OkHttpClient authHttpClient = null;
 
     public static boolean isOnline(ViewContext context) {
-        ConnectivityManager cm = (ConnectivityManager)(context.getInstance())
+        ConnectivityManager cm = (ConnectivityManager)(context.getActivityInstance())
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo netInfo = cm.getActiveNetworkInfo();

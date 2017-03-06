@@ -2,9 +2,12 @@ package co.humaniq.models;
 
 
 public interface BaseModel {
-    public class ViewType {
-        static public final int LOADING = 0;
-        static public final int DATA = 1;
+    class ViewType {
+        static public final int DATA = 0;
+        static public final int LOADING = 1;
+        static public final int HISTORY_HEADER = 2;
+        static public final int HISTORY_RECEIVED = 3;
+        static public final int HISTORY_TRANSFERRED = 4;
     }
 
     int getViewType();

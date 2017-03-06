@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingTop="10dp"
-            android:text="@string/history_total_hc"
+            android:text="@string/total_hmq"
             android:textColor="@color/white"
             android:textSize="32sp" />
     </LinearLayout>

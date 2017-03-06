@@ -1,6 +1,8 @@
 package co.humaniq.models;
 
 
+import android.util.Log;
+
 public class AuthToken extends DummyModel {
     public static final int RESULT_GOT_TOKEN = 5000;
 
@@ -9,9 +11,9 @@ public class AuthToken extends DummyModel {
 
     private static AuthToken clientToken = null;
 
-    public AuthToken(User user, String token) {
-        this.user = user;
+    public AuthToken(String token, User user) {
         this.token = token;
+        this.user = user;
     }
 
     public AuthToken(String token) {

@@ -91,7 +91,7 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
     }
 
     @Override
-    public void success(ResultData response, int requestCode) {
+    public void success(ResultData result, int requestCode) {
 
     }
 

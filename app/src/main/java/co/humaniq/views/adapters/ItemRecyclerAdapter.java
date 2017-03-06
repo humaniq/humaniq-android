@@ -39,7 +39,7 @@ public class ItemRecyclerAdapter<T extends BaseModel>
         View view;
 
         if (viewType == BaseModel.ViewType.LOADING) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loading_item, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_loading, parent, false);
             return new LoadingHolder(viewContext, view);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
@@ -61,5 +61,13 @@ public class ItemRecyclerAdapter<T extends BaseModel>
     @Override
     public int getItemViewType(int position) {
         return items.get(position).getViewType();
+    }
+
+    public ViewContext getViewContext() {
+        return viewContext;
+    }
+
+    public HolderFactory getHolderFactory() {
+        return holderFactory;
     }
 }
