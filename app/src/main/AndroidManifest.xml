@@ -34,6 +34,7 @@
                   android:theme="@style/AppTheme"/>
         <activity android:name=".views.DashboardActivity"
                   android:label="HumanIQ"
+                  android:windowSoftInputMode="adjustPan"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
         <activity android:name=".views.ProfileActivity"
