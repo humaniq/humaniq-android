@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import co.humaniq.R;
-import co.humaniq.Router;
 import co.humaniq.models.*;
 import co.humaniq.services.FinanceService;
 import co.humaniq.views.BaseFragment;
-import org.w3c.dom.Text;
 
 
 public class TransferCoinsFragment extends BaseFragment {
@@ -51,7 +49,7 @@ public class TransferCoinsFragment extends BaseFragment {
 
     public void updateView() {
         final Wallet wallet = AuthToken.getInstance().getUser().getWallet();
-        final String string = getActivityInstance().getString(R.string.total_hmq);
+        final String string = getActivityInstance().getString(R.string.total_b_hmq);
         final String total = String.format(string, wallet.getBalance());
 
         textTotalInWallet.setText(total);

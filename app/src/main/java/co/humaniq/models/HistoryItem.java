@@ -17,6 +17,7 @@ public class HistoryItem extends DummyModel {
 
     @SerializedName("to_user")
     private int toUser;
+    private int date;
 
     public HistoryItem(int viewType) {
         this.viewType = viewType;
@@ -60,5 +61,10 @@ public class HistoryItem extends DummyModel {
 
     public int getToUser() {
         return toUser;
+    }
+
+    public String getDate() {
+        final int spaceIndex = dateTime.indexOf(' ');
+        return dateTime.substring(0, spaceIndex);
     }
 }

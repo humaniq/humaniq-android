@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Humaniq</string>
     <string name="help">help</string>
-    <string name="total_hmq"><b>%f</b> HMQ</string>
+    <string name="total_b_hmq"><b>%.2f</b> HMQ</string>
+    <string name="total_hmq">%.2f HMQ</string>
     <string name="history_total_dollar">$ (???)</string>
 </resources>
