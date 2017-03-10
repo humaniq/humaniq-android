@@ -22,6 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/toolbar_title"/>
+        <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+                   app:srcCompat="@mipmap/logo" android:paddingTop="15dp"
+                   android:paddingBottom="15dp" android:id="@+id/toolbar_logo"/>
     </android.support.v7.widget.Toolbar>
 
     <ImageView

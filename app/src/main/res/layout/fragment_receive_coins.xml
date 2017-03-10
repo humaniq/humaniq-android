@@ -39,10 +39,9 @@
             android:layout_margin="10dp" android:layout_width="0dp"
             android:selectAllOnFocus="true" android:textIsSelectable="true"/>
         <ImageView
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent" app:srcCompat="@mipmap/lists"
-            android:id="@+id/imageView13" tools:layout_editor_absoluteY="76dp"
-            tools:layout_editor_absoluteX="218dp" android:padding="4dp"
-        />
+            android:id="@+id/buttonCopyWallet" android:scaleType="fitCenter"
+            android:padding="10dp" android:background="@drawable/selector_bottom_menu_button"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

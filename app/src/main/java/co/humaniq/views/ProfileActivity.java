@@ -1,6 +1,8 @@
 package co.humaniq.views;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ImageView;
 import co.humaniq.ImageTool;
 import co.humaniq.R;
@@ -16,5 +18,10 @@ public class ProfileActivity extends ToolbarActivity {
 
         ImageView photo = (ImageView) findViewById(R.id.photo);
         ImageTool.loadFromUrlToImageView(this, AuthToken.getInstance().getUser().getPhoto(), photo);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 }

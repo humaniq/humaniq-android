@@ -8,8 +8,8 @@
     tools:context="co.humaniq.views.GreeterActivity" android:background="@color/colorPrimary">
 
     <ImageView
-        android:layout_width="242dp"
-        android:layout_height="353dp"
+        android:layout_width="208dp"
+        android:layout_height="309dp"
         app:srcCompat="@mipmap/greeter"
         android:id="@+id/imageView5"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,8 +20,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintVertical_bias="0.192"
-        app:layout_constraintHorizontal_bias="0.515" android:layout_marginStart="8dp"
+        app:layout_constraintVertical_bias="0.187"
+        app:layout_constraintHorizontal_bias="0.523" android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"/>
     <LinearLayout
         android:orientation="horizontal"

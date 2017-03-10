@@ -6,6 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import co.humaniq.R;
 import co.humaniq.Router;
@@ -16,6 +18,7 @@ public class ToolbarActivity extends BaseActivity {
     private Toolbar toolbar;
     private TextView toolbarTitle;
     private ActionBar actionBar;
+    private ImageView toolbarImage;
 
     public Toolbar getToolbar() {
         return toolbar;
@@ -38,6 +41,16 @@ public class ToolbarActivity extends BaseActivity {
 
         toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getTitle());
+
+        toolbarImage = (ImageView) toolbar.findViewById(R.id.toolbar_logo);
+
+        if (getTitle().equals(getString(R.string.app_name))) {
+            toolbarTitle.setVisibility(View.GONE);
+            toolbarImage.setVisibility(View.VISIBLE);
+        } else {
+            toolbarTitle.setVisibility(View.VISIBLE);
+            toolbarImage.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -74,6 +87,6 @@ public class ToolbarActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.default_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 }

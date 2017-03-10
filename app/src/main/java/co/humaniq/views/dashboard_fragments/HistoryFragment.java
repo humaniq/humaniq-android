@@ -50,6 +50,8 @@ public class HistoryFragment extends BaseFragment {
             items.add(new HistoryItem(BaseModel.ViewType.HISTORY_HEADER));
             service = new FinanceService(this);
             service.getHistory(GENERAL_REQUEST);
+            dataSetChanged = false;
+            loaded = true;
         }
     }
 
@@ -70,8 +72,6 @@ public class HistoryFragment extends BaseFragment {
         items.addAll(page.getResults());
         nextPage = page.getNextPage();
         recyclerAdapter.notifyDataSetChanged();
-        dataSetChanged = false;
-        loaded = true;
     }
 
     @Override

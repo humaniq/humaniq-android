@@ -13,4 +13,5 @@
 
     <color name="success">#23be3a</color>
     <color name="error">#bc2b2b</color>
+    <color name="red">#ff0000</color>
 </resources>
