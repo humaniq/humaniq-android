@@ -41,6 +41,10 @@
                   android:label="Profile"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
+        <activity android:name=".views.SignatureActivity"
+                  android:label="Profile"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

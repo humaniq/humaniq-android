@@ -23,6 +23,7 @@ public class Router {
     public static Integer GREETER = 1000;
     public static Integer LOGIN = 2000;
     public static Integer REGISTER = 2001;
+    public static Integer SIGNATURE = 2002;
 
     public static Integer DASHBOARD = 3000;
     public static Integer PROFILE = 4000;
@@ -48,6 +49,7 @@ public class Router {
         routes.put(GREETER, new Route(GreeterActivity.class));
         routes.put(LOGIN, new Route(LoginActivity.class));
         routes.put(REGISTER, new Route(RegisterActivity.class));
+        routes.put(SIGNATURE, new Route(SignatureActivity.class));
         routes.put(DASHBOARD, new Route(DashboardActivity.class));
         routes.put(PROFILE, new Route(ProfileActivity.class));
     }

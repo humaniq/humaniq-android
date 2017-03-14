@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 import co.humaniq.ImageTool;
 import co.humaniq.R;
+import co.humaniq.Router;
 import co.humaniq.models.Errors;
 import co.humaniq.models.ResultData;
 import co.humaniq.services.AuthService;
@@ -118,10 +119,7 @@ public class LoginRegisterActivity extends ToolbarActivity {
                 break;
 
             case R.id.buttonSignature:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Signature").setMessage("Not implemented yet.");
-                AlertDialog alert = builder.create();
-                alert.show();
+                Router.goActivity(this, Router.SIGNATURE);
                 break;
 
             default:
