@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import co.humaniq.ImageTool;
 import co.humaniq.R;
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.User;
@@ -33,8 +36,10 @@ public class ReceiveCoinsFragment extends BaseFragment {
         textMyWallet = (TextView) view.findViewById(R.id.textMyWallet);
         textMyWallet.setText(wallet.getHash());
 
-        attachOnClickView(view, R.id.buttonCopyWallet);
+        final ImageView qrCodeImageView = (ImageView) view.findViewById(R.id.qrCodeImageView);
+        ImageTool.loadFromUrlToImageView(this, wallet.getQrCodeImageURL(), qrCodeImageView);
 
+        attachOnClickView(view, R.id.buttonCopyWallet);
         return view;
     }
 
@@ -48,7 +53,9 @@ public class ReceiveCoinsFragment extends BaseFragment {
     }
 
     private void copyWallet() {
-        ClipboardManager clipboard = (ClipboardManager) getActivityInstance().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboard = (ClipboardManager) getActivityInstance()
+                .getSystemService(Context.CLIPBOARD_SERVICE);
+
         ClipData clip = ClipData.newPlainText("Wallet", textMyWallet.getText().toString());
         clipboard.setPrimaryClip(clip);
 

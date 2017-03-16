@@ -12,12 +12,22 @@ public class Wallet extends DummyModel {
     private boolean blocked;
     private String currency;
 
-    public Wallet(int userId, String hash, float balance, boolean blocked, String currency) {
+    @SerializedName("qr_code")
+    private String qrCodeImageURL;
+
+    public Wallet(int userId, String hash, float balance, boolean blocked, String currency,
+                  String qrCodeImageURL)
+    {
         this.userId = userId;
         this.hash = hash;
         this.balance = balance;
         this.blocked = blocked;
         this.currency = currency;
+        this.qrCodeImageURL = qrCodeImageURL;
+    }
+
+    public String getQrCodeImageURL() {
+        return qrCodeImageURL;
     }
 
     public int getUserId() {
