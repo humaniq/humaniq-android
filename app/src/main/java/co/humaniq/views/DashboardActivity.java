@@ -94,4 +94,10 @@ public class DashboardActivity extends ToolbarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        HistoryFragment.dataSetChanged = true;
+    }
 }

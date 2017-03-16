@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -119,7 +118,7 @@ public class LoginRegisterActivity extends ToolbarActivity {
                 break;
 
             case R.id.buttonSignature:
-                Router.goActivity(this, Router.SIGNATURE);
+                Router.goActivity(this, Router.LOGIN_SIGNATURE);
                 break;
 
             default:

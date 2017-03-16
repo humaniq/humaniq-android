@@ -41,7 +41,7 @@
                   android:label="Profile"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
-        <activity android:name=".views.SignatureActivity"
+        <activity android:name=".views.LoginSignatureActivity"
                   android:label="Profile"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
