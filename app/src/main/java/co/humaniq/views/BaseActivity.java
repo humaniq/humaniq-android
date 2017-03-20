@@ -1,18 +1,27 @@
 package co.humaniq.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
 import co.humaniq.models.Errors;
 import co.humaniq.models.ResultData;
 
 
 public class BaseActivity extends AppCompatActivity implements ViewContext, View.OnClickListener {
+    protected List<WeakReference<Fragment>> fragments = new ArrayList<>();
+
     public void attachOnClickView(@IdRes int id) {
         this.findViewById(id).setOnClickListener(this);
     }
@@ -108,5 +117,19 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        for (WeakReference<Fragment> fragmentRef : fragments) {
+            Fragment fragment = fragmentRef.get();
+            if (fragment != null)
+                fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        fragments.add(new WeakReference<>(fragment));
     }
 }

@@ -18,7 +18,7 @@ public class BaseFragment extends Fragment implements ViewContext, View.OnClickL
 
     @Override
     public Context getInstance() {
-        return null;
+        return getContext();
     }
 
     @Override

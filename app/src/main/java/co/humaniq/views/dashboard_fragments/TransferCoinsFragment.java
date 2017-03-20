@@ -2,6 +2,11 @@ package co.humaniq.views.dashboard_fragments;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,12 +14,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import co.humaniq.R;
 import co.humaniq.models.*;
 import co.humaniq.services.FinanceService;
 import co.humaniq.views.BaseFragment;
+import co.humaniq.views.DashboardActivity;
 
 
 public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
@@ -43,6 +55,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         imageValidOk.setVisibility(View.INVISIBLE);
 
         attachOnClickView(view, R.id.buttonTransfer);
+        attachOnClickView(view, R.id.buttonScanQR);
 
         progressDialog = new ProgressDialog(getActivity());
         service = new FinanceService(this);
@@ -119,11 +132,23 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         progressDialog.hide();
     }
 
+    void openQRScanner() {
+        IntentIntegrator integrator = new IntentIntegrator(getActivity());
+        integrator.initiateScan();
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+        integrator.setPrompt("Scan a qr code");
+        integrator.initiateScan();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonTransfer:
                 doTransfer();
+                break;
+
+            case R.id.buttonScanQR:
+                openQRScanner();
                 break;
 
             default:
@@ -173,6 +198,22 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         }
 
         return true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        if (result == null) {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
+        }
+
+        if (result.getContents() == null) {
+            Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_LONG).show();
+        } else {
+            editTextToWallet.setText(result.getContents());
+        }
     }
 
     private boolean coinsIsValid() {
