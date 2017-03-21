@@ -13,6 +13,10 @@
 
 namespace vl {
 
+	/** @addtogroup PhotoMakerGroup PhotoMaker
+	 *  @{
+	 */
+
 	/**
 	 * Supported image formats and color spaces enumeration.
 	 */
@@ -20,6 +24,9 @@ namespace vl {
 
 		//! 32 bit per pixel; color channel order is RGBA.
 		FMT_R8G8B8A8,
+		
+		//! 32 bit per pixel; color channel order is BGRA.
+		FMT_B8G8R8A8,
 
 		//! 8 bit per pixel; luminance only. Corresponds to Y plane of YUV format.
 		FMT_Y8,
@@ -94,6 +101,8 @@ namespace vl {
 		switch (format) {
 		case FMT_R8G8B8A8:
 			return 4;
+		case FMT_B8G8R8A8:
+			return 4;
 		case FMT_Y8:
 			return 1;
 		default:
@@ -123,4 +132,6 @@ namespace vl {
 	inline int32_t getNumBytesPerImageView(const ImageView& view) {
 		return getNumBytesPerImageRow(view.format, view.width) * view.height;
 	}
+
+	/** @} */ // end of PhotoMakerGroup
 }

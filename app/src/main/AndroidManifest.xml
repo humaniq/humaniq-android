@@ -33,6 +33,10 @@
                   android:label="New user"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
+        <activity android:name=".views.CameraActivity"
+                  android:label="Take photo"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme"/>
         <activity android:name=".views.DashboardActivity"
                   android:label="@string/app_name"
                   android:windowSoftInputMode="adjustPan"

@@ -12,6 +12,10 @@
 
 namespace vl {
 
+	/** @addtogroup UtilityGroup Utility
+	 *  @{
+	 */
+
 	/**
 	 * An axis-aligned rectangle in 2D space.
 	 */
@@ -108,4 +112,6 @@ namespace vl {
 	inline bool operator != (const Rect& lhs, const Rect& rhs) {
 		return !(lhs == rhs);
 	}
+
+	/** @} */ // end of UtilityGroup
 }

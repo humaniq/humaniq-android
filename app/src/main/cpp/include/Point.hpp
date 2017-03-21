@@ -8,9 +8,13 @@
 
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 
 namespace vl {
+
+	/** @addtogroup UtilityGroup Utility
+	 *  @{
+	 */
 
 	/**
 	 * A point in 2D space.
@@ -45,4 +49,6 @@ namespace vl {
 	inline bool operator != (const Point& lhs, const Point& rhs) {
 		return !(lhs == rhs);
 	}
+
+	/** @} */ // end of UtilityGroup
 }

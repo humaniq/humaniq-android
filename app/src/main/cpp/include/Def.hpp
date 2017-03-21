@@ -8,7 +8,9 @@
 
 #pragma once
 
-#if defined (_WIN32) 
+#if defined(PM_STATIC)
+	#define PM_API
+#elif defined (_WIN32) 
 	#if defined (PM_DLL_EXPORTS)
 		#define PM_API __declspec(dllexport)
 	#else
@@ -54,12 +56,12 @@ namespace vl {
 	/** General version information. */
 	enum Version {
 		VERSION_MAJOR = 0, //!< Major version.
-		VERSION_MINOR = 5, //!< Minor version.
-		VERSION_PATCH = 0  //!< Patch version.
+		VERSION_MINOR = 8, //!< Minor version.
+		VERSION_PATCH = 8  //!< Patch version.
 	};
 
 	/** GIT hash. */
-	static const char VERSION_HASH[] = "19e5f2d604a2472145f34e0558f04bbca79444a0";
+	static const char VERSION_HASH[] = "83d4890216c4f43d58580cf3706800447acfd6a7";
 
 	/** @} */ // end of VersionGroup
 }
