@@ -64,12 +64,15 @@ public class LoginRegisterActivity extends ToolbarActivity {
     }
 
     private void takePhoto() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (grantPermission(Manifest.permission.CAMERA, REQUEST_PHOTO_CAPTURE_PERMISSION))
-                dispatchTakePhotoIntent();
-        } else {
-            dispatchTakePhotoIntent();
-        }
+        Router.goActivity(this, Router.TAKE_PHOTO);
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (grantPermission(Manifest.permission.CAMERA, REQUEST_PHOTO_CAPTURE_PERMISSION))
+//                dispatchTakePhotoIntent();
+//        } else {
+//            Router.goActivity(this, Router.TAKE_PHOTO);
+//            dispatchTakePhotoIntent();
+//        }
     }
 
     private void dispatchTakePhotoIntent() {

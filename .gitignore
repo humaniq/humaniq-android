@@ -1,10 +1,11 @@
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
 .DS_Store
 /build
+/faceenginemobile/build
 /captures
 .externalNativeBuild
 .idea
+/faceenginemobile/src/main/libs
+/faceenginemobile/src/main/obj

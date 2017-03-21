@@ -17,19 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class CameraActivity extends ToolbarActivity {
-    static {
-        System.loadLibrary("gnustl_shared");
-        System.loadLibrary("camera-lib");
-    }
-
-    private native void initPhotoMaker(String path);
-    private native void onFrame(int width, int height, byte[] NV21FrameData);
-
+public class TakePhotoActivity extends ToolbarActivity {
     void initPhotoMaker() {
         final String dataDir = "/data/data/" + getPackageName();
         Log.d("PhotoMaker", dataDir);
-        initPhotoMaker(dataDir);
     }
 
     @Override

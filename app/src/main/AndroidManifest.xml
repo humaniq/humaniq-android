@@ -33,7 +33,7 @@
                   android:label="New user"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
-        <activity android:name=".views.CameraActivity"
+        <activity android:name=".views.TakePhotoActivity"
                   android:label="Take photo"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>

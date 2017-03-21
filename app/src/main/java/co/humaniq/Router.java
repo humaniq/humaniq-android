@@ -53,7 +53,7 @@ public class Router {
         routes.put(LOGIN_SIGNATURE, new Route(LoginSignatureActivity.class));
         routes.put(DASHBOARD, new Route(DashboardActivity.class));
         routes.put(PROFILE, new Route(ProfileActivity.class));
-        routes.put(TAKE_PHOTO, new Route(CameraActivity.class));
+        routes.put(TAKE_PHOTO, new Route(TakePhotoActivity.class));
     }
 
     private Router() {}
