@@ -64,7 +64,7 @@ public class LoginRegisterActivity extends ToolbarActivity {
     }
 
     @OnPermissionResult(REQUEST_PHOTO_CAPTURE_PERMISSION)
-    void dispatchTakePhotoIntent() {
+    public void dispatchTakePhotoIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         if (takePictureIntent.resolveActivity(getPackageManager()) == null) {
@@ -72,7 +72,7 @@ public class LoginRegisterActivity extends ToolbarActivity {
             return;
         }
 
-        File photoFile = null;
+        File photoFile;
 
         try {
             photoFile = ImageTool.createImageFile(this);
@@ -106,6 +106,7 @@ public class LoginRegisterActivity extends ToolbarActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonTakePhoto:
+//                Router.goActivity(this, Router.TAKE_PHOTO);
                 grantPermission(Manifest.permission.CAMERA, REQUEST_PHOTO_CAPTURE_PERMISSION);
                 break;
 

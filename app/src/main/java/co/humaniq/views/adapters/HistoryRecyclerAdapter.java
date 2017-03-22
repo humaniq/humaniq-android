@@ -31,6 +31,9 @@ public class HistoryRecyclerAdapter extends ItemRecyclerAdapter<HistoryItem> {
         } else if (viewType == BaseModel.ViewType.HISTORY_RECEIVED) {
             view = inflater.inflate(R.layout.recycler_item_history_recieved, parent, false);
             return getHolderFactory().createInstance(getViewContext(), view);
+        } else if (viewType == BaseModel.ViewType.HISTORY_BONUS) {
+            view = inflater.inflate(R.layout.recycler_item_history_bonus, parent, false);
+            return getHolderFactory().createInstance(getViewContext(), view);
         } else if (viewType == BaseModel.ViewType.HISTORY_TRANSFERRED) {
             view = inflater.inflate(R.layout.recycler_item_history_transfered, parent, false);
             return getHolderFactory().createInstance(getViewContext(), view);

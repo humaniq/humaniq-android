@@ -1,15 +1,11 @@
 package co.humaniq.views;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import co.humaniq.R;
 import co.humaniq.Router;
 import co.humaniq.models.AuthToken;
-import co.humaniq.models.User;
-import co.humaniq.models.Wallet;
 
 
 public class GreeterActivity extends BaseActivity {

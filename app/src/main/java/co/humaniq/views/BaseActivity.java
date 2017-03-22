@@ -91,8 +91,8 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        parsePermissionCallbackAnnotation();
         super.onCreate(savedInstanceState);
+        parsePermissionCallbackAnnotation();
     }
 
     protected List<WeakReference<Fragment>> fragments = new ArrayList<>();
