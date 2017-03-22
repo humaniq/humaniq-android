@@ -4,4 +4,10 @@
     <string name="total_b_hmq"><b>%.2f</b> HMQ</string>
     <string name="total_hmq">%.2f HMQ</string>
     <string name="history_total_dollar">$ (???)</string>
+
+    <string name="face_not_recognized">Face is not recognized</string>
+    <string name="put_your_head_into_oval">Put your face into the oval</string>
+    <string name="moving_too_fast">Moving too fast</string>
+    <string name="look_straight_at_the_camer">Look straight at the camera</string>
+    <string name="overlight">Too light</string>
 </resources>

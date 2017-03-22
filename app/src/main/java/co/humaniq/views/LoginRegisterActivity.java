@@ -63,19 +63,8 @@ public class LoginRegisterActivity extends ToolbarActivity {
         service = new AuthService(this);
     }
 
-    private void takePhoto() {
-        Router.goActivity(this, Router.TAKE_PHOTO);
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (grantPermission(Manifest.permission.CAMERA, REQUEST_PHOTO_CAPTURE_PERMISSION))
-//                dispatchTakePhotoIntent();
-//        } else {
-//            Router.goActivity(this, Router.TAKE_PHOTO);
-//            dispatchTakePhotoIntent();
-//        }
-    }
-
-    private void dispatchTakePhotoIntent() {
+    @OnPermissionResult(REQUEST_PHOTO_CAPTURE_PERMISSION)
+    void dispatchTakePhotoIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         if (takePictureIntent.resolveActivity(getPackageManager()) == null) {
@@ -117,7 +106,7 @@ public class LoginRegisterActivity extends ToolbarActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonTakePhoto:
-                takePhoto();
+                grantPermission(Manifest.permission.CAMERA, REQUEST_PHOTO_CAPTURE_PERMISSION);
                 break;
 
             case R.id.buttonSignature:
@@ -126,24 +115,6 @@ public class LoginRegisterActivity extends ToolbarActivity {
 
             default:
                 break;
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
-    {
-        if (!permissionGranted(grantResults))
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case REQUEST_PHOTO_CAPTURE_PERMISSION:
-                dispatchTakePhotoIntent();
-                break;
-
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
