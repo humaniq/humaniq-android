@@ -10,12 +10,13 @@ public interface ViewContext {
 
     Context getInstance();
     BaseActivity getActivityInstance();
-    void validationError(Errors errors, int requestCode);
-    void permissionError(Errors errors, int requestCode);
-    void authorizationError(Errors errors, int requestCode);
-    void criticalError(Errors errors, int requestCode);
-    void connectionError(int requestCode);
-    void success(ResultData result, int requestCode);
-    void showProgressbar(int requestCode);
-    void hideProgressbar(int requestCode);
+
+    void onApiValidationError(Errors errors, int requestCode);
+    void onApiPermissionError(Errors errors, int requestCode);
+    void onApiAuthorizationError(Errors errors, int requestCode);
+    void onApiCriticalError(Errors errors, int requestCode);
+    void onApiConnectionError(int requestCode);
+    void onApiSuccess(ResultData result, int requestCode);
+    void onApiShowProgressbar(int requestCode);
+    void onApiHideProgressbar(int requestCode);
 }

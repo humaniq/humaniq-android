@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <ru.visionlab.femdemo.FaceBoundSurfaceView
+    <co.humaniq.views.widgets.FaceBoundSurfaceView
         android:id="@+id/faceBoundView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

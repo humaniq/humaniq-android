@@ -9,6 +9,7 @@ import co.humaniq.models.BaseModel;
 import co.humaniq.models.HistoryItem;
 import co.humaniq.views.ViewContext;
 import co.humaniq.views.holders.HistoryHeaderHolder;
+import co.humaniq.views.holders.RecyclerItemHolder;
 
 import java.util.ArrayList;
 
@@ -25,20 +26,25 @@ public class HistoryRecyclerAdapter extends ItemRecyclerAdapter<HistoryItem> {
         View view;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if (viewType == BaseModel.ViewType.HISTORY_HEADER) {
-            view = inflater.inflate(R.layout.recycler_item_history_head, parent, false);
-            return new HistoryHeaderHolder(getViewContext(), view);
-        } else if (viewType == BaseModel.ViewType.HISTORY_RECEIVED) {
-            view = inflater.inflate(R.layout.recycler_item_history_recieved, parent, false);
-            return getHolderFactory().createInstance(getViewContext(), view);
-        } else if (viewType == BaseModel.ViewType.HISTORY_BONUS) {
-            view = inflater.inflate(R.layout.recycler_item_history_bonus, parent, false);
-            return getHolderFactory().createInstance(getViewContext(), view);
-        } else if (viewType == BaseModel.ViewType.HISTORY_TRANSFERRED) {
-            view = inflater.inflate(R.layout.recycler_item_history_transfered, parent, false);
-            return getHolderFactory().createInstance(getViewContext(), view);
-        } else {
-            return super.onCreateViewHolder(parent, viewType);
+        switch (viewType) {
+            case BaseModel.ViewType.HISTORY_HEADER:
+                view = inflater.inflate(R.layout.recycler_item_history_head, parent, false);
+                return new HistoryHeaderHolder(getViewContext(), view);
+
+            case BaseModel.ViewType.HISTORY_RECEIVED:
+                view = inflater.inflate(R.layout.recycler_item_history_recieved, parent, false);
+                return getHolderFactory().createInstance(getViewContext(), view);
+
+            case BaseModel.ViewType.HISTORY_BONUS:
+                view = inflater.inflate(R.layout.recycler_item_history_bonus, parent, false);
+                return getHolderFactory().createInstance(getViewContext(), view);
+
+            case BaseModel.ViewType.HISTORY_TRANSFERRED:
+                view = inflater.inflate(R.layout.recycler_item_history_transfered, parent, false);
+                return getHolderFactory().createInstance(getViewContext(), view);
+
+            default:
+                return super.onCreateViewHolder(parent, viewType);
         }
     }
 }

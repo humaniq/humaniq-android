@@ -89,7 +89,7 @@ public class HistoryFragment extends BaseFragment {
     }
 
     @Override
-    public void success(ResultData result, int requestCode) {
+    public void onApiSuccess(ResultData result, int requestCode) {
         switch (requestCode) {
             case GET_HISTORY_REQUEST:
                 fillHistoryViews((Page<HistoryItem>) result.data());

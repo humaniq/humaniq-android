@@ -1,7 +1,6 @@
 package co.humaniq.views;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -10,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
@@ -30,7 +28,7 @@ import java.util.List;
 
 public class LoginRegisterActivity extends ToolbarActivity {
     private static final String TAG = "LoginRegisterActivity";
-    final static int REQUEST_PHOTO_CAPTURE = 1000;
+    final static int REQUEST_PHOTO_CAPTURE = 2000;
     final static int REQUEST_PHOTO_CAPTURE_PERMISSION = 4000;
 
     private String photoBase64 = "";
@@ -63,50 +61,33 @@ public class LoginRegisterActivity extends ToolbarActivity {
         service = new AuthService(this);
     }
 
+    @SuppressWarnings("unused")
     @OnPermissionResult(REQUEST_PHOTO_CAPTURE_PERMISSION)
-    public void dispatchTakePhotoIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        if (takePictureIntent.resolveActivity(getPackageManager()) == null) {
-            validationError(null, 0);
-            return;
-        }
-
+    public void openTakePhotoActivity() {
         File photoFile;
 
         try {
             photoFile = ImageTool.createImageFile(this);
             capturedPhotoPath = photoFile.getAbsolutePath();
         } catch (IOException ex) {
-            validationError(null, 0);
+            onApiValidationError(null, 0);
             return;
         }
 
+        Log.e("TakePhotoActivity", capturedPhotoPath);
         Uri photoURI = FileProvider.getUriForFile(this, "co.humaniq.fileprovider", photoFile);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } else {
-            List<ResolveInfo> resInfoList = getPackageManager()
-                    .queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        Bundle bundle = new Bundle();
+        bundle.putString(MediaStore.EXTRA_OUTPUT, capturedPhotoPath);
 
-            for (ResolveInfo resolveInfo : resInfoList) {
-                String packageName = resolveInfo.activityInfo.packageName;
-                grantUriPermission(packageName, photoURI,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            }
-        }
-
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-        startActivityForResult(takePictureIntent, REQUEST_PHOTO_CAPTURE);
+        Router.setBundle(bundle);
+        Router.goActivity(this, Router.TAKE_PHOTO, REQUEST_PHOTO_CAPTURE);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonTakePhoto:
-//                Router.goActivity(this, Router.TAKE_PHOTO);
                 grantPermission(Manifest.permission.CAMERA, REQUEST_PHOTO_CAPTURE_PERMISSION);
                 break;
 
@@ -124,7 +105,7 @@ public class LoginRegisterActivity extends ToolbarActivity {
         photo.setImageBitmap(thumbnail);
 
         Bitmap requestImage = ImageTool.decodeSampledBitmap(capturedPhotoPath, 512, 512);
-        photoBase64 = ImageTool.toBase64(requestImage);
+        photoBase64 = ImageTool.encodeToBase64(requestImage);
         requestImage.recycle();
     }
 
@@ -169,52 +150,52 @@ public class LoginRegisterActivity extends ToolbarActivity {
     }
 
     @Override
-    public void showProgressbar(int requestCode) {
+    public void onApiShowProgressbar(int requestCode) {
         imageStatus.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideProgressbar(int requestCode) {
+    public void onApiHideProgressbar(int requestCode) {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
-    public void validationError(Errors errors, int requestCode) {
+    public void onApiValidationError(Errors errors, int requestCode) {
         errorStatusImage();
         Log.e(TAG, "Validation Error");
         Log.e(TAG, errors.toString());
     }
 
     @Override
-    public void permissionError(Errors errors, int requestCode) {
+    public void onApiPermissionError(Errors errors, int requestCode) {
         errorStatusImage();
         Log.e(TAG, "Permission Error");
         Log.e(TAG, errors.toString());
     }
 
     @Override
-    public void authorizationError(Errors errors, int requestCode) {
+    public void onApiAuthorizationError(Errors errors, int requestCode) {
         errorStatusImage();
         Log.e(TAG, "Auth Error");
         Log.e(TAG, errors.toString());
     }
 
     @Override
-    public void criticalError(Errors errors, int requestCode) {
+    public void onApiCriticalError(Errors errors, int requestCode) {
         errorStatusImage();
         Log.e(TAG, "Critical Error");
         Log.e(TAG, errors.toString());
     }
 
     @Override
-    public void connectionError(int requestCode) {
+    public void onApiConnectionError(int requestCode) {
         errorStatusImage();
         Log.e(TAG, "Connection Error");
     }
 
     @Override
-    public void success(ResultData result, int requestCode) {
+    public void onApiSuccess(ResultData result, int requestCode) {
         successStatusImage();
     }
 }

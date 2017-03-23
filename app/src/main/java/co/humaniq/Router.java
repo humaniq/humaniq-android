@@ -3,6 +3,7 @@ package co.humaniq;
 import android.content.Intent;
 import android.os.Bundle;
 import co.humaniq.views.*;
+import co.humaniq.views.take_photo.TakePhotoActivity;
 
 import java.util.HashMap;
 

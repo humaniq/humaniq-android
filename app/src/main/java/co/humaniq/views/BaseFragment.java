@@ -27,42 +27,42 @@ public class BaseFragment extends Fragment implements ViewContext, View.OnClickL
     }
 
     @Override
-    public void validationError(Errors errors, int requestCode) {
+    public void onApiValidationError(Errors errors, int requestCode) {
 
     }
 
     @Override
-    public void permissionError(Errors errors, int requestCode) {
+    public void onApiPermissionError(Errors errors, int requestCode) {
 
     }
 
     @Override
-    public void authorizationError(Errors errors, int requestCode) {
+    public void onApiAuthorizationError(Errors errors, int requestCode) {
 
     }
 
     @Override
-    public void criticalError(Errors errors, int requestCode) {
+    public void onApiCriticalError(Errors errors, int requestCode) {
 
     }
 
     @Override
-    public void connectionError(int requestCode) {
+    public void onApiConnectionError(int requestCode) {
 
     }
 
     @Override
-    public void success(ResultData result, int requestCode) {
+    public void onApiSuccess(ResultData result, int requestCode) {
 
     }
 
     @Override
-    public void showProgressbar(int requestCode) {
+    public void onApiShowProgressbar(int requestCode) {
 
     }
 
     @Override
-    public void hideProgressbar(int requestCode) {
+    public void onApiHideProgressbar(int requestCode) {
 
     }
 

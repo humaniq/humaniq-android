@@ -10,4 +10,8 @@
     <string name="moving_too_fast">Moving too fast</string>
     <string name="look_straight_at_the_camer">Look straight at the camera</string>
     <string name="overlight">Too light</string>
+    <string name="error_face_not_found">Face is not found</string>
+    <string name="retry">Retry</string>
+    <string name="error_liveness">Liveness not verified</string>
+    <string name="camera_configuration_failed">Camera config problem</string>
 </resources>

@@ -3,7 +3,6 @@ package co.humaniq.services;
 import android.util.Log;
 import co.humaniq.Client;
 import co.humaniq.models.APIErrors;
-import co.humaniq.models.DummyModel;
 import co.humaniq.models.ResultData;
 import co.humaniq.views.ViewContext;
 import retrofit2.Call;
@@ -32,38 +31,38 @@ public class APIService {
         final ViewContext context = service.getContext();
 
         if (context != null && !Client.isOnline(context)) {
-            context.connectionError(requestCode);
+            context.onApiConnectionError(requestCode);
             return;
         }
 
         if (context != null)
-            context.showProgressbar(requestCode);
+            context.onApiShowProgressbar(requestCode);
 
         call.enqueue(new Callback<E>() {
             @Override
             public void onResponse(Call<E> call, Response<E> response) {
                 if (context != null)
-                    context.hideProgressbar(requestCode);
+                    context.onApiHideProgressbar(requestCode);
 
                 if (!service.hasStatusError(response, requestCode)) {
                     Log.d(TAG, Integer.toString(response.code()));
                     Log.d(TAG, response.body().toString());
 
                     if (context != null)
-                        context.success(new ResultData<>(response), requestCode);
+                        context.onApiSuccess(new ResultData<>(response), requestCode);
                 }
             }
 
             @Override
             public void onFailure(Call<E> call, Throwable t) {
                 if (context != null)
-                    context.hideProgressbar(requestCode);
+                    context.onApiHideProgressbar(requestCode);
 
                 t.printStackTrace();
                 Log.e(TAG, t.toString());
 
                 if (context != null)
-                    context.criticalError(new APIErrors(), requestCode);
+                    context.onApiCriticalError(new APIErrors(), requestCode);
             }
         });
     }
@@ -79,32 +78,32 @@ public class APIService {
 
         switch (response.code()) {
             case 400: // Bad request
-                context.validationError(new APIErrors(response), requestCode);
+                context.onApiValidationError(new APIErrors(response), requestCode);
                 break;
 
             case 401: // Unauthorized
-                context.authorizationError(new APIErrors(response), requestCode);
+                context.onApiAuthorizationError(new APIErrors(response), requestCode);
                 break;
 
             case 403: // Forbidden
             case 406: // Not acceptable
-                context.permissionError(new APIErrors(response), requestCode);
+                context.onApiPermissionError(new APIErrors(response), requestCode);
                 break;
 
             case 429: // Too many requests
             case 408: // Timeout
-                context.connectionError(requestCode);
+                context.onApiConnectionError(requestCode);
                 break;
 
             case 504: // Gateway timeout
             case 502: // Bad gateway
-                context.connectionError(requestCode);
+                context.onApiConnectionError(requestCode);
                 break;
 
             default:
                 Log.e(TAG, Integer.toString(response.code()));
                 Log.e(TAG, response.message());
-                context.criticalError(new APIErrors(), requestCode);
+                context.onApiCriticalError(new APIErrors(), requestCode);
         }
 
         try {

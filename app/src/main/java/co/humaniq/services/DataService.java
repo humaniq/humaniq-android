@@ -16,7 +16,7 @@ abstract public class DataService<T> {
 
     /**
      * Получить все записи
-     * Возвращает в context.success список ArrayList<ModelT>
+     * Возвращает в context.onApiSuccess список ArrayList<ModelT>
      */
     public void all() {
         throw new UnsupportedOperationException();
@@ -24,7 +24,7 @@ abstract public class DataService<T> {
 
     /**
      * Получить запись по id
-     * Возвращает в context.success запись ModelT
+     * Возвращает в context.onApiSuccess запись ModelT
      */
     public void get(final int id) {
         throw new UnsupportedOperationException();

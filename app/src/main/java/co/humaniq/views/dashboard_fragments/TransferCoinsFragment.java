@@ -87,32 +87,32 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     @Override
-    public void validationError(Errors errors, int requestCode) {
+    public void onApiValidationError(Errors errors, int requestCode) {
         alert("Error", errors.toString());
     }
 
     @Override
-    public void permissionError(Errors errors, int requestCode) {
+    public void onApiPermissionError(Errors errors, int requestCode) {
         alert("Error", "Permission denied");
     }
 
     @Override
-    public void authorizationError(Errors errors, int requestCode) {
+    public void onApiAuthorizationError(Errors errors, int requestCode) {
         alert("Error", "Authorization error");
     }
 
     @Override
-    public void criticalError(Errors errors, int requestCode) {
+    public void onApiCriticalError(Errors errors, int requestCode) {
         alert("Error", "Critical error");
     }
 
     @Override
-    public void connectionError(int requestCode) {
+    public void onApiConnectionError(int requestCode) {
         alert("Error", "Connection error");
     }
 
     @Override
-    public void success(ResultData result, int requestCode) {
+    public void onApiSuccess(ResultData result, int requestCode) {
         final Wallet wallet = (Wallet) result.data();
         final User user = AuthToken.getInstance().getUser();
         user.setWallet(wallet);
@@ -123,12 +123,12 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     @Override
-    public void showProgressbar(int requestCode) {
+    public void onApiShowProgressbar(int requestCode) {
         progressDialog.show();
     }
 
     @Override
-    public void hideProgressbar(int requestCode) {
+    public void onApiHideProgressbar(int requestCode) {
         progressDialog.hide();
     }
 

@@ -13,8 +13,8 @@ public class LoginActivity extends LoginRegisterActivity {
     }
 
     @Override
-    public void success(ResultData result, int requestCode) {
-        super.success(result, requestCode);
+    public void onApiSuccess(ResultData result, int requestCode) {
+        super.onApiSuccess(result, requestCode);
 
         AuthToken token = (AuthToken) result.data();
         AuthToken.updateInstance(token);

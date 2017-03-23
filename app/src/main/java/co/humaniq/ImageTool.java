@@ -165,7 +165,7 @@ public class ImageTool {
         return BitmapFactory.decodeResource(res, resId, options);
     }
 
-    public static String toBase64(Bitmap bmp) {
+    public static String encodeToBase64(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
         byte[] imageBytes = baos.toByteArray();

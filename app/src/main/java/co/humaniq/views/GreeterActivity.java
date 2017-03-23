@@ -1,7 +1,9 @@
 package co.humaniq.views;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import co.humaniq.R;
 import co.humaniq.Router;
@@ -21,6 +23,14 @@ public class GreeterActivity extends BaseActivity {
 
         attachOnClickView(R.id.buttonLogin);
         attachOnClickView(R.id.buttonRegister);
+
+        String ABI = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ABI = Build.SUPPORTED_ABIS[0];
+        } else {
+            ABI = Build.CPU_ABI;
+        }
+        Log.d("ABI", ABI);
     }
 
     @Override

@@ -26,15 +26,17 @@ public class HistoryItem extends DummyModel {
 
     @Override
     public int getViewType() {
-        if (viewType == ViewType.DATA) {
-            if (isBonus())
-                return ViewType.HISTORY_BONUS;
-            else if (fromUser != AuthToken.getInstance().getUser().getId())
-                return ViewType.HISTORY_RECEIVED;
-            else
-                return ViewType.HISTORY_TRANSFERRED;
-        }
-        return viewType;
+        if (viewType != ViewType.DATA)
+            return viewType;
+
+        User user = AuthToken.getInstance().getUser();
+
+        if (isBonus())
+            return ViewType.HISTORY_BONUS;
+        else if (fromUser != user.getId())
+            return ViewType.HISTORY_RECEIVED;
+        else
+            return ViewType.HISTORY_TRANSFERRED;
     }
 
     public HistoryItem(int viewType, float coins, String currency, boolean bonus, String dateTime,
