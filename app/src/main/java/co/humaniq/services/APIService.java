@@ -30,30 +30,40 @@ public class APIService {
                               final int requestCode)
     {
         final ViewContext context = service.getContext();
-        if (!Client.isOnline(context)) {
+
+        if (context != null && !Client.isOnline(context)) {
             context.connectionError(requestCode);
             return;
         }
 
-        context.showProgressbar(requestCode);
+        if (context != null)
+            context.showProgressbar(requestCode);
+
         call.enqueue(new Callback<E>() {
             @Override
             public void onResponse(Call<E> call, Response<E> response) {
-                context.hideProgressbar(requestCode);
+                if (context != null)
+                    context.hideProgressbar(requestCode);
 
                 if (!service.hasStatusError(response, requestCode)) {
                     Log.d(TAG, Integer.toString(response.code()));
                     Log.d(TAG, response.body().toString());
-                    context.success(new ResultData<>(response), requestCode);
+
+                    if (context != null)
+                        context.success(new ResultData<>(response), requestCode);
                 }
             }
 
             @Override
             public void onFailure(Call<E> call, Throwable t) {
-                context.hideProgressbar(requestCode);
+                if (context != null)
+                    context.hideProgressbar(requestCode);
+
                 t.printStackTrace();
                 Log.e(TAG, t.toString());
-                context.criticalError(new APIErrors(), requestCode);
+
+                if (context != null)
+                    context.criticalError(new APIErrors(), requestCode);
             }
         });
     }
@@ -63,6 +73,9 @@ public class APIService {
 
         if (response.isSuccessful())
             return false;
+
+        if (context == null)
+            return true;
 
         switch (response.code()) {
             case 400: // Bad request

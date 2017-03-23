@@ -1,18 +1,16 @@
 package co.humaniq.views;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
+import co.humaniq.Client;
 import co.humaniq.R;
+import co.humaniq.models.AuthToken;
+import co.humaniq.services.AuthService;
 import co.humaniq.views.dashboard_fragments.HistoryFragment;
 import co.humaniq.views.dashboard_fragments.ReceiveCoinsFragment;
 import co.humaniq.views.dashboard_fragments.SettingsFragment;
@@ -103,7 +101,11 @@ public class DashboardActivity extends ToolbarActivity {
 
     @Override
     public void finish() {
-        super.finish();
+        AuthService service = new AuthService(null);
+        service.logout(GENERAL_REQUEST);
         HistoryFragment.dataSetChanged = true;
+        AuthToken.revoke();
+        Client.revokeAuthClient();
+        super.finish();
     }
 }

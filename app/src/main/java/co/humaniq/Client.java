@@ -52,6 +52,11 @@ public class Client {
         return anonymousHttpClient;
     }
 
+    static public void revokeAuthClient() {
+        authHttpClient = null;
+        authRetrofit = null;
+    }
+
     static public OkHttpClient getAuthHttpClientInstance() {
         if (authHttpClient != null)
             return authHttpClient;

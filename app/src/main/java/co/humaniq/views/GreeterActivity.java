@@ -6,6 +6,8 @@ import android.view.View;
 import co.humaniq.R;
 import co.humaniq.Router;
 import co.humaniq.models.AuthToken;
+import co.humaniq.services.AuthService;
+import co.humaniq.views.dashboard_fragments.HistoryFragment;
 
 
 public class GreeterActivity extends BaseActivity {
@@ -41,6 +43,11 @@ public class GreeterActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
