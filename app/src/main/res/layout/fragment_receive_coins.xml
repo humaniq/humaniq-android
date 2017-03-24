@@ -39,11 +39,12 @@
             android:id="@+id/imageView12"/>
         <TextView
             android:text="0xC167677A59104RA2B56159B6C2E01B3C8E838E1B"
+            android:ellipsize="end"
+            android:lines="1"
             android:layout_height="wrap_content" tools:layout_editor_absoluteY="188dp"
-            tools:layout_editor_absoluteX="79dp" android:id="@+id/textMyWallet"
+            android:id="@+id/textMyWallet"
             android:textColor="#fff" android:layout_weight="1" android:textSize="21sp"
-            android:layout_margin="10dp" android:layout_width="0dp"
-            android:selectAllOnFocus="true" android:textIsSelectable="true"/>
+            android:layout_margin="10dp" android:layout_width="0dp"/>
         <ImageView
             android:layout_width="50dp"
             android:layout_height="match_parent" app:srcCompat="@mipmap/lists"

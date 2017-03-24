@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
             android:text="15.02.17"
-            android:textColor="@color/gold"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <android.support.v7.widget.AppCompatImageView
@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.4"
-            android:tint="@color/gold"
+            android:tint="@color/white"
             app:srcCompat="@drawable/gift" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
             android:text="148.61 HMQ"
-            android:textColor="@color/gold"
+            android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
 </RelativeLayout>

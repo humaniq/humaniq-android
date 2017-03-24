@@ -55,10 +55,6 @@ public class HistoryFragment extends BaseFragment {
 
     private void load() {
 //        if (!loaded || dataSetChanged) {
-        items.clear();
-        items.add(new HistoryItem(BaseModel.ViewType.HISTORY_HEADER));
-
-        financeService.getHistory(GET_HISTORY_REQUEST);
         userService.getMy(GET_MY_USER_REQUEST);
 
         dataSetChanged = false;
@@ -78,6 +74,8 @@ public class HistoryFragment extends BaseFragment {
     }
 
     void fillHistoryViews(Page<HistoryItem> historyPage) {
+        items.clear();
+        items.add(new HistoryItem(BaseModel.ViewType.HISTORY_HEADER));
         items.addAll(historyPage.getResults());
         nextPage = historyPage.getNextPage();
         recyclerAdapter.notifyDataSetChanged();
@@ -85,7 +83,8 @@ public class HistoryFragment extends BaseFragment {
 
     void fillMyUsersViews(User user) {
         AuthToken.getInstance().setUser(user);
-        recyclerAdapter.notifyDataSetChanged();
+//        recyclerAdapter.notifyDataSetChanged();
+        financeService.getHistory(GET_HISTORY_REQUEST);
     }
 
     @Override
