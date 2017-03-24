@@ -39,8 +39,6 @@
             android:id="@+id/imageView12"/>
         <TextView
             android:text="0xC167677A59104RA2B56159B6C2E01B3C8E838E1B"
-            android:ellipsize="end"
-            android:lines="1"
             android:layout_height="wrap_content" tools:layout_editor_absoluteY="188dp"
             android:id="@+id/textMyWallet"
             android:textColor="#fff" android:layout_weight="1" android:textSize="21sp"

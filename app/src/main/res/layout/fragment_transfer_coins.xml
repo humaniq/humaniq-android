@@ -205,11 +205,13 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_rect_white"
             android:gravity="center_vertical"
-            android:inputType="textMultiLine"
+            android:inputType="text"
             android:paddingEnd="15dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingStart="15dp"
+            android:ellipsize="end"
+            android:lines="1"
             android:textColor="@color/darkBlue" android:hint="wallet"
             android:textColorHint="@color/takePhotoPressed"/>
     </LinearLayout>
