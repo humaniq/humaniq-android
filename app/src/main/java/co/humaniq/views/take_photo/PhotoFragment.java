@@ -198,11 +198,11 @@ public class PhotoFragment extends Fragment implements Camera.PreviewCallback,
             }
         };
 
-        Picasso.with(getContext())
-                .load(R.drawable.mask)
-                .centerCrop()
-                .fit()
-                .into(mask, callback);
+//        Picasso.with(getContext())
+//                .load(R.drawable.mask)
+//                .centerCrop()
+//                .fit()
+//                .into(mask, callback);
     }
 
     @Override
