@@ -36,6 +36,7 @@
         android:textColor="@android:color/white"
         android:textSize="15sp"
         android:visibility="invisible"
+        android:gravity="center_vertical"
         tools:visibility="visible"/>
 
     <TextView
@@ -43,12 +44,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:drawablePadding="11dp"
         android:drawableStart="@drawable/ic_warning"
         android:text="@string/put_your_head_into_oval"
         android:textColor="@android:color/holo_green_light"
         android:textSize="15sp"
+        android:gravity="center_vertical"
         android:visibility="invisible"
         tools:visibility="visible"/>
 
