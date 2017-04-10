@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Humaniq</string>
+    <string name="app_name">Humaniq (alpha version)</string>
     <string name="help">help</string>
     <string name="total_b_hmq"><b>%.2f</b> HMQ</string>
     <string name="total_hmq">%.2f HMQ</string>
