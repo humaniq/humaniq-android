@@ -7,6 +7,7 @@ import co.humaniq.models.AuthToken;
 import co.humaniq.views.ViewContext;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
