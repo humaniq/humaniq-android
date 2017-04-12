@@ -23,13 +23,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-//    packagingOptions {
-//        exclude 'META-INF/DEPENDENCIES.txt'
-//        exclude 'META-INF/NOTICE'
-//        exclude 'META-INF/NOTICE.txt'
-//        exclude 'META-INF/LICENSE'
-//        exclude 'META-INF/LICENSE.txt'
-//    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+    }
 }
 
 dependencies {
@@ -56,8 +56,9 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.2.1'
 
-//    compile 'org.web3j:core-android:2.1.0'
-//    compile 'org.ethereum:geth:1.5.2'
+    compile 'org.web3j:core-android:2.1.0'
+    compile 'org.ethereum:geth:1.5.2'
+//    compile "org.ethereum:ethereumj-core:1.4.3-RELEASE"
 
     compile 'com.trello:rxlifecycle:1.0'
     compile 'com.trello:rxlifecycle-android:1.0'

@@ -88,8 +88,8 @@ public class LoginRegisterActivity extends ToolbarActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonTakePhoto:
-                grantPermission(Manifest.permission.CAMERA, REQUEST_PHOTO_CAPTURE_PERMISSION);
-//                sendRequest();
+//                grantPermission(Manifest.permission.CAMERA, REQUEST_PHOTO_CAPTURE_PERMISSION);
+                sendRequest();
                 break;
 
             case R.id.buttonSignature:

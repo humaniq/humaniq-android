@@ -4,6 +4,10 @@ import android.util.Log;
 
 //import org.web3j.protocol.core.methods.response.EthAccounts;
 
+import org.ethereum.geth.Account;
+import org.ethereum.geth.AccountManager;
+import org.ethereum.geth.Geth;
+
 import co.humaniq.Web3;
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.ResultData;
@@ -19,11 +23,23 @@ public class RegisterActivity extends LoginRegisterActivity {
 //            for (String account : accounts.getAccounts())
 //                Log.d(TAG, account);
 //        });
-        getService().register(getPhotoBase64(), REGISTER_REQUEST);
+//        getService().register(getPhotoBase64(), REGISTER_REQUEST);
 //        W   eb3.getInstance().getParity().personalNewAccount("123321").observable().subscribe(account -> {
 //            for (String account : accounts.getAccounts())
 //                Log.d(TAG, account.getAccountId());
 //        });
+//        Geth.
+
+//        Geth.newAccountManager();
+        AccountManager accountManager = new AccountManager(this.getFilesDir() + "/keystore",
+                Geth.LightScryptN, Geth.LightScryptP);
+
+        try {
+            Account acc =  accountManager.newAccount("123321");
+            Log.d(TAG, acc.getAddress().getHex());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
