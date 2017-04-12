@@ -204,16 +204,18 @@
             android:layout_marginStart="6dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_rect_white"
+            android:ellipsize="end"
             android:gravity="center_vertical"
+            android:hint="wallet"
             android:inputType="text"
+            android:lines="1"
             android:paddingEnd="15dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingStart="15dp"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textColor="@color/darkBlue" android:hint="wallet"
-            android:textColorHint="@color/takePhotoPressed"/>
+            android:text="344ec31b-b229-4876-ba47-73403c575337"
+            android:textColor="@color/darkBlue"
+            android:textColorHint="@color/takePhotoPressed" />
     </LinearLayout>
     <ImageView
         android:layout_width="wrap_content"

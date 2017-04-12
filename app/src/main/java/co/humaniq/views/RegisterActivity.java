@@ -1,6 +1,10 @@
 package co.humaniq.views;
 
 import android.util.Log;
+
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.LoginEvent;
+
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.ResultData;
 
@@ -20,6 +24,11 @@ public class RegisterActivity extends LoginRegisterActivity {
 
         AuthToken token = (AuthToken) result.data();
         AuthToken.updateInstance(token);
+
+        token.getUser().crashlyticsLog();
+        Answers.getInstance().logLogin(new LoginEvent()
+                .putMethod("Face")
+                .putSuccess(true));
 
         Log.d(TAG, token.getAuthorization());
 

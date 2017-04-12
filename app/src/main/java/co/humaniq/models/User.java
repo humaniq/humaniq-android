@@ -1,6 +1,8 @@
 package co.humaniq.models;
 
 
+import com.crashlytics.android.Crashlytics;
+
 public class User extends DummyModel {
     private int id;
     private String photo;
@@ -27,4 +29,10 @@ public class User extends DummyModel {
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
     }
+
+    public void crashlyticsLog() {
+        Crashlytics.setUserIdentifier(Integer.toString(this.id));
+        Crashlytics.setUserName(wallet.getHash());
+    }
+
 }
