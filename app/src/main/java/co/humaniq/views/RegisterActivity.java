@@ -8,6 +8,8 @@ import org.ethereum.geth.Account;
 import org.ethereum.geth.AccountManager;
 import org.ethereum.geth.Geth;
 
+import co.humaniq.App;
+import co.humaniq.Preferences;
 import co.humaniq.Web3;
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.ResultData;
@@ -37,6 +39,10 @@ public class RegisterActivity extends LoginRegisterActivity {
         try {
             Account acc =  accountManager.newAccount("123321");
             Log.d(TAG, acc.getAddress().getHex());
+            Preferences preferences = App.getPreferences(this);
+            preferences.setAccount(acc.getAddress().getHex());
+
+            Log.d(TAG, "Stored acc: "+preferences.getAccount());
         } catch (Exception e) {
             e.printStackTrace();
         }

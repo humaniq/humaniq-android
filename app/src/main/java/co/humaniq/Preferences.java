@@ -28,4 +28,8 @@ public interface Preferences {
     @DefaultString("")
     String getStartTime();
     void setStartTime(String time);
+
+    @DefaultString("")
+    String getAccount();
+    void setAccount(String account);
 }
