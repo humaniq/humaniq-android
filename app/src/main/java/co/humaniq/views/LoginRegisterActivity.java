@@ -37,6 +37,11 @@ public class LoginRegisterActivity extends ToolbarActivity {
     private View progressBar;
     private String capturedPhotoPath;
     private AuthService service;
+
+    public String getPinCode() {
+        return pinCode;
+    }
+
     private String pinCode;
 
     public AuthService getService() {

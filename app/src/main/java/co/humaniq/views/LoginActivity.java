@@ -17,7 +17,7 @@ public class LoginActivity extends LoginRegisterActivity {
         super.onApiSuccess(result, requestCode);
 
         AuthToken token = (AuthToken) result.data();
-        AuthToken.updateInstance(token);
+        AuthToken.updateInstance(this, token);
 
         setResult(AuthToken.RESULT_GOT_TOKEN);
         finish();

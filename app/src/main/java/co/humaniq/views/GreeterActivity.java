@@ -5,6 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import co.humaniq.App;
+import co.humaniq.Preferences;
 import co.humaniq.R;
 import co.humaniq.Router;
 import co.humaniq.models.AuthToken;
@@ -38,7 +40,8 @@ public class GreeterActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.buttonLogin:
 //                Router.goActivity(this, Router.LOGIN, LOGIN_REQUEST);
-                Router.goActivity(this, Router.PIN_CODE);
+                Router.goActivity(this, Router.PIN_CODE, LOGIN_REQUEST);
+
 //                Wallet wallet = new Wallet(45, "424d590c-84c7-492c-866a-176aa947ab5c", 444, false,
 //                        "HMQ", "http://13.75.91.36/media/qr_codes/424d590c-84c7-492c-866a-176aa947ab5c.png");
 //                User user = new User(45, "", wallet);

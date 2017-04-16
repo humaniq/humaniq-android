@@ -1,6 +1,8 @@
 package co.humaniq.views;
 
 import android.util.Log;
+import co.humaniq.App;
+import co.humaniq.Preferences;
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.ResultData;
 
@@ -18,8 +20,15 @@ public class RegisterActivity extends LoginRegisterActivity {
     public void onApiSuccess(ResultData result, int requestCode) {
         super.onApiSuccess(result, requestCode);
 
+        Preferences preferences = App.getPreferences(this);
+
+        if (preferences.getPinCode().trim().equals(""))
+            preferences.setPinCode(getPinCode());
+
+        preferences.setLoginCount(0);
+
         AuthToken token = (AuthToken) result.data();
-        AuthToken.updateInstance(token);
+        AuthToken.updateInstance(this, token);
 
         Log.d(TAG, token.getAuthorization());
 

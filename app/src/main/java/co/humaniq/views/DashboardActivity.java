@@ -105,7 +105,6 @@ public class DashboardActivity extends ToolbarActivity {
         service.logout(GENERAL_REQUEST);
         HistoryFragment.dataSetChanged = true;
         AuthToken.revoke();
-        Client.revokeAuthClient();
         super.finish();
     }
 }
