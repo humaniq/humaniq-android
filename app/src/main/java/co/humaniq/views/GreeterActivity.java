@@ -37,7 +37,8 @@ public class GreeterActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonLogin:
-                Router.goActivity(this, Router.LOGIN, LOGIN_REQUEST);
+//                Router.goActivity(this, Router.LOGIN, LOGIN_REQUEST);
+                Router.goActivity(this, Router.PIN_CODE);
 //                Wallet wallet = new Wallet(45, "424d590c-84c7-492c-866a-176aa947ab5c", 444, false,
 //                        "HMQ", "http://13.75.91.36/media/qr_codes/424d590c-84c7-492c-866a-176aa947ab5c.png");
 //                User user = new User(45, "", wallet);

@@ -13,7 +13,7 @@ public interface Preferences {
     Boolean getShowDetection();
     void setShowDetection(Boolean value);
 
-    @DefaultBoolean(false)
+    @DefaultBoolean(true)
     Boolean getNeedPortrait();
     void setNeedPortrait(Boolean needPortrait);
 

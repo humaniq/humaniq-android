@@ -37,6 +37,7 @@ public class LoginRegisterActivity extends ToolbarActivity {
     private View progressBar;
     private String capturedPhotoPath;
     private AuthService service;
+    private String pinCode;
 
     public AuthService getService() {
         return service;
@@ -59,6 +60,9 @@ public class LoginRegisterActivity extends ToolbarActivity {
         progressBar.setVisibility(View.INVISIBLE);
 
         service = new AuthService(this);
+
+        pinCode = getIntent().getStringExtra("pin_code");
+        Log.d(TAG, pinCode);
     }
 
     @SuppressWarnings("unused")

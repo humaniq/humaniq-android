@@ -25,7 +25,8 @@ public class Router {
     public static Integer LOGIN = 2000;
     public static Integer LOGIN_SIGNATURE = 2001;
     public static Integer REGISTER = 2002;
-    public static Integer TAKE_PHOTO = 2003;
+    public static Integer PIN_CODE = 2003;
+    public static Integer TAKE_PHOTO = 2004;
 
     public static Integer DASHBOARD = 3000;
     public static Integer PROFILE = 4000;
@@ -54,6 +55,7 @@ public class Router {
         routes.put(LOGIN_SIGNATURE, new Route(LoginSignatureActivity.class));
         routes.put(DASHBOARD, new Route(DashboardActivity.class));
         routes.put(PROFILE, new Route(ProfileActivity.class));
+        routes.put(PIN_CODE, new Route(PinCodeActivity.class));
         routes.put(TAKE_PHOTO, new Route(TakePhotoActivity.class));
     }
 

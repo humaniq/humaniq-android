@@ -36,6 +36,10 @@
                   android:label="New user"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
+        <activity android:name=".views.PinCodeActivity"
+                  android:label="Pincode"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme"/>
         <activity android:name=".views.take_photo.TakePhotoActivity"
                   android:label="Take photo"
                   android:screenOrientation="portrait"
@@ -56,7 +60,6 @@
         <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
                   android:screenOrientation="fullSensor"
                   tools:replace="screenOrientation" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="co.humaniq.fileprovider"
