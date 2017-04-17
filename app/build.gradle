@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'io.fabric'
+
+repositories {
+  maven { url 'https://maven.fabric.io/public' }
+}
 
 android {
     compileSdkVersion 25
@@ -8,7 +13,7 @@ android {
         applicationId "co.humaniq"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 3
+        versionCode 4
         versionName "1.0 alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -53,6 +58,10 @@ dependencies {
     compile 'com.trello:rxlifecycle-components:1.0'
 
     compile 'com.github.rahatarmanahmed:circularprogressview:2.4.0'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
+        transitive = true;
+    }
 
     testCompile 'junit:junit:4.12'
     compile project(path: ':faceenginemobile')

@@ -50,7 +50,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
 
-public class PhotoFragment extends Fragment implements Camera.PreviewCallback,
+public class PhotoFragment extends RxFragment implements Camera.PreviewCallback,
         PhotoProcessor.Listener, PhotoProcessor.DebugListener
 {
     protected static final int TIMEOUT = 15;
@@ -209,15 +209,15 @@ public class PhotoFragment extends Fragment implements Camera.PreviewCallback,
     public void onStart() {
         super.onStart();
         ignoreTimeout = false;
-//        final long delay = TIMEOUT * DateUtils.SECOND_IN_MILLIS - (System.currentTimeMillis() - Long.parseLong(preferences.getStartTime()));
-//        Observable.timer(Math.max(delay, 0), TimeUnit.MILLISECONDS)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .compose(bindToLifecycle())
-//                .subscribe(value -> {
-//                    if (listener != null && !ignoreTimeout) {
+        final long delay = TIMEOUT * DateUtils.SECOND_IN_MILLIS - (System.currentTimeMillis() - Long.parseLong(preferences.getStartTime()));
+        Observable.timer(Math.max(delay, 0), TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(bindToLifecycle())
+                .subscribe(value -> {
+                    if (listener != null && !ignoreTimeout) {
 //                        listener.onTimeout(FaceNotFoundFragment.Reason.NOT_FOUND);
-//                    }
-//                });
+                    }
+                });
     }
 
     @Override
@@ -445,14 +445,14 @@ public class PhotoFragment extends Fragment implements Camera.PreviewCallback,
                 ignoreTimeoutLiveness = false;
 
                 final long delay = LIVENESS_TIMEOUT * DateUtils.SECOND_IN_MILLIS;
-//                Observable.timer(Math.max(delay, 0), TimeUnit.MILLISECONDS)
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .compose(bindToLifecycle())
-//                        .subscribe(value -> {
-//                            if (listener != null && !ignoreTimeoutLiveness) {
+                Observable.timer(Math.max(delay, 0), TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .compose(bindToLifecycle())
+                        .subscribe(value -> {
+                            if (listener != null && !ignoreTimeoutLiveness) {
 //                                listener.onTimeout(FaceNotFoundFragment.Reason.LIVENESS);
-//                            }
-//                        });
+                            }
+                        });
 
             } else {
                 submitBestShot();

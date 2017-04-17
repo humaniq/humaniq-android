@@ -22,7 +22,7 @@ public interface Preferences {
     Boolean getUseFrontCamera();
     void setUseFrontCamera(Boolean value);
 
-    @DefaultBoolean(false)
+    @DefaultBoolean(true)
     Boolean getLivenessAuth();
     void setLivenessAuth(Boolean value);
 

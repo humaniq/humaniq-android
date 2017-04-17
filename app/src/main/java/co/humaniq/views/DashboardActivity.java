@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
+
 import co.humaniq.Client;
 import co.humaniq.R;
 import co.humaniq.models.AuthToken;
@@ -16,6 +18,7 @@ import co.humaniq.views.dashboard_fragments.ReceiveCoinsFragment;
 import co.humaniq.views.dashboard_fragments.SettingsFragment;
 import co.humaniq.views.dashboard_fragments.TransferCoinsFragment;
 import co.humaniq.views.widgets.BottomMenuView;
+import io.fabric.sdk.android.Fabric;
 
 import java.util.ArrayList;
 
@@ -53,6 +56,8 @@ public class DashboardActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
+
         setContentView(R.layout.activity_dashboard);
         initToolbar();
         getActivityActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white);
