@@ -34,10 +34,11 @@ public class RegisterActivity extends LoginRegisterActivity {
         AuthToken token = (AuthToken) result.data();
         AuthToken.updateInstance(this, token);
 
-        token.getUser().crashlyticsLog();
-        Answers.getInstance().logLogin(new LoginEvent()
-                .putMethod("Face")
-                .putSuccess(true));
+//        token.getUser().crashlyticsLog();
+
+//        Answers.getInstance().logLogin(new LoginEvent()
+//                .putMethod("Face")
+//                .putSuccess(true));
 
         Log.d(TAG, token.getAuthorization());
 

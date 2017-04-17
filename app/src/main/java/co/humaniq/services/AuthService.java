@@ -1,5 +1,8 @@
 package co.humaniq.services;
 
+import android.content.ContentResolver;
+import android.provider.Settings;
+
 import co.humaniq.Client;
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.DummyModel;
@@ -17,11 +20,17 @@ public class AuthService extends APIService {
     interface RetrofitService {
         @FormUrlEncoded
         @POST("user/register/")
-        Call<AuthToken> register(@Field("photo") String photoBase64);
+        Call<AuthToken> register(
+                @Field("photo") String photoBase64,
+                @Field("device_id") String deviceId
+        );
 
         @FormUrlEncoded
         @POST("user/login/")
-        Call<AuthToken> login(@Field("photo") String photoBase64);
+        Call<AuthToken> login(
+                @Field("photo") String photoBase64,
+                @Field("device_id") String deviceId
+        );
 
         @POST("user/logout/")
         Call<DummyModel> logout();
@@ -40,12 +49,16 @@ public class AuthService extends APIService {
     }
 
     public void register(final String photoBase64, final int requestCode) {
-        Call<AuthToken> call = anonymousRetrofitService.register(photoBase64);
+        ContentResolver contentResolver = getContext().getInstance().getContentResolver();
+        String deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID);
+        Call<AuthToken> call = anonymousRetrofitService.register(photoBase64, deviceId);
         APIService.doRequest(this, call, requestCode);
     }
 
     public void login(final String photoBase64, final int requestCode) {
-        Call<AuthToken> call = anonymousRetrofitService.login(photoBase64);
+        ContentResolver contentResolver = getContext().getInstance().getContentResolver();
+        String deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID);
+        Call<AuthToken> call = anonymousRetrofitService.login(photoBase64, deviceId);
         APIService.doRequest(this, call, requestCode);
     }
 

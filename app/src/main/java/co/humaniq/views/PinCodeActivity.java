@@ -204,7 +204,12 @@ public class PinCodeActivity extends ToolbarActivity {
         Bundle bundle = new Bundle();
         bundle.putString("pin_code", pinCode);
         Router.setBundle(bundle);
-        Router.goActivity(this, Router.REGISTER, TAKE_PHOTO_REQUEST);
+
+        if (preferences.getUserId() != 0) {
+            Router.goActivity(this, Router.LOGIN, TAKE_PHOTO_REQUEST);
+        } else {
+            Router.goActivity(this, Router.REGISTER, TAKE_PHOTO_REQUEST);
+        }
     }
 
     private void alert(final String title, final String message) {
