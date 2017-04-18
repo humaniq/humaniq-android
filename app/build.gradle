@@ -13,7 +13,7 @@ android {
         applicationId "co.humaniq"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 4
+        versionCode 5
         versionName "1.0 alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
