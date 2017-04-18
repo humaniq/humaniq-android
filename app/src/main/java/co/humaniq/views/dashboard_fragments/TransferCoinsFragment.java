@@ -258,6 +258,9 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     private boolean coinsIsValid() {
+        if (editTextCoins.getText().toString().equals(""))
+            return false;
+
         try {
             Integer coins = Integer.parseInt(editTextCoins.getText().toString());
 
