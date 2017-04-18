@@ -1,6 +1,7 @@
 package co.humaniq;
 
 import proxypref.annotation.DefaultBoolean;
+import proxypref.annotation.DefaultInteger;
 import proxypref.annotation.DefaultString;
 
 
@@ -13,7 +14,7 @@ public interface Preferences {
     Boolean getShowDetection();
     void setShowDetection(Boolean value);
 
-    @DefaultBoolean(false)
+    @DefaultBoolean(true)
     Boolean getNeedPortrait();
     void setNeedPortrait(Boolean needPortrait);
 
@@ -21,13 +22,30 @@ public interface Preferences {
     Boolean getUseFrontCamera();
     void setUseFrontCamera(Boolean value);
 
-    @DefaultBoolean(false)
+    @DefaultBoolean(true)
     Boolean getLivenessAuth();
     void setLivenessAuth(Boolean value);
 
     @DefaultString("")
     String getStartTime();
     void setStartTime(String time);
+
+    @DefaultInteger(0)
+    Integer getLoginCount();
+    void setLoginCount(Integer count);
+
+    // User
+    @DefaultString("")
+    String getAccessToken();
+    void setAccessToken(String token);
+
+    @DefaultString("")
+    String getPinCode();
+    void setPinCode(String pinCode);
+
+    @DefaultInteger(0)
+    Integer getUserId();
+    void setUserId(Integer id);
 
     @DefaultString("")
     String getAccount();

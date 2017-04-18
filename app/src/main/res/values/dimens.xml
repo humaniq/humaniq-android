@@ -3,4 +3,5 @@
     <dimen name="bottom_menu_height">65dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="settings_button_height">110dp</dimen>
+    <dimen name="pin_key_size">92dp</dimen>
 </resources>

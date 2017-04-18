@@ -5,14 +5,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import co.humaniq.App;
 import co.humaniq.Preferences;
 import co.humaniq.R;
 import co.humaniq.Router;
 import co.humaniq.models.AuthToken;
+import co.humaniq.models.User;
+import co.humaniq.models.Wallet;
 import co.humaniq.services.AuthService;
 import co.humaniq.views.dashboard_fragments.HistoryFragment;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 
 public class GreeterActivity extends BaseActivity {
@@ -40,12 +43,13 @@ public class GreeterActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonLogin:
-//                Router.goActivity(this, Router.REGISTER, REGISTER_REQUEST);
 //                Router.goActivity(this, Router.LOGIN, LOGIN_REQUEST);
+                Router.goActivity(this, Router.PIN_CODE, LOGIN_REQUEST);
+
 //                Wallet wallet = new Wallet(45, "424d590c-84c7-492c-866a-176aa947ab5c", 444, false,
 //                        "HMQ", "http://13.75.91.36/media/qr_codes/424d590c-84c7-492c-866a-176aa947ab5c.png");
 //                User user = new User(45, "", wallet);
-//                AuthToken token = new AuthToken("e55ab33fa614c3b0107495ec4c4e3206d0d0c6be", user);
+//                AuthToken token = new AuthToken("5f5d0f032d8908f4e6d253593bfba02f847ee823", user);
 //                AuthToken.updateInstance(token);
                 Router.goActivity(this, Router.DASHBOARD);
                 Preferences preferences = App.getPreferences(this);

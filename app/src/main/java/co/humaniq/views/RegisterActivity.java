@@ -8,9 +8,13 @@ import org.ethereum.geth.Account;
 import org.ethereum.geth.AccountManager;
 import org.ethereum.geth.Geth;
 
+import co.humaniq.Web3;
+
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.LoginEvent;
+
 import co.humaniq.App;
 import co.humaniq.Preferences;
-import co.humaniq.Web3;
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.ResultData;
 
@@ -52,8 +56,21 @@ public class RegisterActivity extends LoginRegisterActivity {
     public void onApiSuccess(ResultData result, int requestCode) {
         super.onApiSuccess(result, requestCode);
 
+        Preferences preferences = App.getPreferences(this);
+
+        if (preferences.getPinCode().trim().equals(""))
+            preferences.setPinCode(getPinCode());
+
+        preferences.setLoginCount(0);
+
         AuthToken token = (AuthToken) result.data();
-        AuthToken.updateInstance(token);
+        AuthToken.updateInstance(this, token);
+
+//        token.getUser().crashlyticsLog();
+
+//        Answers.getInstance().logLogin(new LoginEvent()
+//                .putMethod("Face")
+//                .putSuccess(true));
 
         Log.d(TAG, token.getAuthorization());
 

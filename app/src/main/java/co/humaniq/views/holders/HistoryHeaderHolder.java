@@ -20,6 +20,9 @@ public class HistoryHeaderHolder extends RecyclerItemHolder<BaseModel> {
 
     @Override
     public void initViews(BaseModel data) {
+        if (AuthToken.getInstance() == null || AuthToken.getInstance().getUser() == null)
+            return;
+
         final Wallet wallet = AuthToken.getInstance().getUser().getWallet();
         final String string = getViewContext().getActivityInstance().getString(R.string.total_b_hmq);
         final String total = String.format(string, wallet.getBalance());

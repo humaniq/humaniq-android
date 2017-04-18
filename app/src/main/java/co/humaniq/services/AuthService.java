@@ -1,6 +1,11 @@
 package co.humaniq.services;
 
+import android.content.ContentResolver;
+import android.provider.Settings;
+
+import co.humaniq.App;
 import co.humaniq.Client;
+import co.humaniq.Preferences;
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.DummyModel;
 import co.humaniq.views.ViewContext;
@@ -17,11 +22,33 @@ public class AuthService extends APIService {
     interface RetrofitService {
         @FormUrlEncoded
         @POST("user/register/")
-        Call<AuthToken> register(@Field("photo") String photoBase64);
+        Call<AuthToken> register(
+                @Field("photo") String photoBase64,
+                @Field("device_id") String deviceId
+        );
+
+        @FormUrlEncoded
+        @POST("user/register/")
+        Call<AuthToken> register(
+                @Field("photo") String photoBase64,
+                @Field("device_id") String deviceId,
+                @Field("user_id") Integer userId
+        );
 
         @FormUrlEncoded
         @POST("user/login/")
-        Call<AuthToken> login(@Field("photo") String photoBase64);
+        Call<AuthToken> login(
+                @Field("photo") String photoBase64,
+                @Field("device_id") String deviceId
+        );
+
+        @FormUrlEncoded
+        @POST("user/login/")
+        Call<AuthToken> login(
+                @Field("photo") String photoBase64,
+                @Field("device_id") String deviceId,
+                @Field("user_id") Integer userId
+        );
 
         @POST("user/logout/")
         Call<DummyModel> logout();
@@ -40,12 +67,38 @@ public class AuthService extends APIService {
     }
 
     public void register(final String photoBase64, final int requestCode) {
-        Call<AuthToken> call = anonymousRetrofitService.register(photoBase64);
+        ContentResolver contentResolver = getContext().getInstance().getContentResolver();
+        String deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID);
+
+        Preferences preferences = App.getPreferences(getContext().getInstance());
+        Integer userId = preferences.getUserId();
+
+        Call<AuthToken> call;
+
+        if (userId == 0) {
+            call = anonymousRetrofitService.register(photoBase64, deviceId);
+        } else {
+            call = anonymousRetrofitService.register(photoBase64, deviceId, userId);
+        }
+
         APIService.doRequest(this, call, requestCode);
     }
 
     public void login(final String photoBase64, final int requestCode) {
-        Call<AuthToken> call = anonymousRetrofitService.login(photoBase64);
+        ContentResolver contentResolver = getContext().getInstance().getContentResolver();
+        String deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID);
+
+        Preferences preferences = App.getPreferences(getContext().getInstance());
+        Integer userId = preferences.getUserId();
+
+        Call<AuthToken> call;
+
+        if (userId == 0) {
+            call = anonymousRetrofitService.login(photoBase64, deviceId);
+        } else {
+            call = anonymousRetrofitService.login(photoBase64, deviceId, userId);
+        }
+
         APIService.doRequest(this, call, requestCode);
     }
 

@@ -19,8 +19,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+import com.crashlytics.android.answers.PurchaseEvent;
+import com.crashlytics.android.core.CrashlyticsListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.math.BigDecimal;
+import java.util.Currency;
 
 import co.humaniq.R;
 import co.humaniq.models.*;
@@ -39,6 +47,9 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     private ImageView imageValidOk;
     private View coinsLayout;
     private boolean formIsValid = false;
+
+    private Integer transferredCoins = 0;
+    private String transferredAddress = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,6 +98,12 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateView();
+    }
+
+    @Override
     public void onApiValidationError(Errors errors, int requestCode) {
         alert("Error", errors.toString());
     }
@@ -119,7 +136,13 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         updateView();
 
         HistoryFragment.dataSetChanged = true;
-        alert("Success", "Transferred");
+        alert("Success", "Transferred" + transferredCoins.toString());
+
+        Answers.getInstance().logCustom(new CustomEvent("Transfer coins")
+                .putCustomAttribute("Currency", "HMQ")
+                .putCustomAttribute("Coins", transferredCoins)
+                .putCustomAttribute("From", user.getWallet().getHash())
+                .putCustomAttribute("To", transferredAddress));
     }
 
     @Override
@@ -165,6 +188,9 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     private void doTransfer() {
+        transferredCoins = Integer.parseInt(editTextCoins.getText().toString());
+        transferredAddress = editTextToWallet.getText().toString();
+
         decorateViewToError(coinsLayout, !coinsIsValid());
         decorateViewToError(editTextToWallet, !walletIsValid());
 
