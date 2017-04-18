@@ -70,17 +70,7 @@ public class AuthService extends APIService {
         ContentResolver contentResolver = getContext().getInstance().getContentResolver();
         String deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID);
 
-        Preferences preferences = App.getPreferences(getContext().getInstance());
-        Integer userId = preferences.getUserId();
-
-        Call<AuthToken> call;
-
-        if (userId == 0) {
-            call = anonymousRetrofitService.register(photoBase64, deviceId);
-        } else {
-            call = anonymousRetrofitService.register(photoBase64, deviceId, userId);
-        }
-
+        Call<AuthToken> call = anonymousRetrofitService.register(photoBase64, deviceId);
         APIService.doRequest(this, call, requestCode);
     }
 
@@ -89,16 +79,8 @@ public class AuthService extends APIService {
         String deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID);
 
         Preferences preferences = App.getPreferences(getContext().getInstance());
-        Integer userId = preferences.getUserId();
 
-        Call<AuthToken> call;
-
-        if (userId == 0) {
-            call = anonymousRetrofitService.login(photoBase64, deviceId);
-        } else {
-            call = anonymousRetrofitService.login(photoBase64, deviceId, userId);
-        }
-
+        Call<AuthToken> call = anonymousRetrofitService.login(photoBase64, deviceId);;
         APIService.doRequest(this, call, requestCode);
     }
 

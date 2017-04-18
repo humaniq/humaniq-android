@@ -37,19 +37,19 @@ public class RegisterActivity extends LoginRegisterActivity {
 //        Geth.
 
 //        Geth.newAccountManager();
-        AccountManager accountManager = new AccountManager(this.getFilesDir() + "/keystore",
-                Geth.LightScryptN, Geth.LightScryptP);
-
-        try {
-            Account acc =  accountManager.newAccount("123321");
-            Log.d(TAG, acc.getAddress().getHex());
-            Preferences preferences = App.getPreferences(this);
-            preferences.setAccount(acc.getAddress().getHex());
-
-            Log.d(TAG, "Stored acc: "+preferences.getAccount());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        AccountManager accountManager = new AccountManager(this.getFilesDir() + "/keystore",
+//                Geth.LightScryptN, Geth.LightScryptP);
+//
+//        try {
+//            Account acc =  accountManager.newAccount("123321");
+//            Log.d(TAG, acc.getAddress().getHex());
+//            Preferences preferences = App.getPreferences(this);
+//            preferences.setAccount(acc.getAddress().getHex());
+//
+//            Log.d(TAG, "Stored acc: "+preferences.getAccount());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

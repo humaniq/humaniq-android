@@ -34,20 +34,16 @@ public interface Preferences {
     Integer getLoginCount();
     void setLoginCount(Integer count);
 
-    // User
-    @DefaultString("")
-    String getAccessToken();
-    void setAccessToken(String token);
-
-    @DefaultString("")
-    String getPinCode();
-    void setPinCode(String pinCode);
-
+    // Account
     @DefaultInteger(0)
-    Integer getUserId();
-    void setUserId(Integer id);
+    Integer getAccountId();
+    void setAccountId(Integer id);
 
     @DefaultString("")
-    String getAccount();
-    void setAccount(String account);
+    String getAccountAddress();
+    void setAccountAddress(String account);
+
+    @DefaultString("")
+    String getAccountSalt();
+    void setAccountSalt(String accountSalt);
 }
