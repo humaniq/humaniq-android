@@ -2,11 +2,7 @@ package co.humaniq.views.dashboard_fragments;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,32 +10,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
-import com.crashlytics.android.answers.PurchaseEvent;
-import com.crashlytics.android.core.CrashlyticsListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.math.BigDecimal;
-import java.util.Currency;
-
 import co.humaniq.R;
 import co.humaniq.models.*;
-import co.humaniq.services.FinanceService;
 import co.humaniq.views.BaseFragment;
-import co.humaniq.views.DashboardActivity;
 
 
 public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     private ProgressDialog progressDialog;
-    private FinanceService service;
 
     private EditText editTextToWallet;
     private EditText editTextCoins;
@@ -69,7 +55,6 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         attachOnClickView(view, R.id.buttonScanQR);
 
         progressDialog = new ProgressDialog(getActivity());
-        service = new FinanceService(this);
         updateView();
 
         editTextToWallet.addTextChangedListener(this);
@@ -193,14 +178,6 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
         decorateViewToError(coinsLayout, !coinsIsValid());
         decorateViewToError(editTextToWallet, !walletIsValid());
-
-        if (formIsValid) {
-            service.transfer(
-                    editTextToWallet.getText().toString(),
-                    editTextCoins.getText().toString(),
-                    GENERAL_REQUEST
-            );
-        }
     }
 
     @Override

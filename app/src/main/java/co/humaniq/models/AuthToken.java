@@ -70,11 +70,5 @@ public class AuthToken extends DummyModel {
     }
 
     public void saveToken(Context context) {
-        if (user == null)
-            return;
-
-        Preferences preferences = App.getPreferences(context);
-        preferences.setAccessToken(token);
-        preferences.setUserId(user.getId());
     }
 }

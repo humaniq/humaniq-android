@@ -58,13 +58,12 @@ public class RegisterActivity extends LoginRegisterActivity {
 
         Preferences preferences = App.getPreferences(this);
 
-        if (preferences.getPinCode().trim().equals(""))
-            preferences.setPinCode(getPinCode());
-
         preferences.setLoginCount(0);
 
         AuthToken token = (AuthToken) result.data();
         AuthToken.updateInstance(this, token);
+
+
 
 //        token.getUser().crashlyticsLog();
 

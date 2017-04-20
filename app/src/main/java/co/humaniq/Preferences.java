@@ -44,6 +44,10 @@ public interface Preferences {
     void setAccountAddress(String account);
 
     @DefaultString("")
+    String getAccountKeyFile();
+    void setAccountKeyFile(String accountFile);
+
+    @DefaultString("")
     String getAccountSalt();
     void setAccountSalt(String accountSalt);
 }

@@ -13,8 +13,6 @@ import co.humaniq.models.HistoryItem;
 import co.humaniq.models.Page;
 import co.humaniq.models.ResultData;
 import co.humaniq.models.User;
-import co.humaniq.services.FinanceService;
-import co.humaniq.services.UserService;
 import co.humaniq.views.BaseFragment;
 import co.humaniq.views.adapters.HistoryRecyclerAdapter;
 import co.humaniq.views.adapters.ItemRecyclerAdapter;
@@ -31,8 +29,6 @@ public class HistoryFragment extends BaseFragment {
     private LinearLayoutManager recyclerLayoutManager;
     private ItemRecyclerAdapter<HistoryItem> recyclerAdapter;
     private RecyclerView recyclerView;
-    private FinanceService financeService;
-    private UserService userService;
     private Integer nextPage = 1;
     private boolean loaded = false;
     static public boolean dataSetChanged = true;
@@ -44,9 +40,6 @@ public class HistoryFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         recyclerView = (RecyclerView) view;
 
-        financeService = new FinanceService(this);
-        userService = new UserService(this);
-
         initRecycler();
         load();
 
@@ -55,8 +48,6 @@ public class HistoryFragment extends BaseFragment {
 
     private void load() {
 //        if (!loaded || dataSetChanged) {
-        userService.getMy(GET_MY_USER_REQUEST);
-
         dataSetChanged = false;
         loaded = true;
 //        }
@@ -84,7 +75,6 @@ public class HistoryFragment extends BaseFragment {
     void fillMyUsersViews(User user) {
         AuthToken.getInstance().setUser(user);
 //        recyclerAdapter.notifyDataSetChanged();
-        financeService.getHistory(GET_HISTORY_REQUEST);
     }
 
     @Override

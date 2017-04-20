@@ -13,7 +13,6 @@ public class LoginActivity extends LoginRegisterActivity {
 
     @Override
     protected void sendRequest() {
-        getService().login(getPhotoBase64(), LOGIN_REQUEST);
     }
 
     @Override

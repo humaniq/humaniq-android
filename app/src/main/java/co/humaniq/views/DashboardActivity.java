@@ -12,7 +12,6 @@ import com.crashlytics.android.Crashlytics;
 import co.humaniq.Client;
 import co.humaniq.R;
 import co.humaniq.models.AuthToken;
-import co.humaniq.services.AuthService;
 import co.humaniq.views.dashboard_fragments.HistoryFragment;
 import co.humaniq.views.dashboard_fragments.ReceiveCoinsFragment;
 import co.humaniq.views.dashboard_fragments.SettingsFragment;
@@ -106,8 +105,6 @@ public class DashboardActivity extends ToolbarActivity {
 
     @Override
     public void finish() {
-        AuthService service = new AuthService(null);
-        service.logout(GENERAL_REQUEST);
         HistoryFragment.dataSetChanged = true;
         AuthToken.revoke();
         super.finish();

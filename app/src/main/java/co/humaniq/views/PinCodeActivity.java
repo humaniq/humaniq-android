@@ -18,7 +18,6 @@ import co.humaniq.models.AuthToken;
 import co.humaniq.models.Errors;
 import co.humaniq.models.ResultData;
 import co.humaniq.models.User;
-import co.humaniq.services.UserService;
 
 
 public class PinCodeActivity extends ToolbarActivity {
@@ -28,7 +27,6 @@ public class PinCodeActivity extends ToolbarActivity {
     private PinButton[] pinButtons = new PinButton[11];
     private PinPlace[] pinPlaces = new PinPlace[4];
     private int pinCursor = 0;
-    private UserService service;
     private Preferences preferences;
 
     private class PinButton implements View.OnClickListener {
@@ -166,11 +164,7 @@ public class PinCodeActivity extends ToolbarActivity {
     }
 
     private void nextStepOrLogin() {
-        Log.d("PINCODE", preferences.getPinCode());
         Log.d("PINCODE", preferences.getLoginCount().toString());
-        Log.d("PINCODE", preferences.getAccessToken());
-        Log.d("PINCODE", preferences.getUserId().toString());
-
         final String pinCode = pinCodeToString();
 
         if (pinCode.trim().equals("") || pinCursor != 4)
@@ -181,35 +175,12 @@ public class PinCodeActivity extends ToolbarActivity {
         if (preferences.getLoginCount() >= 3) {
             preferences.setLoginCount(0);
         }
-
-        if (!preferences.getPinCode().equals(pinCode) &&
-                !preferences.getPinCode().trim().equals(""))
-        {
-            onErrorPinCode();
-            return;
-        }
-
-        if (preferences.getLoginCount() == 0) {
-            goTakePhotoActivity(pinCode);
-        } else {
-            AuthToken token = new AuthToken(preferences.getAccessToken());
-            AuthToken.updateInstance(this, token, false);
-
-            service = new UserService(this);
-            service.getById(GET_USER_INFO_REQUEST, preferences.getUserId());
-        }
     }
 
     private void goTakePhotoActivity(final String pinCode) {
         Bundle bundle = new Bundle();
         bundle.putString("pin_code", pinCode);
         Router.setBundle(bundle);
-
-        if (preferences.getUserId() != 0) {
-            Router.goActivity(this, Router.LOGIN, TAKE_PHOTO_REQUEST);
-        } else {
-            Router.goActivity(this, Router.REGISTER, TAKE_PHOTO_REQUEST);
-        }
     }
 
     private void alert(final String title, final String message) {
@@ -260,9 +231,6 @@ public class PinCodeActivity extends ToolbarActivity {
     @Override
     public void onApiSuccess(ResultData result, int requestCode) {
         User user = (User) result.data();
-        AuthToken token = new AuthToken(preferences.getAccessToken(), user);
-        AuthToken.updateInstance(this, token);
-
         setResult(AuthToken.RESULT_GOT_TOKEN);
         finish();
     }

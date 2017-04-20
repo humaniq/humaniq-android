@@ -62,7 +62,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.2.1'
 
     compile 'org.web3j:core-android:2.1.0'
-    compile 'org.ethereum:geth:1.5.2'
+    compile 'org.ethereum:geth:1.5.3'
 //    compile "org.ethereum:ethereumj-core:1.4.3-RELEASE"
 
     compile 'com.trello:rxlifecycle:1.0'

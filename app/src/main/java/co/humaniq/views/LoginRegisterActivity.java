@@ -19,7 +19,6 @@ import co.humaniq.R;
 import co.humaniq.Router;
 import co.humaniq.models.Errors;
 import co.humaniq.models.ResultData;
-import co.humaniq.services.AuthService;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,17 +35,12 @@ public class LoginRegisterActivity extends ToolbarActivity {
     private ImageView imageStatus;
     private View progressBar;
     private String capturedPhotoPath;
-    private AuthService service;
 
     public String getPinCode() {
         return pinCode;
     }
 
     private String pinCode;
-
-    public AuthService getService() {
-        return service;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +57,6 @@ public class LoginRegisterActivity extends ToolbarActivity {
 
         imageStatus.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
-
-        service = new AuthService(this);
 
         pinCode = getIntent().getStringExtra("pin_code");
         Log.d(TAG, pinCode);
