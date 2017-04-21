@@ -23,7 +23,7 @@ public class Web3 {
     }
 
     private Web3() {
-        service = new HttpService("http://10.0.2.2:8545");
+        service = new HttpService("http://13.75.106.200/eth_rpc/");
         web3 = Web3jFactory.build(service);
         parity = ParityFactory.build(service);
     }

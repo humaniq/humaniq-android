@@ -29,6 +29,7 @@ import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.parity.methods.response.PersonalUnlockAccount;
+import org.web3j.utils.Convert;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -73,8 +74,6 @@ public class GreeterActivity extends BaseActivity {
 //                Router.goActivity(this, Router.DASHBOARD);
 //                Preferences preferences = App.getPreferences(this);
                 WalletHMQ wallet = WalletHMQ.getOrCreateWallet(this, "123321");
-                Log.d("WALLET", wallet.getEthAddress().getHex());
-                Log.d("WALLET", wallet.getWalletPath());
 
                 Web3 web3 = Web3.getInstance();
                 Web3j web3j = web3.getWeb3();
@@ -95,24 +94,33 @@ public class GreeterActivity extends BaseActivity {
 
                 try {
                     Credentials credentials = WalletUtils.loadCredentials("123321", wallet.getWalletPath());
-                    web3j.ethGetTransactionCount(wallet.getEthAddress().getHex(), DefaultBlockParameterName.LATEST).observable().subscribe(ethGetTransactionCount -> {
+
+                    Log.d("WALLET", credentials.getAddress());
+                    Log.d("WALLET", wallet.getWalletPath());
+
+                    web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST).observable().subscribe(ethGetTransactionCount -> {
                         BigInteger nonce = ethGetTransactionCount.getTransactionCount();
                         Log.d("Transaction Count", ethGetTransactionCount.getTransactionCount().toString());
 
-                        final BigInteger gasPrice = new BigInteger("10000000000000");
-                        final BigInteger gasLimit = BigInteger.valueOf(0x2710);
-                        final BigInteger value = new BigInteger("2441406250");//BigInteger.valueOf(1000);
+//                        final BigInteger gasPrice = Convert.toWei("21000.0", Convert.Unit.WEI).toBigInteger();
+//                        final BigInteger gasLimit = Convert.toWei("100000.0", Convert.Unit.WEI).toBigInteger();
+                        final BigInteger gasPrice = new BigInteger("18000000000");
+                        final BigInteger gasLimit = new BigInteger("19000000000");
+                        final BigInteger value = Convert.toWei("10.0", Convert.Unit.ETHER).toBigInteger();
 
+//                        web3j.ethGasPrice()
 //                        Transaction.createEtherTransaction()
 //                        RawTransaction.createEtherTransaction()
-                        RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, gasPrice, gasLimit, "0x4a88ba24e71a20e3a3290531433de7ab50f074dd", value);
+                        RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, gasPrice, gasLimit, "0x9ddbd6be2d3a88f6877b562868385569e5d66fe5", value);
 //                        web3j.ethEstimateGas();
 
                         byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
                         String hexValue = Hex.toHexString(signedMessage);
-                        web3j.ethSendRawTransaction(hexValue).observable().subscribe(ethSendTransaction -> {
+                        web3j.ethSendRawTransaction("0x"+hexValue).observable().subscribe(ethSendTransaction -> {
                             Log.d("TRANSACTION", hexValue);
+                            Log.d("TRANSACTION", Integer.toString(ethSendTransaction.getError().getCode()));
                             Log.d("TRANSACTION", ethSendTransaction.getError().getMessage());
+                            Log.d("TRANSACTION", ethSendTransaction.getResult());
                         });
                     });
 

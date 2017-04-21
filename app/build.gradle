@@ -63,7 +63,7 @@ dependencies {
 
     compile 'org.web3j:core-android:2.1.0'
     compile 'org.ethereum:geth:1.5.3'
-//    compile "org.ethereum:ethereumj-core:1.4.3-RELEASE"
+//    compile "org.ethereum:etwhereumj-core:1.4.3-RELEASE"
 
     compile 'com.trello:rxlifecycle:1.0'
     compile 'com.trello:rxlifecycle-android:1.0'
