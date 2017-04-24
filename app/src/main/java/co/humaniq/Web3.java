@@ -7,12 +7,17 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.protocol.parity.Parity;
 import org.web3j.protocol.parity.ParityFactory;
 
+import static org.web3j.tx.ManagedTransaction.GAS_PRICE;
+import static org.web3j.tx.Transfer.GAS_LIMIT;
+
 
 public class Web3 {
     private Web3j web3;
     private Parity parity;
     private Web3jService service;
     private static Web3 instance;
+    public static String contractAddress = "0xfec335de9d8f1e05ff947dc7664f039aae054580";
+    HMQTokenContract hmqTokenContract;
 
     public static Web3 getInstance() {
         if (instance != null)

@@ -5,19 +5,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import co.humaniq.App;
-import co.humaniq.Preferences;
+
+import co.humaniq.HMQTokenContract;
 import co.humaniq.R;
 import co.humaniq.Router;
 import co.humaniq.Web3;
 import co.humaniq.models.AuthToken;
-import co.humaniq.models.User;
-import co.humaniq.models.Wallet;
 import co.humaniq.models.WalletHMQ;
-import co.humaniq.views.dashboard_fragments.HistoryFragment;
-import com.crashlytics.android.Crashlytics;
 
 import org.spongycastle.util.encoders.Hex;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.TransactionEncoder;
@@ -25,17 +22,14 @@ import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.RawTransaction;
-import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
-import org.web3j.protocol.core.methods.response.EthSendTransaction;
-import org.web3j.protocol.parity.methods.response.PersonalUnlockAccount;
 import org.web3j.utils.Convert;
 
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
-import io.fabric.sdk.android.Fabric;
+import static org.web3j.tx.Contract.GAS_LIMIT;
+import static org.web3j.tx.ManagedTransaction.GAS_PRICE;
 
 
 public class GreeterActivity extends BaseActivity {
@@ -63,75 +57,46 @@ public class GreeterActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonLogin:
-//                Router.goActivity(this, Router.LOGIN, LOGIN_REQUEST);
-//                Router.goActivity(this, Router.PIN_CODE, LOGIN_REQUEST);
-
-//                Wallet wallet = new Wallet(45, "424d590c-84c7-492c-866a-176aa947ab5c", 444, false,
-//                        "HMQ", "http://13.75.91.36/media/qr_codes/424d590c-84c7-492c-866a-176aa947ab5c.png");
-//                User user = new User(45, "", wallet);
-//                AuthToken token = new AuthToken("5f5d0f032d8908f4e6d253593bfba02f847ee823", user);
-//                AuthToken.updateInstance(token);
-//                Router.goActivity(this, Router.DASHBOARD);
-//                Preferences preferences = App.getPreferences(this);
                 WalletHMQ wallet = WalletHMQ.getOrCreateWallet(this, "123321");
 
                 Web3 web3 = Web3.getInstance();
                 Web3j web3j = web3.getWeb3();
 
-//                PersonalUnlockAccount personalUnlockAccount = null;
-//                try {
-//                    personalUnlockAccount = web3.getParity().personalUnlockAccount("0x4a88ba24e71a20e3a3290531433de7ab50f074dd", "123321").sendAsync().get();
-//
-//                    if (personalUnlockAccount.accountUnlocked()) {
-//                        Transaction transaction = new Transaction();
-//                         web3.getParity().personalSignAndSendTransaction();
-//                    }
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-
                 try {
                     Credentials credentials = WalletUtils.loadCredentials("123321", wallet.getWalletPath());
+                    HMQTokenContract contract = new HMQTokenContract(Web3.contractAddress, web3j, credentials, GAS_PRICE, GAS_LIMIT);
+
+                    Log.d("WALLET BALANCE", contract.balanceOf(new Address("0x9ddbd6be2d3a88f6877b562868385569e5d66fe5")).get().getValue().toString());
 
                     Log.d("WALLET", credentials.getAddress());
                     Log.d("WALLET", wallet.getWalletPath());
 
-                    web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST).observable().subscribe(ethGetTransactionCount -> {
-                        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-                        Log.d("Transaction Count", ethGetTransactionCount.getTransactionCount().toString());
-
-//                        final BigInteger gasPrice = Convert.toWei("21000.0", Convert.Unit.WEI).toBigInteger();
-//                        final BigInteger gasLimit = Convert.toWei("100000.0", Convert.Unit.WEI).toBigInteger();
-                        final BigInteger gasPrice = new BigInteger("18000000000");
-                        final BigInteger gasLimit = new BigInteger("19000000000");
-                        final BigInteger value = Convert.toWei("10.0", Convert.Unit.ETHER).toBigInteger();
-
-//                        web3j.ethGasPrice()
-//                        Transaction.createEtherTransaction()
-//                        RawTransaction.createEtherTransaction()
-                        RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, gasPrice, gasLimit, "0x9ddbd6be2d3a88f6877b562868385569e5d66fe5", value);
-//                        web3j.ethEstimateGas();
-
-                        byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
-                        String hexValue = Hex.toHexString(signedMessage);
-                        web3j.ethSendRawTransaction("0x"+hexValue).observable().subscribe(ethSendTransaction -> {
-                            Log.d("TRANSACTION", hexValue);
-                            Log.d("TRANSACTION", Integer.toString(ethSendTransaction.getError().getCode()));
-                            Log.d("TRANSACTION", ethSendTransaction.getError().getMessage());
-                            Log.d("TRANSACTION", ethSendTransaction.getResult());
-                        });
-                    });
-
-//                    EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(wallet.getEthAddress().getHex(), DefaultBlockParameterName.LATEST).send();
-//                    BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-
-//                    Transaction transaction = new Transaction();
-//                    web3.getWeb3().ethSendTransaction();
+//                    web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST).observable().subscribe(ethGetTransactionCount -> {
+//                        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+//                        Log.d("Transaction Count", ethGetTransactionCount.getTransactionCount().toString());
+//
+//                        final BigInteger gasPrice = new BigInteger("18000000000");
+//                        final BigInteger gasLimit = new BigInteger("19000000000");
+//                        final BigInteger value = Convert.toWei("10.0", Convert.Unit.ETHER).toBigInteger();
+//
+//                        RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, gasPrice, gasLimit, "0x9ddbd6be2d3a88f6877b562868385569e5d66fe5", value);
+//
+//                        byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+//                        String hexValue = Hex.toHexString(signedMessage);
+//                        web3j.ethSendRawTransaction("0x"+hexValue).observable().subscribe(ethSendTransaction -> {
+//                            Log.d("TRANSACTION", hexValue);
+//                            Log.d("TRANSACTION", Integer.toString(ethSendTransaction.getError().getCode()));
+//                            Log.d("TRANSACTION", ethSendTransaction.getError().getMessage());
+//                            Log.d("TRANSACTION", ethSendTransaction.getResult());
+//                        });
+//                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (CipherException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
 

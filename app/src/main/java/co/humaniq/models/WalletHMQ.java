@@ -1,13 +1,8 @@
 package co.humaniq.models;
 
-
 import android.content.Context;
 import android.util.Log;
 
-import org.ethereum.geth.Account;
-import org.ethereum.geth.AccountManager;
-import org.ethereum.geth.Address;
-import org.ethereum.geth.Geth;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.WalletUtils;
 
