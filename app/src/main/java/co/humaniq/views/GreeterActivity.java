@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import co.humaniq.HMQTokenContract;
 import co.humaniq.R;
@@ -35,6 +36,7 @@ import static org.web3j.tx.ManagedTransaction.GAS_PRICE;
 public class GreeterActivity extends BaseActivity {
     private final static int LOGIN_REQUEST = 1000;
     private final static int REGISTER_REQUEST = 1001;
+    private final static int PIN_CODE_REQUEST = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,19 +59,20 @@ public class GreeterActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonLogin:
-                WalletHMQ wallet = WalletHMQ.getOrCreateWallet(this, "123321");
+                Router.goActivity(this, Router.PIN_CODE, LOGIN_REQUEST);
+//                WalletHMQ wallet = WalletHMQ.getOrCreateWallet(this, "123321");
 
-                Web3 web3 = Web3.getInstance();
-                Web3j web3j = web3.getWeb3();
+//                Web3 web3 = Web3.getInstance();
+//                Web3j web3j = web3.getWeb3();
 
-                try {
-                    Credentials credentials = WalletUtils.loadCredentials("123321", wallet.getWalletPath());
-                    HMQTokenContract contract = new HMQTokenContract(Web3.contractAddress, web3j, credentials, GAS_PRICE, GAS_LIMIT);
-
-                    Log.d("WALLET BALANCE", contract.balanceOf(new Address("0x9ddbd6be2d3a88f6877b562868385569e5d66fe5")).get().getValue().toString());
-
-                    Log.d("WALLET", credentials.getAddress());
-                    Log.d("WALLET", wallet.getWalletPath());
+//                try {
+//                    Credentials credentials = WalletUtils.loadCredentials("123321", wallet.getWalletPath());
+//                    HMQTokenContract contract = new HMQTokenContract(Web3.contractAddress, web3j, credentials, GAS_PRICE, GAS_LIMIT);
+//
+//                    Log.d("WALLET BALANCE", contract.balanceOf(new Address("0x9ddbd6be2d3a88f6877b562868385569e5d66fe5")).get().getValue().toString());
+//
+//                    Log.d("WALLET", credentials.getAddress());
+//                    Log.d("WALLET", wallet.getWalletPath());
 
 //                    web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST).observable().subscribe(ethGetTransactionCount -> {
 //                        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
@@ -90,15 +93,15 @@ public class GreeterActivity extends BaseActivity {
 //                            Log.d("TRANSACTION", ethSendTransaction.getResult());
 //                        });
 //                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (CipherException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (CipherException e) {
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                }
 
                 break;
 

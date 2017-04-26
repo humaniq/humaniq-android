@@ -35,13 +35,13 @@ public interface Preferences {
     void setLoginCount(Integer count);
 
     // Account
-    @DefaultInteger(0)
-    Integer getAccountId();
-    void setAccountId(Integer id);
+//    @DefaultInteger(0)
+//    Integer getAccountId();
+//    void setAccountId(Integer id);
 
-    @DefaultString("")
-    String getAccountAddress();
-    void setAccountAddress(String account);
+//    @DefaultString("")
+//    String getAccountAddress();
+//    void setAccountAddress(String account);
 
     @DefaultString("")
     String getAccountKeyFile();

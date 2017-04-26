@@ -145,16 +145,16 @@ public class LoginRegisterActivity extends ToolbarActivity {
         imageStatus.setColorFilter(ContextCompat.getColor(this, R.color.error));
     }
 
-    void successStatusImage() {
-        imageStatus.setVisibility(View.VISIBLE);
-        imageStatus.setImageResource(R.drawable.ic_success);
-        imageStatus.setColorFilter(ContextCompat.getColor(this, R.color.success));
-    }
-
     @Override
     public void onApiShowProgressbar(int requestCode) {
         imageStatus.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
+    }
+
+    void successStatusImage() {
+        imageStatus.setVisibility(View.VISIBLE);
+        imageStatus.setImageResource(R.drawable.ic_success);
+        imageStatus.setColorFilter(ContextCompat.getColor(this, R.color.success));
     }
 
     @Override

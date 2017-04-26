@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.humaniq.Web3;
 import co.humaniq.models.Errors;
 import co.humaniq.models.ResultData;
 

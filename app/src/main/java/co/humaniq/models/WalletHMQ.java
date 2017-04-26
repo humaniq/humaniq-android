@@ -18,65 +18,49 @@ import co.humaniq.Preferences;
 
 public class WalletHMQ {
     private static final String TAG = "WalletHMQ";
-//    private Address ethAddress;
     private String walletFile;
+    private static WalletHMQ instance = null;
+    public static final int RESULT_GOT_WALLET = 5000;
 
     private WalletHMQ() {}
 
-    private WalletHMQ(final String publicAddress, final String walletFile) {
+    public WalletHMQ(final String walletFile) {
         this.walletFile = walletFile;
     }
 
     public static WalletHMQ generateWallet(Context context, final String passPhrase) {
         try {
-            String fileName = WalletUtils.generateLightNewWalletFile("123321", new File(context.getFilesDir() + "/keystore"));
+            String fileName = WalletUtils.generateLightNewWalletFile(passPhrase, new File(context.getFilesDir() + "/keystore"));
             Log.d(TAG, context.getFilesDir()+"/keystore/"+fileName);
             Preferences preferences = App.getPreferences(context);
             preferences.setAccountKeyFile(context.getFilesDir()+"/keystore/"+fileName);
 
-            return new WalletHMQ("0x", context.getFilesDir()+"/keystore/"+fileName);
-        } catch (CipherException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
+            return new WalletHMQ(context.getFilesDir()+"/keystore/"+fileName);
+        } catch (CipherException | IOException | InvalidAlgorithmParameterException |
+                NoSuchAlgorithmException | NoSuchProviderException e)
+        {
             e.printStackTrace();
         }
-//        AccountManager accountManager = new AccountManager(context.getFilesDir() + "/keystore",
-//                Geth.LightScryptN, Geth.LightScryptP);
-//
-//        try {
-//            Account acc = accountManager.newAccount(passPhrase);
-//            final String publicAddress = acc.getAddress().getHex();
-//            Log.d(TAG, publicAddress);
-//            Log.d(TAG, acc.getFile());
-//
-//            Preferences preferences = App.getPreferences(context);
-//            preferences.setAccountAddress(publicAddress);
-//            preferences.setAccountKeyFile(acc.getFile());
-//
-//            return new WalletHMQ(publicAddress, acc.getFile());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
+
         return null;
+    }
+
+    public static boolean getWalletFromPreferences(final String pinCode) {
+        return false;
+    }
+
+    public static void revoke() {
+        instance = null;
     }
 
     public static WalletHMQ getOrCreateWallet(Context context, final String passPhrase) {
         Preferences preferences = App.getPreferences(context);
-
         String accountKeyFile = preferences.getAccountKeyFile();
-//        return WalletHMQ.generateWallet(context, passPhrase);
 
         if (accountKeyFile.equals("")) {
             return WalletHMQ.generateWallet(context, passPhrase);
         } else {
-            return new WalletHMQ("", accountKeyFile);
+            return new WalletHMQ(accountKeyFile);
         }
     }
 

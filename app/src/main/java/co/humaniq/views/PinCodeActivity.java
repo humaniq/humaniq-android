@@ -1,33 +1,49 @@
 package co.humaniq.views;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.io.File;
+import java.io.IOException;
+
 import co.humaniq.App;
+import co.humaniq.ImageTool;
 import co.humaniq.Preferences;
 import co.humaniq.R;
 import co.humaniq.Router;
-import co.humaniq.models.AuthToken;
 import co.humaniq.models.Errors;
 import co.humaniq.models.ResultData;
-import co.humaniq.models.User;
+import co.humaniq.models.WalletHMQ;
 
 
 public class PinCodeActivity extends ToolbarActivity {
-    private final static int TAKE_PHOTO_REQUEST = 1001;
-    private final static int GET_USER_INFO_REQUEST = 2001;
+    final static int REQUEST_PHOTO_CAPTURE = 1000;
+    final static int REQUEST_PHOTO_CAPTURE_PERMISSION = 4000;
+
+    final static int REQUEST_GET_SALT = 2001;
+    final static int REQUEST_GENERATE_SALT = 2002;
 
     private PinButton[] pinButtons = new PinButton[11];
     private PinPlace[] pinPlaces = new PinPlace[4];
     private int pinCursor = 0;
     private Preferences preferences;
+    private ProgressDialog progressDialog;
+    private String capturedPhotoPath;
+    private String photoBase64;
 
     private class PinButton implements View.OnClickListener {
         View includeView;
@@ -175,6 +191,63 @@ public class PinCodeActivity extends ToolbarActivity {
         if (preferences.getLoginCount() >= 3) {
             preferences.setLoginCount(0);
         }
+
+        String accountKeyFile = preferences.getAccountKeyFile();
+
+        if (accountKeyFile.equals("")) {
+            Bundle bundle = new Bundle();
+            bundle.putString("pin_code", pinCode);
+            Router.setBundle(bundle);
+
+            registerAccount();
+//            Router.goActivity(this, Router.REGISTER, TAKE_PHOTO_REQUEST);
+        } else {
+            if (preferences.getLoginCount() == 0 || preferences.getAccountSalt().equals("")) {
+                preferences.setAccountSalt("");  // Сбрасываем соль, необходимо снова получить
+
+                loginToAccount();
+//                Router.goActivity(this, Router.LOGIN, TAKE_PHOTO_REQUEST);
+            } else {
+                if (WalletHMQ.getWalletFromPreferences(pinCode)) {
+                    setResult(WalletHMQ.RESULT_GOT_WALLET);
+                    finish();
+                } else {
+                    alert("Error", "Bad pin code");
+                }
+            }
+        }
+//        String accountKeyFile = preferences.getAccountKeyFile();
+//        final String finalPassPhrase = pinCode;
+
+//        if (accountKeyFile.equals("")) {
+//            showProgressbar();
+//
+//            Observable.just(WalletHMQ.generateWallet(this, pinCode)).subscribe(wallet -> {
+//                generatedWallet = wallet;
+//                AccountService service = new AccountService(this);
+//            });
+//
+//            hideProgressbar();
+//        } else {
+//            WalletHMQ wallet = new WalletHMQ(accountKeyFile);
+//        }
+    }
+
+    private void loginToAccount() {
+        grantPermission(Manifest.permission.CAMERA, REQUEST_PHOTO_CAPTURE_PERMISSION);
+    }
+
+    private void registerAccount() {
+        grantPermission(Manifest.permission.CAMERA, REQUEST_PHOTO_CAPTURE_PERMISSION);
+    }
+
+    private void showProgressbar() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.show();
+    }
+
+    private void hideProgressbar() {
+        progressDialog.hide();
     }
 
     private void goTakePhotoActivity(final String pinCode) {
@@ -217,21 +290,76 @@ public class PinCodeActivity extends ToolbarActivity {
         }
     }
 
+// Take photo --------------------------------------------------------------------------------------
+
+    @SuppressWarnings("unused")
+    @OnPermissionResult(REQUEST_PHOTO_CAPTURE_PERMISSION)
+    public void openTakePhotoActivity() {
+        File photoFile;
+
+        try {
+            photoFile = ImageTool.createImageFile(this);
+            capturedPhotoPath = photoFile.getAbsolutePath();
+        } catch (IOException ex) {
+            onApiValidationError(null, 0);
+            return;
+        }
+
+        Log.e("TakePhotoActivity", capturedPhotoPath);
+        Uri photoURI = FileProvider.getUriForFile(this, "co.humaniq.fileprovider", photoFile);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(MediaStore.EXTRA_OUTPUT, capturedPhotoPath);
+
+        Router.setBundle(bundle);
+        Router.goActivity(this, Router.TAKE_PHOTO, REQUEST_PHOTO_CAPTURE);
+    }
+
+    protected void retrieveBase64() {
+        Bitmap requestImage = ImageTool.decodeSampledBitmap(capturedPhotoPath, 512, 512);
+        photoBase64 = ImageTool.encodeToBase64(requestImage);
+        requestImage.recycle();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != AuthToken.RESULT_GOT_TOKEN) {
+        if (resultCode == WalletHMQ.RESULT_GOT_WALLET) {
+            setResult(WalletHMQ.RESULT_GOT_WALLET);
+            finish();
+            return;
+        }
+
+        if (resultCode != RESULT_OK) {
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
 
-        setResult(AuthToken.RESULT_GOT_TOKEN);
-        finish();
+        switch (requestCode) {
+            case REQUEST_PHOTO_CAPTURE:
+                retrieveBase64();
+                break;
+
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
     }
+
+// Api events --------------------------------------------------------------------------------------
 
     @Override
     public void onApiSuccess(ResultData result, int requestCode) {
-        User user = (User) result.data();
-        setResult(AuthToken.RESULT_GOT_TOKEN);
+        switch (requestCode) {
+            case REQUEST_GET_SALT:
+                break;
+
+            case REQUEST_GENERATE_SALT:
+                break;
+
+            default:
+                return;
+        }
+
+        setResult(WalletHMQ.RESULT_GOT_WALLET);
         finish();
     }
 
