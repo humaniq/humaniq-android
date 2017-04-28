@@ -22,7 +22,7 @@ public interface Preferences {
     Boolean getUseFrontCamera();
     void setUseFrontCamera(Boolean value);
 
-    @DefaultBoolean(true)
+    @DefaultBoolean(false)
     Boolean getLivenessAuth();
     void setLivenessAuth(Boolean value);
 
@@ -39,9 +39,9 @@ public interface Preferences {
 //    Integer getAccountId();
 //    void setAccountId(Integer id);
 
-//    @DefaultString("")
-//    String getAccountAddress();
-//    void setAccountAddress(String account);
+    @DefaultString("")
+    String getAccountAddress();
+    void setAccountAddress(String account);
 
     @DefaultString("")
     String getAccountKeyFile();

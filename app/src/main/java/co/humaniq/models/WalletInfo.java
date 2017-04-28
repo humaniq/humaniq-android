@@ -5,9 +5,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class WalletInfo {
     @SerializedName("public_address")
-    String publicAddress;
+    private String publicAddress;
 
     @SerializedName("photo")
-    String photoUrl;
-    String salt;
+    private String photoUrl;
+    private String salt;
+
+    public String getPublicAddress() {
+        return publicAddress;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
 }
