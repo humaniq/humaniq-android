@@ -35,7 +35,8 @@ public class AccountService extends APIService {
         retrofitService = Client.getAnonymousRetrofitInstance().create(RetrofitService.class);
     }
 
-    public void getSalt(final String photoBase64, final String publicAddress,
+    public void getSalt(final String photoBase64,
+                        final String publicAddress,
                         final int requestCode)
     {
         Call<WalletInfo> call = retrofitService.getSalt(photoBase64, publicAddress);

@@ -4,8 +4,8 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
@@ -16,11 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
-
-import org.web3j.crypto.CipherException;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.parity.Parity;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +30,6 @@ import co.humaniq.models.ResultData;
 import co.humaniq.models.WalletHMQ;
 import co.humaniq.models.WalletInfo;
 import co.humaniq.services.AccountService;
-import rx.Observable;
 
 
 public class PinCodeActivity extends ToolbarActivity {
@@ -211,43 +205,28 @@ public class PinCodeActivity extends ToolbarActivity {
         final String accountKeyFile = preferences.getAccountKeyFile();
         final String address = preferences.getAccountAddress();
 
-        if (accountKeyFile.equals("")) {
+        if (accountKeyFile.equals("") || address.equals("")) {
             Bundle bundle = new Bundle();
             bundle.putString("pin_code", pinCode);
             Router.setBundle(bundle);
 
             requestRegisterAccount();
-//            Router.goActivity(this, Router.REGISTER, TAKE_PHOTO_REQUEST);
         } else {
             if (preferences.getLoginCount() == 0 || preferences.getAccountSalt().equals("")) {
                 preferences.setAccountSalt("");  // Сбрасываем соль, необходимо снова получить
 
                 requestLoginToAccount();
-//                Router.goActivity(this, Router.LOGIN, TAKE_PHOTO_REQUEST);
             } else {
-                if (WalletHMQ.getWalletFromPreferences(pinCode)) {
-                    setResult(WalletHMQ.RESULT_GOT_WALLET);
-                    finish();
-                } else {
-                    alert("Error", "Bad pin code");
+                try {
+                    WalletHMQ.getSignedWallet(preferences.getAccountKeyFile(), pinCode,
+                            preferences.getAccountSalt());
+                    preferences.setLoginCount(preferences.getLoginCount() + 1);
+                } catch (WalletHMQ.CantSignedException e) {
+                    alert("Error", "Bad pin code or face");
+                    preferences.setAccountSalt("");  // Сбрасываем соль, необходимо снова получить
                 }
             }
         }
-//        String accountKeyFile = preferences.getAccountKeyFile();
-//        final******--* String finalPassPhrase = pinCode;
-
-//        if (accountKeyFile.equals("")) {
-//            showProgressbar();
-//
-//            Observable.just(WalletHMQ.generateWallet(this, pinCode)).subscribe(wallet -> {
-//                generatedWallet = wallet;
-//                AccountService service = new AccountService(this);
-//            });
-//
-//            hideProgressbar();
-//        } else {
-//            WalletHMQ wallet = new WalletHMQ(accountKeyFile);
-//        }
     }
 
     private void requestLoginToAccount() {
@@ -262,6 +241,7 @@ public class PinCodeActivity extends ToolbarActivity {
 
     private void showProgressbar() {
         progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
         progressDialog.show();
     }
 
@@ -277,6 +257,8 @@ public class PinCodeActivity extends ToolbarActivity {
     }
 
     private void alert(final String title, final String message) {
+        hideProgressbar();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog alertDialog = builder.setTitle(title).setMessage(message).create();
         alertDialog.show();
@@ -359,23 +341,146 @@ public class PinCodeActivity extends ToolbarActivity {
         }
     }
 
+    static class WalletAsyncTaskParam {
+        int action;
+        WalletInfo walletInfo;
+
+        public WalletAsyncTaskParam(int action, WalletInfo walletInfo) {
+            this.action = action;
+            this.walletInfo = walletInfo;
+        }
+
+        public WalletAsyncTaskParam(int action) {
+            this.action = action;
+        }
+    }
+
+    private class WalletAsyncTask extends AsyncTask<WalletAsyncTaskParam, Void, WalletHMQ> {
+        final static int GENERATE_WALLET = 0;
+        final static int SAVE_WALLET = 1;
+        final static int SIGN_WALLET = 2;
+
+        private WalletAsyncTaskParam param;
+
+        // Tasks
+        private WalletHMQ generateWalletTask() {
+            try {
+                return WalletHMQ.generateWallet(PinCodeActivity.this, pinCode);
+            } catch (WalletHMQ.WalletNotGeneratedException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        private WalletHMQ saveWalletTask() {
+            final String finalPassword = pinCode + param.walletInfo.getSalt();
+
+            try {
+                return WalletHMQ.finishRegistration(PinCodeActivity.this, generatedWallet, finalPassword);
+            } catch (WalletHMQ.WalletNotGeneratedException | WalletHMQ.WalletNotUpdatedException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        private WalletHMQ getSignedWalletTask() {
+            final String accountFile = preferences.getAccountKeyFile();
+            WalletHMQ signWallet = null;
+
+            try {
+                return WalletHMQ.getSignedWallet(accountFile, pinCode, param.walletInfo);
+            } catch (WalletHMQ.CantSignedException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected WalletHMQ doInBackground(WalletAsyncTaskParam... params) {
+            param = params[0];
+
+            switch (param.action) {
+                case GENERATE_WALLET:
+                    return generateWalletTask();
+
+                case SAVE_WALLET:
+                    return saveWalletTask();
+
+                case SIGN_WALLET:
+                    return getSignedWalletTask();
+
+                default:
+                    throw new UnsupportedOperationException();
+            }
+        }
+
+        // Post Execute
+        private void generateWalletPostExecute(WalletHMQ result) {
+            generatedWallet = result;
+            AccountService service = new AccountService(PinCodeActivity.this);
+            service.generateSalt(photoBase64, generatedWallet.getAddress(), REQUEST_GENERATE_SALT);
+        }
+
+        private void saveWalletPostExecute(WalletHMQ wallet) {
+            try {
+                wallet.sign(pinCode, param.walletInfo);
+                wallet.save(PinCodeActivity.this);
+                wallet.setAsWorkWallet();
+
+                preferences.setAccountSalt(param.walletInfo.getSalt());
+                preferences.setLoginCount(preferences.getLoginCount() + 1);
+
+                finish();
+                setResult(RESULT_OK);
+            } catch (WalletHMQ.CantSignedException e) {
+                e.printStackTrace();
+                alert("Error", "wallet can't signed");
+            }
+        }
+
+        private void getSignedWalletPostExecute(WalletHMQ signedWallet) {
+            signedWallet.setAsWorkWallet();
+
+            preferences.setAccountSalt(param.walletInfo.getSalt());
+            preferences.setLoginCount(preferences.getLoginCount() + 1);
+
+            finish();
+            setResult(RESULT_OK);
+        }
+
+        @Override
+        protected void onPostExecute(WalletHMQ result) {
+            if (result == null)
+                alert("Error", "Wallet not generated");
+
+            switch (param.action) {
+                case GENERATE_WALLET:
+                    generateWalletPostExecute(result);
+                    break;
+
+                case SAVE_WALLET:
+                    saveWalletPostExecute(result);
+                    break;
+
+                case SIGN_WALLET:
+                    getSignedWalletPostExecute(result);
+                    break;
+
+                default:
+                    throw new UnsupportedOperationException();
+            }
+        }
+    }
+
     private void doLogin() {
         showProgressbar();
         AccountService service = new AccountService(this);
-        service.getSalt(photoBase64, preferences.getAccountKeyFile(), REQUEST_GET_SALT);
+        service.getSalt(photoBase64, preferences.getAccountAddress(), REQUEST_GET_SALT);
     }
 
     private void generateNewAccount() throws WalletHMQ.WalletNotGeneratedException {
         showProgressbar();
-
-        generatedWallet = WalletHMQ.generateWallet(this, pinCode);
-        AccountService service = new AccountService(this);
-        service.generateSalt(photoBase64, generatedWallet.getAddress(), REQUEST_GENERATE_SALT);
-//        Observable.just(WalletHMQ.generateWallet(this, pinCode)).subscribe(wallet -> {
-//            generatedWallet = wallet;
-//            AccountService service = new AccountService(this);
-//            service.generateSalt(photoBase64, wallet.getAddress(), REQUEST_GENERATE_SALT);
-//        });
+        new WalletAsyncTask().execute(new WalletAsyncTaskParam(WalletAsyncTask.GENERATE_WALLET));
     }
 
     @Override
@@ -407,37 +512,16 @@ public class PinCodeActivity extends ToolbarActivity {
 
         switch (requestCode) {
             case REQUEST_GET_SALT:
-//                getCredential();
+                new WalletAsyncTask().execute(new WalletAsyncTaskParam(WalletAsyncTask.SIGN_WALLET, walletInfo));
                 break;
 
             case REQUEST_GENERATE_SALT:
-                Observable.just(saveWallet(walletInfo)).subscribe(wallet -> {
-                    wallet.save(this);
-                    wallet.setAsWorkWallet();
-
-                    finish();
-                    setResult(RESULT_OK);
-                });
+                new WalletAsyncTask().execute(new WalletAsyncTaskParam(WalletAsyncTask.SAVE_WALLET, walletInfo));
                 break;
 
             default:
                 break;
         }
-
-//        setResult(WalletHMQ.RESULT_GOT_WALLET);
-//        finish();
-    }
-
-    private WalletHMQ saveWallet(WalletInfo walletInfo) {
-        final String finalPassword = pinCode + walletInfo.getSalt();
-
-        try {
-            return WalletHMQ.finishRegistration(this, generatedWallet, finalPassword);
-        } catch (WalletHMQ.WalletNotGeneratedException | WalletHMQ.WalletNotUpdatedException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     @Override

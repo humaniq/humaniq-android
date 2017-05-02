@@ -29,6 +29,7 @@ public class WalletHMQ {
     private String address;
     private ECKeyPair ecKeyPair;
     public static final int RESULT_GOT_WALLET = 5000;
+    private Credentials credentials;
 
     public static class WalletNotGeneratedException extends Exception {
         public WalletNotGeneratedException() {
@@ -39,6 +40,12 @@ public class WalletHMQ {
     public static class WalletNotUpdatedException extends Exception {
         public WalletNotUpdatedException() {
             super("Wallet not updated");
+        }
+    }
+
+    public static class CantSignedException extends Exception {
+        public CantSignedException() {
+            super("Wallet can not be signed");
         }
     }
 
@@ -56,6 +63,13 @@ public class WalletHMQ {
         this.walletFile = walletFile;
         this.address = address;
         this.ecKeyPair = ecKeyPair;
+    }
+
+    private WalletHMQ(final String walletFile, Credentials credentials) {
+        this.walletFile = walletFile;
+        this.credentials = credentials;
+        this.address = credentials.getAddress();
+        this.ecKeyPair = credentials.getEcKeyPair();
     }
 
     public static WalletHMQ generateWallet(Context context, ECKeyPair ecKeyPair,
@@ -109,12 +123,41 @@ public class WalletHMQ {
         return generateWallet(context, wallet.getEcKeyPair(), password);
     }
 
-    public void setAsWorkWallet() {
-        workWallet = this;
+    public static WalletHMQ getSignedWallet(String walletFile, String pinCode, WalletInfo walletInfo)
+            throws CantSignedException
+    {
+        return getSignedWallet(walletFile, pinCode, walletInfo.getSalt());
     }
 
-    public static boolean getWalletFromPreferences(final String pinCode) {
-        return false;
+    public static WalletHMQ getSignedWallet(String walletFile, String pinCode, String salt)
+            throws CantSignedException
+    {
+        try {
+            Credentials credentials = WalletUtils.loadCredentials(pinCode + salt, walletFile);
+            return new WalletHMQ(walletFile, credentials);
+        } catch (IOException | CipherException e) {
+            e.printStackTrace();
+            throw new CantSignedException();
+        }
+    }
+
+    public void sign(String pinCode, WalletInfo walletInfo) throws CantSignedException {
+        try {
+            final String fullPassword = pinCode + walletInfo.getSalt();
+
+            if (getEcKeyPair() != null) {
+                credentials = Credentials.create(getEcKeyPair());
+            } else {
+                credentials = WalletUtils.loadCredentials(fullPassword, getWalletPath());
+            }
+        } catch (IOException | CipherException e) {
+            e.printStackTrace();
+            throw new CantSignedException();
+        }
+    }
+
+    public void setAsWorkWallet() {
+        workWallet = this;
     }
 
     public static void revoke() {
@@ -135,6 +178,7 @@ public class WalletHMQ {
     public void save(Context context) {
         Preferences preferences = App.getPreferences(context);
         preferences.setAccountKeyFile(getWalletPath());
+        preferences.setAccountAddress(getAddress());
     }
 
     public String getWalletPath() {
