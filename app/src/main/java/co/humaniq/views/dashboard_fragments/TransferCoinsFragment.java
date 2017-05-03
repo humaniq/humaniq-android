@@ -75,11 +75,11 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     public void updateView() {
-        final Wallet wallet = AuthToken.getInstance().getUser().getWallet();
-        final String string = getActivityInstance().getString(R.string.total_b_hmq);
-        final String total = String.format(string, wallet.getBalance());
+//        final Wallet wallet = AuthToken.getInstance().getUser().getWallet();
+//        final String string = getActivityInstance().getString(R.string.total_b_hmq);
+//        final String total = String.format(string, wallet.getBalance());
 
-        textTotalInWallet.setText(total);
+//        textTotalInWallet.setText(total);
     }
 
     @Override

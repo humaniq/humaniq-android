@@ -198,9 +198,8 @@ public class PinCodeActivity extends ToolbarActivity {
 
         // Каждый третий заход, запрашиваем лицо
         // В данном случае - если 0, то просим лицо, если 3, сбрасываем на 0
-        if (preferences.getLoginCount() >= 3) {
+        if (preferences.getLoginCount() >= 3)
             preferences.setLoginCount(0);
-        }
 
         final String accountKeyFile = preferences.getAccountKeyFile();
         final String address = preferences.getAccountAddress();
@@ -217,14 +216,8 @@ public class PinCodeActivity extends ToolbarActivity {
 
                 requestLoginToAccount();
             } else {
-                try {
-                    WalletHMQ.getSignedWallet(preferences.getAccountKeyFile(), pinCode,
-                            preferences.getAccountSalt());
-                    preferences.setLoginCount(preferences.getLoginCount() + 1);
-                } catch (WalletHMQ.CantSignedException e) {
-                    alert("Error", "Bad pin code or face");
-                    preferences.setAccountSalt("");  // Сбрасываем соль, необходимо снова получить
-                }
+                showProgressbar();
+                new WalletAsyncTask().execute(new WalletAsyncTaskParam(WalletAsyncTask.SIGN_WALLET));
             }
         }
     }
@@ -385,10 +378,13 @@ public class PinCodeActivity extends ToolbarActivity {
 
         private WalletHMQ getSignedWalletTask() {
             final String accountFile = preferences.getAccountKeyFile();
-            WalletHMQ signWallet = null;
-
             try {
-                return WalletHMQ.getSignedWallet(accountFile, pinCode, param.walletInfo);
+                if (param.walletInfo == null) {
+                    return WalletHMQ.getSignedWallet(preferences.getAccountKeyFile(), pinCode,
+                            preferences.getAccountSalt());
+                } else {
+                    return WalletHMQ.getSignedWallet(accountFile, pinCode, param.walletInfo);
+                }
             } catch (WalletHMQ.CantSignedException e) {
                 e.printStackTrace();
                 return null;
@@ -430,8 +426,8 @@ public class PinCodeActivity extends ToolbarActivity {
                 preferences.setAccountSalt(param.walletInfo.getSalt());
                 preferences.setLoginCount(preferences.getLoginCount() + 1);
 
-                finish();
                 setResult(RESULT_OK);
+                finish();
             } catch (WalletHMQ.CantSignedException e) {
                 e.printStackTrace();
                 alert("Error", "wallet can't signed");
@@ -441,17 +437,21 @@ public class PinCodeActivity extends ToolbarActivity {
         private void getSignedWalletPostExecute(WalletHMQ signedWallet) {
             signedWallet.setAsWorkWallet();
 
-            preferences.setAccountSalt(param.walletInfo.getSalt());
+            if (param.walletInfo != null)
+                preferences.setAccountSalt(param.walletInfo.getSalt());
+
             preferences.setLoginCount(preferences.getLoginCount() + 1);
 
-            finish();
             setResult(RESULT_OK);
+            finish();
         }
 
         @Override
         protected void onPostExecute(WalletHMQ result) {
-            if (result == null)
+            if (result == null) {
                 alert("Error", "Wallet not generated");
+                return;
+            }
 
             switch (param.action) {
                 case GENERATE_WALLET:

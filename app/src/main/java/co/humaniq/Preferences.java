@@ -44,6 +44,10 @@ public interface Preferences {
     void setAccountAddress(String account);
 
     @DefaultString("")
+    String getQRCodeURL();
+    void setQRCodeURL(String qrCodeURL);
+
+    @DefaultString("")
     String getAccountKeyFile();
     void setAccountKeyFile(String accountFile);
 

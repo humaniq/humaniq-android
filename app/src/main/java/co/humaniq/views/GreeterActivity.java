@@ -59,7 +59,7 @@ public class GreeterActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonLogin:
-                Router.goActivity(this, Router.PIN_CODE, LOGIN_REQUEST);
+                Router.goActivity(this, Router.PIN_CODE, PIN_CODE_REQUEST);
 //                WalletHMQ wallet = WalletHMQ.getOrCreateWallet(this, "123321");
 
 //                Web3 web3 = Web3.getInstance();
@@ -121,11 +121,12 @@ public class GreeterActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != AuthToken.RESULT_GOT_TOKEN) {
+        if (resultCode != RESULT_OK) {
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
 
-        Router.goActivity(this, Router.DASHBOARD);
+        if (requestCode == PIN_CODE_REQUEST)
+            Router.goActivity(this, Router.DASHBOARD);
     }
 }

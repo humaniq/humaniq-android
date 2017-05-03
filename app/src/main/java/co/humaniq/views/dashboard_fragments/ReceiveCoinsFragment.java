@@ -30,14 +30,14 @@ public class ReceiveCoinsFragment extends BaseFragment {
     {
         View view = inflater.inflate(R.layout.fragment_receive_coins, container, false);
 
-        final User user = AuthToken.getInstance().getUser();
-        final Wallet wallet = user.getWallet();
+//        final User user = AuthToken.getInstance().getUser();
+//        final Wallet wallet = user.getWallet();
+//
+//        textMyWallet = (TextView) view.findViewById(R.id.textMyWallet);
+//        textMyWallet.setText(wallet.getHash());
 
-        textMyWallet = (TextView) view.findViewById(R.id.textMyWallet);
-        textMyWallet.setText(wallet.getHash());
-
-        final ImageView qrCodeImageView = (ImageView) view.findViewById(R.id.qrCodeImageView);
-        ImageTool.loadFromUrlToImageView(this, wallet.getQrCodeImageURL(), qrCodeImageView);
+//        final ImageView qrCodeImageView = (ImageView) view.findViewById(R.id.qrCodeImageView);
+//        ImageTool.loadFromUrlToImageView(this, wallet.getQrCodeImageURL(), qrCodeImageView);
 
         attachOnClickView(view, R.id.buttonCopyWallet);
         return view;

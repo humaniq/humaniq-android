@@ -31,6 +31,10 @@ public class WalletHMQ {
     public static final int RESULT_GOT_WALLET = 5000;
     private Credentials credentials;
 
+    public WalletHMQ getWorkWallet() {
+        return workWallet;
+    }
+
     public static class WalletNotGeneratedException extends Exception {
         public WalletNotGeneratedException() {
             super("Wallet not generated");
