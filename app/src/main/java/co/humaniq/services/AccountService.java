@@ -21,9 +21,15 @@ public class AccountService extends APIService {
         );
 
         @FormUrlEncoded
-        @POST("account/generate_salt/")
+        @POST("account/generate_salt/?final=0")
         Call<WalletInfo> generateSalt(
-                @Field("photo") String photoBase64,
+                @Field("photo") String photoBase64
+        );
+
+        @FormUrlEncoded
+        @POST("account/finish_registration/")
+        Call<WalletInfo> finishRegistration(
+                @Field("id") int id,
                 @Field("public_address") String publicAddress
         );
     }
@@ -43,10 +49,15 @@ public class AccountService extends APIService {
         APIService.doRequest(this, call, requestCode);
     }
 
-    public void generateSalt(final String photoBase64, final String publicAddress,
-                             final int requestCode)
+    public void generateSalt(final String photoBase64, final int requestCode) {
+        Call<WalletInfo> call = retrofitService.generateSalt(photoBase64);
+        APIService.doRequest(this, call, requestCode);
+    }
+
+    public void finishRegistration(final int id, final String publicAddress,
+                                   final int requestCode)
     {
-        Call<WalletInfo> call = retrofitService.generateSalt(photoBase64, publicAddress);
+        Call<WalletInfo> call = retrofitService.finishRegistration(id, publicAddress);
         APIService.doRequest(this, call, requestCode);
     }
 }

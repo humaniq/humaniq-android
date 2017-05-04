@@ -10,6 +10,8 @@ import org.web3j.crypto.Keys;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.parity.methods.response.PersonalAccountsInfo;
+import org.web3j.tx.Contract;
+import org.web3j.tx.ManagedTransaction;
 import org.web3j.utils.Numeric;
 
 import java.io.File;
@@ -19,7 +21,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
 import co.humaniq.App;
+import co.humaniq.Config;
+import co.humaniq.HMQTokenContract;
 import co.humaniq.Preferences;
+import co.humaniq.Web3;
 
 
 public class WalletHMQ {
@@ -30,9 +35,19 @@ public class WalletHMQ {
     private ECKeyPair ecKeyPair;
     public static final int RESULT_GOT_WALLET = 5000;
     private Credentials credentials;
+    private WalletInfo walletInfo;
+    private HMQTokenContract tokenContract;
 
-    public WalletHMQ getWorkWallet() {
+    public HMQTokenContract getTokenContract() {
+        return tokenContract;
+    }
+
+    public static WalletHMQ getWorkWallet() {
         return workWallet;
+    }
+
+    public WalletInfo getWalletInfo() {
+        return walletInfo;
     }
 
     public static class WalletNotGeneratedException extends Exception {
@@ -72,8 +87,8 @@ public class WalletHMQ {
     private WalletHMQ(final String walletFile, Credentials credentials) {
         this.walletFile = walletFile;
         this.credentials = credentials;
-        this.address = credentials.getAddress();
         this.ecKeyPair = credentials.getEcKeyPair();
+        this.address = Numeric.prependHexPrefix(Keys.getAddress(this.ecKeyPair));
     }
 
     public static WalletHMQ generateWallet(Context context, ECKeyPair ecKeyPair,
@@ -83,19 +98,23 @@ public class WalletHMQ {
         try {
             final String address = Numeric.prependHexPrefix(Keys.getAddress(ecKeyPair));
             final File destDirectoryPath = context.getFilesDir();
-            final String fileName = WalletUtils.generateNewWalletFile(password, destDirectoryPath, false);
+
+            final String fileName = WalletUtils.generateWalletFile(password, ecKeyPair, destDirectoryPath, false);
             final String destFilePath = destDirectoryPath + "/" + fileName;
             Log.d(TAG, destFilePath);
 //            Preferences preferences = App.getPreferences(context);
 //            preferences.setAccountKeyFile(destFilePath);
 
             return new WalletHMQ(ecKeyPair, destFilePath, address);
-        } catch (CipherException | IOException | InvalidAlgorithmParameterException |
-                NoSuchAlgorithmException | NoSuchProviderException e)
+        } catch (CipherException | IOException e)
         {
             e.printStackTrace();
             throw new WalletNotGeneratedException();
         }
+    }
+
+    public void setWalletInfo(WalletInfo walletInfo) {
+        this.walletInfo = walletInfo;
     }
 
     public static WalletHMQ generateWallet(Context context, final String password)
@@ -113,19 +132,19 @@ public class WalletHMQ {
 
     // Удаление временного файла ключа и создание нового с новым паролем
     // Сохранение настроек и получение Credentials для кошелька
-    public static WalletHMQ finishRegistration(Context context, WalletHMQ wallet,
-                                          final String password)
-            throws WalletNotGeneratedException, WalletNotUpdatedException
-    {
-        File file = new File(wallet.getWalletPath());
-        boolean deleted = file.delete();
-
-        if (!deleted) {
-            throw new WalletNotUpdatedException();
-        }
-
-        return generateWallet(context, wallet.getEcKeyPair(), password);
-    }
+//    public static WalletHMQ finishRegistration(Context context, WalletHMQ wallet,
+//                                          final String password)
+//            throws WalletNotGeneratedException, WalletNotUpdatedException
+//    {
+//        File file = new File(wallet.getWalletPath());
+//        boolean deleted = file.delete();
+//
+//        if (!deleted) {
+//            throw new WalletNotUpdatedException();
+//        }
+//
+//        return generateWallet(context, wallet.getEcKeyPair(), password);
+//    }
 
     public static WalletHMQ getSignedWallet(String walletFile, String pinCode, WalletInfo walletInfo)
             throws CantSignedException
@@ -162,6 +181,16 @@ public class WalletHMQ {
 
     public void setAsWorkWallet() {
         workWallet = this;
+
+        Web3 web3 = Web3.getInstance();
+        workWallet.tokenContract = new HMQTokenContract(
+                Config.HMQ_TOKEN_CONTRACT_ADDRESS,
+                web3.getWeb3(),
+                workWallet.credentials,
+                ManagedTransaction.GAS_PRICE,
+                Contract.GAS_LIMIT
+        );
+        Log.d("TEST", "TEST");
     }
 
     public static void revoke() {

@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 
 public class WalletInfo {
+    private int id;
+
     @SerializedName("public_address")
     private String publicAddress;
 
@@ -21,5 +23,9 @@ public class WalletInfo {
 
     public String getSalt() {
         return salt;
+    }
+
+    public int getId() {
+        return id;
     }
 }

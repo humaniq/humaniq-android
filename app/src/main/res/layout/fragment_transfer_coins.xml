@@ -213,7 +213,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingStart="15dp"
-            android:text="344ec31b-b229-4876-ba47-73403c575337"
+            android:text="0x4c945670b5a6212d0322e59fb585b5999a82f2ba"
             android:textColor="@color/darkBlue"
             android:textColorHint="@color/takePhotoPressed" />
     </LinearLayout>
