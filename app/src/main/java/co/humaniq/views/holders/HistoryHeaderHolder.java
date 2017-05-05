@@ -6,6 +6,7 @@ import co.humaniq.R;
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.BaseModel;
 import co.humaniq.models.Wallet;
+import co.humaniq.models.WalletHMQ;
 import co.humaniq.views.ViewContext;
 
 
@@ -20,13 +21,13 @@ public class HistoryHeaderHolder extends RecyclerItemHolder<BaseModel> {
 
     @Override
     public void initViews(BaseModel data) {
-        if (AuthToken.getInstance() == null || AuthToken.getInstance().getUser() == null)
+        final WalletHMQ wallet = WalletHMQ.getWorkWallet();
+        if (wallet == null)
             return;
 
-        final Wallet wallet = AuthToken.getInstance().getUser().getWallet();
-        final String string = getViewContext().getActivityInstance().getString(R.string.total_b_hmq);
-        final String total = String.format(string, wallet.getBalance());
-
-        textTotalInWallet.setText(total);
+        wallet.getBalance(balance -> {
+            final String total = balance.getValue().toString() + " HMQ";
+            textTotalInWallet.setText(total);
+        });
     }
 }

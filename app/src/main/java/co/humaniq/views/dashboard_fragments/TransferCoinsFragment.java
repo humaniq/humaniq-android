@@ -23,6 +23,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
@@ -84,11 +85,13 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     public void updateView() {
-//        final Wallet wallet = AuthToken.getInstance().getUser().getWallet();
-//        final String string = getActivityInstance().getString(R.string.total_b_hmq);
-//        final String total = String.format(string, wallet.getBalance());
-
-//        textTotalInWallet.setText(total);
+        WalletHMQ.getWorkWallet().getBalance(val -> {
+            if (val != null) {
+                textTotalInWallet.setText(val.getValue().toString());
+            } else {
+                textTotalInWallet.setText("???");
+            }
+        });
     }
 
     @Override
@@ -213,7 +216,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
                     final String address = wallet.getAddress();
                     final Uint256 value = new Uint256(new BigInteger(tokens));
 
-                    wallet.getTokenContract().transfer(new Address(toAddress), value);
+                    TransactionReceipt receipt = wallet.getTokenContract().transfer(new Address(toAddress), value).get();
                     return wallet.getTokenContract().balanceOf(new Address(address)).get();
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();

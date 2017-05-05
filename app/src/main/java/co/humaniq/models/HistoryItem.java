@@ -1,24 +1,18 @@
 package co.humaniq.models;
 
-import com.google.gson.annotations.SerializedName;
+import org.web3j.abi.datatypes.generated.Uint256;
 
 
 public class HistoryItem extends DummyModel {
     private int viewType = ViewType.DATA;
 
-    private float coins;
+    private Uint256 coins;
     private String currency;
     private boolean bonus;
 
-    @SerializedName("date_time")
     private String dateTime;
-
-    @SerializedName("from_user")
-    private int fromUser;
-
-    @SerializedName("to_user")
-    private int toUser;
-    private int date;
+    private String from;
+    private String to;
 
     public HistoryItem(int viewType) {
         this.viewType = viewType;
@@ -26,33 +20,40 @@ public class HistoryItem extends DummyModel {
 
     @Override
     public int getViewType() {
-        if (viewType != ViewType.DATA)
-            return viewType;
-
-        User user = AuthToken.getInstance().getUser();
-
-        if (isBonus())
-            return ViewType.HISTORY_BONUS;
-        else if (fromUser != user.getId())
-            return ViewType.HISTORY_RECEIVED;
-        else
-            return ViewType.HISTORY_TRANSFERRED;
+//        if (viewType != ViewType.DATA)
+        return viewType;
+//
+//        User user = AuthToken.getInstance().getUser();
+//
+//        if (isBonus())
+//            return ViewType.HISTORY_BONUS;
+//        else if (fromUser != user.getId())
+//            return ViewType.HISTORY_RECEIVED;
+//        else
+//            return ViewType.HISTORY_TRANSFERRED;
     }
 
-    public HistoryItem(int viewType, float coins, String currency, boolean bonus, String dateTime,
-                       int fromUser, int toUser, int date)
+    public HistoryItem(int viewType, Uint256 coins, String currency, boolean bonus,
+                       String dateTime, String from, String to)
     {
         this.viewType = viewType;
         this.coins = coins;
         this.currency = currency;
         this.bonus = bonus;
         this.dateTime = dateTime;
-        this.fromUser = fromUser;
-        this.toUser = toUser;
-        this.date = date;
+        this.from = from;
+        this.to = to;
     }
 
-    public float getCoins() {
+    public String getFrom() {
+        return from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public Uint256 getCoins() {
         return coins;
     }
 
@@ -64,17 +65,10 @@ public class HistoryItem extends DummyModel {
         return dateTime;
     }
 
-    public int getFromUser() {
-        return fromUser;
-    }
-
-    public int getToUser() {
-        return toUser;
-    }
-
     public String getDate() {
-        final int spaceIndex = dateTime.indexOf(' ');
-        return dateTime.substring(0, spaceIndex);
+//        final int spaceIndex = dateTime.indexOf(' ');
+//        return dateTime.substring(0, spaceIndex);
+        return "";
     }
 
     public boolean isBonus() {

@@ -1,15 +1,15 @@
 package co.humaniq.models;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.AsyncTask;
 
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.parity.methods.response.PersonalAccountsInfo;
 import org.web3j.tx.Contract;
 import org.web3j.tx.ManagedTransaction;
 import org.web3j.utils.Numeric;
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.concurrent.ExecutionException;
 
 import co.humaniq.App;
 import co.humaniq.Config;
@@ -33,10 +34,32 @@ public class WalletHMQ {
     private static WalletHMQ workWallet = null;
     private String address;
     private ECKeyPair ecKeyPair;
-    public static final int RESULT_GOT_WALLET = 5000;
     private Credentials credentials;
     private WalletInfo walletInfo;
     private HMQTokenContract tokenContract;
+
+    public interface BalanceCallback {
+        void onFinish(Uint256 balance);
+    }
+
+    public void getBalance(BalanceCallback callback) {
+        new AsyncTask<Void, Void, Uint256>() {
+            @Override
+            protected Uint256 doInBackground(Void... params) {
+                try {
+                    return getTokenContract().balanceOf(new Address(address)).get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Uint256 result) {
+                callback.onFinish(result);
+            }
+        }.execute();
+    }
 
     public HMQTokenContract getTokenContract() {
         return tokenContract;
@@ -53,12 +76,6 @@ public class WalletHMQ {
     public static class WalletNotGeneratedException extends Exception {
         public WalletNotGeneratedException() {
             super("Wallet not generated");
-        }
-    }
-
-    public static class WalletNotUpdatedException extends Exception {
-        public WalletNotUpdatedException() {
-            super("Wallet not updated");
         }
     }
 
@@ -101,9 +118,6 @@ public class WalletHMQ {
 
             final String fileName = WalletUtils.generateWalletFile(password, ecKeyPair, destDirectoryPath, false);
             final String destFilePath = destDirectoryPath + "/" + fileName;
-            Log.d(TAG, destFilePath);
-//            Preferences preferences = App.getPreferences(context);
-//            preferences.setAccountKeyFile(destFilePath);
 
             return new WalletHMQ(ecKeyPair, destFilePath, address);
         } catch (CipherException | IOException e)
@@ -129,22 +143,6 @@ public class WalletHMQ {
         }
         return generateWallet(context, ecKeyPair, password);
     }
-
-    // Удаление временного файла ключа и создание нового с новым паролем
-    // Сохранение настроек и получение Credentials для кошелька
-//    public static WalletHMQ finishRegistration(Context context, WalletHMQ wallet,
-//                                          final String password)
-//            throws WalletNotGeneratedException, WalletNotUpdatedException
-//    {
-//        File file = new File(wallet.getWalletPath());
-//        boolean deleted = file.delete();
-//
-//        if (!deleted) {
-//            throw new WalletNotUpdatedException();
-//        }
-//
-//        return generateWallet(context, wallet.getEcKeyPair(), password);
-//    }
 
     public static WalletHMQ getSignedWallet(String walletFile, String pinCode, WalletInfo walletInfo)
             throws CantSignedException
@@ -190,23 +188,11 @@ public class WalletHMQ {
                 ManagedTransaction.GAS_PRICE,
                 Contract.GAS_LIMIT
         );
-        Log.d("TEST", "TEST");
     }
 
     public static void revoke() {
         workWallet = null;
     }
-
-//    public static WalletHMQ getOrCreateWallet(Context context, final String passPhrase) {
-//        Preferences preferences = App.getPreferences(context);
-//        String accountKeyFile = preferences.getAccountKeyFile();
-//
-//        if (accountKeyFile.equals("")) {
-//            return WalletHMQ.generateWallet(context, passPhrase);
-//        } else {
-//            return new WalletHMQ(accountKeyFile);
-//        }
-//    }
 
     public void save(Context context) {
         Preferences preferences = App.getPreferences(context);
