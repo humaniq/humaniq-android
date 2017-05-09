@@ -8,3 +8,4 @@ public class Config {
     public static final int PREVIEW_HEIGHT = 768;
     public static final String HMQ_TOKEN_CONTRACT_ADDRESS = "0x9d12e85caf0ebe575042cebb91e7379b95a3b109";
 }
+ 

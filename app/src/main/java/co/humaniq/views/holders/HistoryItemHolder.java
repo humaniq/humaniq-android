@@ -20,10 +20,10 @@ public class HistoryItemHolder extends RecyclerItemHolder<HistoryItem> {
 
     @Override
     public void initViews(HistoryItem data) {
-        final String total = data.getCoins().getValue().toString() + " HMQ";
+        final String total = data.getValue().toString() + " HMQ";
 
         textViewCoins.setText(total);
-        textViewDate.setText(data.getDate());
+        textViewDate.setText(data.getFormattedDate());
 
         super.initViews(data);
     }

@@ -3,10 +3,7 @@ package co.humaniq;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import co.humaniq.models.AuthToken;
 import co.humaniq.views.ViewContext;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -16,10 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class Client {
-    private static Retrofit anonymousRetrofit = null;
-    private static Retrofit authRetrofit = null;
-    private static OkHttpClient anonymousHttpClient = null;
-    private static OkHttpClient authHttpClient = null;
+    private static Retrofit retrofit = null;
+    private static OkHttpClient httpClient = null;
 
     public static boolean isOnline(ViewContext context) {
         ConnectivityManager cm = (ConnectivityManager)(context.getActivityInstance())
@@ -30,9 +25,9 @@ public class Client {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    static public OkHttpClient getAnonymousHttpClientInstance() {
-        if (anonymousHttpClient != null)
-            return anonymousHttpClient;
+    static public OkHttpClient getHttpClientInstance() {
+        if (httpClient != null)
+            return httpClient;
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(chain -> {
@@ -49,64 +44,20 @@ public class Client {
             return chain.proceed(request);
         });
 
-        anonymousHttpClient = httpClient.build();
-        return anonymousHttpClient;
+        Client.httpClient = httpClient.build();
+        return Client.httpClient;
     }
 
-    static public void revokeAuthClient() {
-        authHttpClient = null;
-        authRetrofit = null;
-    }
+    static public Retrofit getRetrofitInstance() {
+        if (retrofit != null)
+            return retrofit;
 
-    static public OkHttpClient getAuthHttpClientInstance() {
-        if (authHttpClient != null)
-            return authHttpClient;
-
-        AuthToken authToken = AuthToken.getInstance();
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(chain -> {
-            Request original = chain.request();
-            HttpUrl originalHttpUrl = original.url();
-
-            HttpUrl url = originalHttpUrl.newBuilder().build();
-            Request.Builder requestBuilder = original.newBuilder()
-                    .addHeader("Authorization", authToken.getAuthorization())
-                    .url(url);
-
-            Request request = requestBuilder.build();
-            return chain.proceed(request);
-        });
-
-        authHttpClient = httpClient.build();
-        return authHttpClient;
-    }
-
-    static public Retrofit getAuthRetrofitInstance() {
-        if (authRetrofit != null)
-            return authRetrofit;
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
-
-        authRetrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(getAuthHttpClientInstance())
-                .baseUrl(Config.SERVER_URL+Config.API_URL)
-                .build();
-
-        return authRetrofit;
-    }
-
-    static public Retrofit getAnonymousRetrofitInstance() {
-        if (anonymousRetrofit != null)
-            return anonymousRetrofit;
-
-        anonymousRetrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(getAnonymousHttpClientInstance())
+                .client(getHttpClientInstance())
                 .baseUrl(Config.SERVER_URL+Config.API_URL)
                 .build();
 
-        return anonymousRetrofit;
+        return retrofit;
     }
 }

@@ -38,7 +38,7 @@ public class AccountService extends APIService {
 
     public AccountService(ViewContext context) {
         super(context);
-        retrofitService = Client.getAnonymousRetrofitInstance().create(RetrofitService.class);
+        retrofitService = Client.getRetrofitInstance().create(RetrofitService.class);
     }
 
     public void getSalt(final String photoBase64,

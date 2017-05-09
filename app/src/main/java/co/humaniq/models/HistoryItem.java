@@ -2,17 +2,26 @@ package co.humaniq.models;
 
 import org.web3j.abi.datatypes.generated.Uint256;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class HistoryItem extends DummyModel {
     private int viewType = ViewType.DATA;
 
-    private Uint256 coins;
-    private String currency;
-    private boolean bonus;
+    private String address;
+    private Long blockNumber;
+    private String blockHash;
+    private Long transactionIndex;
+    private String transactionHash;
+    private Long logIndex;
+    private Long timestamp;
 
-    private String dateTime;
     private String from;
     private String to;
+    private Long value;
 
     public HistoryItem(int viewType) {
         this.viewType = viewType;
@@ -20,29 +29,52 @@ public class HistoryItem extends DummyModel {
 
     @Override
     public int getViewType() {
-//        if (viewType != ViewType.DATA)
         return viewType;
-//
-//        User user = AuthToken.getInstance().getUser();
-//
-//        if (isBonus())
-//            return ViewType.HISTORY_BONUS;
-//        else if (fromUser != user.getId())
-//            return ViewType.HISTORY_RECEIVED;
-//        else
-//            return ViewType.HISTORY_TRANSFERRED;
     }
 
-    public HistoryItem(int viewType, Uint256 coins, String currency, boolean bonus,
-                       String dateTime, String from, String to)
+    public HistoryItem(int viewType, String address, Long blockNumber, String blockHash,
+                       Long transactionIndex, String transactionHash, Long logIndex,
+                       Long timestamp, String from, String to, Long value)
     {
         this.viewType = viewType;
-        this.coins = coins;
-        this.currency = currency;
-        this.bonus = bonus;
-        this.dateTime = dateTime;
+        this.address = address;
+        this.blockNumber = blockNumber;
+        this.blockHash = blockHash;
+        this.transactionIndex = transactionIndex;
+        this.transactionHash = transactionHash;
+        this.logIndex = logIndex;
+        this.timestamp = timestamp;
         this.from = from;
         this.to = to;
+        this.value = value;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Long getBlockNumber() {
+        return blockNumber;
+    }
+
+    public String getBlockHash() {
+        return blockHash;
+    }
+
+    public Long getTransactionIndex() {
+        return transactionIndex;
+    }
+
+    public String getTransactionHash() {
+        return transactionHash;
+    }
+
+    public Long getLogIndex() {
+        return logIndex;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 
     public String getFrom() {
@@ -53,25 +85,13 @@ public class HistoryItem extends DummyModel {
         return to;
     }
 
-    public Uint256 getCoins() {
-        return coins;
+    public Long getValue() {
+        return value;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public String getDateTime() {
-        return dateTime;
-    }
-
-    public String getDate() {
-//        final int spaceIndex = dateTime.indexOf(' ');
-//        return dateTime.substring(0, spaceIndex);
-        return "";
-    }
-
-    public boolean isBonus() {
-        return bonus;
+    public String getFormattedDate() {
+        Timestamp timestamp = new Timestamp(getTimestamp());
+        DateFormat simpleDateFormat = SimpleDateFormat.getDateInstance();
+        return simpleDateFormat.format(timestamp);
     }
 }

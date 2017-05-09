@@ -39,7 +39,7 @@ public class AuthToken extends DummyModel {
             preferences.setLoginCount(preferences.getLoginCount() + 1);
         }
 
-        Client.revokeAuthClient();
+//        Client.revokeAuthClient();
         return clientToken;
     }
 
@@ -54,7 +54,7 @@ public class AuthToken extends DummyModel {
 
     static public void revoke() {
         clientToken = null;
-        Client.revokeAuthClient();
+//        Client.revokeAuthClient();
     }
 
     public String getAuthorization() {
