@@ -29,6 +29,17 @@ public class HistoryItem extends DummyModel {
 
     @Override
     public int getViewType() {
+        if (viewType != ViewType.DATA)
+            return viewType;
+
+        WalletHMQ wallet = WalletHMQ.getWorkWallet();
+
+        if (wallet.getAddress().equals(from))
+            return ViewType.HISTORY_TRANSFERRED;
+
+        else if (wallet.getAddress().equals(to))
+            return ViewType.HISTORY_RECEIVED;
+
         return viewType;
     }
 

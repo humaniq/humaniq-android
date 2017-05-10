@@ -54,13 +54,12 @@ public class HistoryFragment extends BaseFragment {
         dataSetChanged = false;
         loaded = true;
 //        }
-        historyService.getHistory("0xb086d16cc5f461634f83a517a33338c18ef08504", GET_HISTORY_REQUEST);
+        historyService.getHistory(wallet.getAddress(), GET_HISTORY_REQUEST);
     }
 
     private void initRecycler() {
         recyclerLayoutManager = new LinearLayoutManager(getActivityInstance());
         recyclerAdapter = new HistoryRecyclerAdapter(getActivityInstance(),
-                R.layout.recycler_item_history_recieved,
                 items,
                 HistoryItemHolder::new);
 

@@ -56,7 +56,8 @@ public class WalletHMQ {
 
             @Override
             protected void onPostExecute(Uint256 result) {
-                callback.onFinish(result);
+                if (result != null)
+                    callback.onFinish(result);
             }
         }.execute();
     }

@@ -15,10 +15,10 @@ import java.util.ArrayList;
 
 
 public class HistoryRecyclerAdapter extends ItemRecyclerAdapter<HistoryItem> {
-    public HistoryRecyclerAdapter(ViewContext viewContext, int layout,
+    public HistoryRecyclerAdapter(ViewContext viewContext,
                                   ArrayList<HistoryItem> items, HolderFactory holderFactory)
     {
-        super(viewContext, layout, items, holderFactory);
+        super(viewContext, R.layout.recycler_item_history_recieved, items, holderFactory);
     }
 
     @Override
