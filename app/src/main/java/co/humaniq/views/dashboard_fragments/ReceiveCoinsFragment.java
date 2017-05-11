@@ -36,7 +36,7 @@ public class ReceiveCoinsFragment extends BaseFragment {
         textMyWallet.setText(wallet.getAddress());
 
         final ImageView qrCodeImageView = (ImageView) view.findViewById(R.id.qrCodeImageView);
-//        ImageTool.loadFromUrlToImageView(this, wallet.getQrCodeImageURL(), qrCodeImageView);
+        ImageTool.loadFromUrlToImageView(this, wallet.getQRCodeImageURL(), qrCodeImageView);
 
         attachOnClickView(view, R.id.buttonCopyWallet);
         return view;

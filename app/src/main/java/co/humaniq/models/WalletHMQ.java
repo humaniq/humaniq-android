@@ -37,6 +37,7 @@ public class WalletHMQ {
     private Credentials credentials;
     private WalletInfo walletInfo;
     private HMQTokenContract tokenContract;
+    public static Uint256 lastBalance = null;
 
     public interface BalanceCallback {
         void onFinish(Uint256 balance);
@@ -56,8 +57,10 @@ public class WalletHMQ {
 
             @Override
             protected void onPostExecute(Uint256 result) {
-                if (result != null)
+                if (result != null) {
+                    lastBalance = result;
                     callback.onFinish(result);
+                }
             }
         }.execute();
     }
@@ -199,6 +202,10 @@ public class WalletHMQ {
         Preferences preferences = App.getPreferences(context);
         preferences.setAccountKeyFile(getWalletPath());
         preferences.setAccountAddress(getAddress());
+    }
+
+    public String getQRCodeImageURL() {
+        return Config.SERVER_URL + "/qr_codes/" + getAddress();
     }
 
     public String getWalletPath() {

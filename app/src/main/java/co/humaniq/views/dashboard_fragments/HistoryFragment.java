@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.web3j.abi.datatypes.generated.Uint256;
+
 import co.humaniq.R;
 import co.humaniq.models.*;
 import co.humaniq.services.HistoryService;
@@ -19,8 +21,7 @@ import java.util.*;
 
 
 public class HistoryFragment extends BaseFragment {
-    public static final int GET_HISTORY_REQUEST = 1001;
-    public static final int GET_MY_USER_REQUEST = 1002;
+    public static final int GET_HISTORY_REQUEST = 2001;
     public static final String TAG = "HistoryFragment";
 
     private ArrayList<HistoryItem> items = new ArrayList<>();

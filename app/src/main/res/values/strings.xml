@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Humaniq (alpha version)</string>
     <string name="help">help</string>
-    <string name="total_b_hmq"><b>%.2f</b> HMQ</string>
-    <string name="total_hmq">%.2f HMQ</string>
-    <string name="history_total_dollar">$ (???)</string>
+    <string name="total_b_hmq">- - - HMQ</string>
+    <string name="total_hmq">- - - HMQ</string>
+    <string name="history_total_dollar">$ (- - -)</string>
 
     <string name="face_not_recognized">Face is not recognized</string>
     <string name="put_your_head_into_oval">Put your face into the oval</string>

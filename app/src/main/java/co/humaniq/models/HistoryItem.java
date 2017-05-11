@@ -1,5 +1,7 @@
 package co.humaniq.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.web3j.abi.datatypes.generated.Uint256;
 
 import java.sql.Timestamp;
@@ -19,9 +21,9 @@ public class HistoryItem extends DummyModel {
     private Long logIndex;
     private Long timestamp;
 
-    private String from;
-    private String to;
-    private Long value;
+    @SerializedName("event_from") private String from;
+    @SerializedName("event_to") private String to;
+    @SerializedName("event_value") private Long value;
 
     public HistoryItem(int viewType) {
         this.viewType = viewType;

@@ -25,6 +25,11 @@ public class HistoryHeaderHolder extends RecyclerItemHolder<BaseModel> {
         if (wallet == null)
             return;
 
+        if (WalletHMQ.lastBalance != null) {
+            final String total = WalletHMQ.lastBalance.getValue().toString() + " HMQ";
+            textTotalInWallet.setText(total);
+        }
+
         wallet.getBalance(balance -> {
             final String total = balance.getValue().toString() + " HMQ";
             textTotalInWallet.setText(total);

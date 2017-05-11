@@ -44,9 +44,6 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     private View coinsLayout;
     private boolean formIsValid = false;
 
-    private Integer transferredCoins = 0;
-    private String transferredAddress = "";
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -85,12 +82,13 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     public void updateView() {
+        if (WalletHMQ.lastBalance != null) {
+            final String total = WalletHMQ.lastBalance.getValue().toString() + " HMQ";
+            textTotalInWallet.setText(total);
+        }
+
         WalletHMQ.getWorkWallet().getBalance(val -> {
-            if (val != null) {
-                textTotalInWallet.setText(val.getValue().toString());
-            } else {
-                textTotalInWallet.setText("???");
-            }
+            textTotalInWallet.setText(val.getValue().toString() + " HMQ");
         });
     }
 
@@ -98,58 +96,6 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     public void onResume() {
         super.onResume();
         updateView();
-    }
-
-    @Override
-    public void onApiValidationError(Errors errors, int requestCode) {
-        alert("Error", errors.toString());
-    }
-
-    @Override
-    public void onApiPermissionError(Errors errors, int requestCode) {
-        alert("Error", "Permission denied");
-    }
-
-    @Override
-    public void onApiAuthorizationError(Errors errors, int requestCode) {
-        alert("Error", "Authorization error");
-    }
-
-    @Override
-    public void onApiCriticalError(Errors errors, int requestCode) {
-        alert("Error", "Critical error");
-    }
-
-    @Override
-    public void onApiConnectionError(int requestCode) {
-        alert("Error", "Connection error");
-    }
-
-    @Override
-    public void onApiSuccess(ResultData result, int requestCode) {
-        final Wallet wallet = (Wallet) result.data();
-        final User user = AuthToken.getInstance().getUser();
-        user.setWallet(wallet);
-        updateView();
-
-        HistoryFragment.dataSetChanged = true;
-        alert("Success", "Transferred" + transferredCoins.toString());
-
-        Answers.getInstance().logCustom(new CustomEvent("Transfer coins")
-                .putCustomAttribute("Currency", "HMQ")
-                .putCustomAttribute("Coins", transferredCoins)
-                .putCustomAttribute("From", user.getWallet().getHash())
-                .putCustomAttribute("To", transferredAddress));
-    }
-
-    @Override
-    public void onApiShowProgressbar(int requestCode) {
-        progressDialog.show();
-    }
-
-    @Override
-    public void onApiHideProgressbar(int requestCode) {
-        progressDialog.hide();
     }
 
     void openQRScanner() {
@@ -197,11 +143,12 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
 
     private void doTransfer() {
-//        transferredCoins = Integer.parseInt(editTextCoins.getText().toString());
-//        transferredAddress = editTextToWallet.getText().toString();
-//
-//        decorateViewToError(coinsLayout, !coinsIsValid());
-//        decorateViewToError(editTextToWallet, !walletIsValid());
+        decorateViewToError(coinsLayout, !coinsIsValid());
+        decorateViewToError(editTextToWallet, !walletIsValid());
+
+        if (!formIsValid)
+            return;
+
         showProgressbar();
 
         AsyncTask<String, Void, Uint256> task = new AsyncTask<String, Void, Uint256>() {
@@ -228,12 +175,8 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
             protected void onPostExecute(Uint256 result) {
                 hideProgressbar();
 
-                if (result == null) {
-                    alert("Error", "Can't get balance");
-                    return;
-                }
-
-                Log.d(TAG, "My balance: " + result.getValue().toString());
+                if (result == null)
+                    alert("Error", "Can't do transfer");
             }
         };
 
@@ -249,7 +192,8 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     private boolean stringContainChars(final String inString, final String validChars) {
-        for (int i = 0; i < inString.length(); ++i){
+        // 2 т.к. первые 2 символа - это всегда 0x
+        for (int i = 2; i < inString.length(); ++i){
             final char c1 = inString.charAt(i);
             boolean matched = false;
 
@@ -284,9 +228,9 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
     private boolean coinsIsValid() {
         try {
-            Float coins = Float.parseFloat(editTextCoins.getText().toString());
+            Integer coins = Integer.parseInt(editTextCoins.getText().toString());
 
-            if (coins < 1.0f)
+            if (coins < 1)
                 return false;
         } catch (NumberFormatException ignored) {
             return false;
@@ -296,9 +240,12 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     private boolean walletIsValid() {
-        final String hashPattern = "00000000-0000-0000-0000-000000000000";
-        final String allowChars = "0123456789abcdefABCDEF-";
+        final String hashPattern = "0x0000000000000000000000000000000000000000";
+        final String allowChars = "0123456789abcdefABCDEF";
         final String hash = editTextToWallet.getText().toString().trim();
+
+        if (!hash.startsWith("0x"))
+            return false;
 
         if (hash.length() != hashPattern.length()) {
             return false;
@@ -311,11 +258,11 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-//        if (coinsIsValid() && walletIsValid()) {
-//            setValid(true);
-//        } else {
-//            setValid(false);
-//        }
+        if (coinsIsValid() && walletIsValid()) {
+            setValid(true);
+        } else {
+            setValid(false);
+        }
     }
 
     @Override
