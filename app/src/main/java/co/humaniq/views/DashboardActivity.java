@@ -8,10 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import co.humaniq.Client;
 import co.humaniq.R;
 import co.humaniq.models.AuthToken;
+import co.humaniq.services.notification.FcmInstanceIDListenerService;
 import co.humaniq.views.dashboard_fragments.HistoryFragment;
 import co.humaniq.views.dashboard_fragments.ReceiveCoinsFragment;
 import co.humaniq.views.dashboard_fragments.SettingsFragment;
@@ -101,6 +103,12 @@ public class DashboardActivity extends ToolbarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FcmInstanceIDListenerService.checkUpdateToken(this);
     }
 
     @Override

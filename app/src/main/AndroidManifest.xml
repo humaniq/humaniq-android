@@ -72,6 +72,18 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="1c585039c291ebfd44d94f9dd2bc6cf1848cfa0c" />
+
+        <!-- FCM -->
+        <service android:name=".services.notification.FcmListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".services.notification.FcmInstanceIDListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

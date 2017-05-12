@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "919291061359",
+    "firebase_url": "https://humaniq-demo.firebaseio.com",
+    "project_id": "humaniq-demo",
+    "storage_bucket": "humaniq-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919291061359:android:bc05b1e4efead1e0",
+        "android_client_info": {
+          "package_name": "co.humaniq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "919291061359-ds9m98e5u7sef0a0c8n8ir3dgm8qbsn4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVMX5PS5VPqqUspHejgD-R03fQmuR_DT4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -54,4 +54,14 @@ public interface Preferences {
     @DefaultString("")
     String getAccountSalt();
     void setAccountSalt(String accountSalt);
+
+    // Firebase
+
+    @DefaultString("")
+    String getFCMToken();
+    void setFCMToken(String token);
+
+    @DefaultBoolean(false)
+    Boolean getFCMTokenSent();
+    void setFCMTokenSent(Boolean value);
 }
