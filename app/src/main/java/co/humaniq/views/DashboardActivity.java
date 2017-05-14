@@ -1,11 +1,13 @@
 package co.humaniq.views;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -78,11 +80,13 @@ public class DashboardActivity extends ToolbarActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                hideKeyboard();
             }
 
             @Override
             public void onPageSelected(int position) {
+                hideKeyboard();
+
                 bottomMenuView.selectTab(position);
                 pagerAdapter.getItem(position).onResume();
             }
@@ -92,6 +96,18 @@ public class DashboardActivity extends ToolbarActivity {
 
             }
         });
+    }
+
+    public  void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) getApplicationContext().
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View v = getCurrentFocus();
+        if (v == null)
+            return;
+
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
     @Override

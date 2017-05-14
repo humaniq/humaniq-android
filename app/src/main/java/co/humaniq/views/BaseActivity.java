@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.lang.annotation.ElementType;
@@ -23,14 +24,20 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import co.humaniq.Router;
 import co.humaniq.Web3;
 import co.humaniq.models.Errors;
 import co.humaniq.models.ResultData;
+import okhttp3.Route;
 
 
 public class BaseActivity extends AppCompatActivity implements ViewContext, View.OnClickListener {
+    public float lastActivityTime = 0;
+    public static final float TIME_BACK_TO_LOGIN = 5;
+
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
     @interface OnPermissionResult {
@@ -229,4 +236,28 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
     public void onAttachFragment(Fragment fragment) {
         fragments.add(new WeakReference<>(fragment));
     }
+
+/*    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        lastActivityTime = new Date().getTime();
+        return super.dispatchTouchEvent(ev);
+    }*/
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lastActivityTime = new Date().getTime();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        long now = new Date().getTime();
+        if (now - lastActivityTime > TIME_BACK_TO_LOGIN) {
+            Router.goActivity(getActivityInstance(), Router.PIN_CODE);
+        }
+    }
+
+
 }
