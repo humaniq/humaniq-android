@@ -1,16 +1,19 @@
 package co.humaniq.views;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.firebase.iid.FirebaseInstanceId;
 
-import co.humaniq.Client;
 import co.humaniq.R;
 import co.humaniq.models.AuthToken;
 import co.humaniq.services.notification.FcmInstanceIDListenerService;
@@ -26,6 +29,7 @@ import java.util.ArrayList;
 
 public class DashboardActivity extends ToolbarActivity {
     private BottomMenuView bottomMenuView;
+    private PagerAdapter pagerAdapter;
 
     private class PagerAdapter extends FragmentPagerAdapter {
         ArrayList<BaseFragment> fragments = new ArrayList<>();
@@ -54,6 +58,14 @@ public class DashboardActivity extends ToolbarActivity {
         }
     }
 
+    private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String method = intent.getStringExtra("message");
+            pagerAdapter.fragments.get(bottomMenuView.getCurrentTabIndex()).onResume();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +76,7 @@ public class DashboardActivity extends ToolbarActivity {
         getActivityActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         View bottomMenu = findViewById(R.id.bottomMenu);
 
         pagerAdapter.addFragment(new HistoryFragment());
@@ -109,6 +121,14 @@ public class DashboardActivity extends ToolbarActivity {
     protected void onResume() {
         super.onResume();
         FcmInstanceIDListenerService.checkUpdateToken(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver,
+                new IntentFilter("fcm-message"));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
     }
 
     @Override
