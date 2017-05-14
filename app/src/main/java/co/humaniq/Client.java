@@ -3,6 +3,7 @@ package co.humaniq;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.Settings;
 import co.humaniq.views.ViewContext;
 
 import okhttp3.HttpUrl;
@@ -59,5 +60,9 @@ public class Client {
                 .build();
 
         return retrofit;
+    }
+
+    static public String getDeviceId(Context context) {
+        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 }

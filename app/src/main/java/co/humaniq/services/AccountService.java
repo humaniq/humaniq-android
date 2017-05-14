@@ -2,11 +2,10 @@ package co.humaniq.services;
 
 import co.humaniq.Client;
 import co.humaniq.models.WalletInfo;
+import co.humaniq.models.WalletMeta;
 import co.humaniq.views.ViewContext;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import retrofit2.http.*;
 
 
 public class AccountService extends APIService {
@@ -20,9 +19,15 @@ public class AccountService extends APIService {
                 @Field("public_address") String publicAddress
         );
 
+        @GET("account/get_meta/")
+        Call<WalletMeta> getMeta(
+                @Query("device_id") String deviceId
+        );
+
         @FormUrlEncoded
         @POST("account/generate_salt/?final=0")
         Call<WalletInfo> generateSalt(
+                @Field("device_id") String deviceId,
                 @Field("photo") String photoBase64
         );
 
@@ -30,7 +35,8 @@ public class AccountService extends APIService {
         @POST("account/finish_registration/")
         Call<WalletInfo> finishRegistration(
                 @Field("id") int id,
-                @Field("public_address") String publicAddress
+                @Field("public_address") String publicAddress,
+                @Field("key_file_path") String keyFilePath
         );
     }
 
@@ -49,15 +55,15 @@ public class AccountService extends APIService {
         APIService.doRequest(this, call, requestCode);
     }
 
-    public void generateSalt(final String photoBase64, final int requestCode) {
-        Call<WalletInfo> call = retrofitService.generateSalt(photoBase64);
+    public void generateSalt(final String deviceId, final String photoBase64, final int requestCode) {
+        Call<WalletInfo> call = retrofitService.generateSalt(deviceId, photoBase64);
         APIService.doRequest(this, call, requestCode);
     }
 
     public void finishRegistration(final int id, final String publicAddress,
-                                   final int requestCode)
+                                   final String keyFilePath, final int requestCode)
     {
-        Call<WalletInfo> call = retrofitService.finishRegistration(id, publicAddress);
+        Call<WalletInfo> call = retrofitService.finishRegistration(id, publicAddress, keyFilePath);
         APIService.doRequest(this, call, requestCode);
     }
 }
