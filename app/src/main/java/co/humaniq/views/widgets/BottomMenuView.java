@@ -10,6 +10,7 @@ public class BottomMenuView implements View.OnClickListener {
     private ImageButton[] tabs;
     private ImageButton currentTab;
     private ViewPager viewPager;
+    private int currentTabIndex = 0;
 
     public BottomMenuView(View bottomMenu, ViewPager viewPager) {
         this.viewPager = viewPager;
@@ -32,14 +33,18 @@ public class BottomMenuView implements View.OnClickListener {
         currentTab.setBackgroundResource(R.color.lightBlue);
         currentTab = tabs[tabIndex];
         currentTab.setBackgroundResource(R.color.darkBlue);
-        viewPager.setCurrentItem(tabIndex);
+
+        currentTabIndex = tabIndex;
+        viewPager.setCurrentItem(currentTabIndex);
     }
 
     private void selectTab(ImageButton tab) {
         currentTab.setBackgroundResource(R.color.lightBlue);
         currentTab = tab;
         currentTab.setBackgroundResource(R.color.darkBlue);
-        viewPager.setCurrentItem(getIndexByTab(tab));
+
+        currentTabIndex = getIndexByTab(tab);
+        viewPager.setCurrentItem(currentTabIndex);
     }
 
     private int getIndexByTab(ImageButton tab) {
@@ -54,5 +59,9 @@ public class BottomMenuView implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         selectTab((ImageButton) v);
+    }
+
+    public int getCurrentTabIndex() {
+        return currentTabIndex;
     }
 }

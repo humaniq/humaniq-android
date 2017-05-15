@@ -93,6 +93,9 @@ public class FcmInstanceIDListenerService extends FirebaseInstanceIdService {
         final String token = firebaseInstanceId.getToken();
         preferences.setFCMToken(token);
 
+        Log.d(TAG, "Account: " + wallet.getAddress());
+        Log.d(TAG, "FCM token: " + token);
+
         Call<DummyModel> call = retrofitService.updateFcmToken(wallet.getAddress(), token);
         call.enqueue(new Callback<DummyModel>() {
             @Override
@@ -104,7 +107,7 @@ public class FcmInstanceIDListenerService extends FirebaseInstanceIdService {
             @Override
             public void onFailure(Call<DummyModel> call, Throwable t) {
                 preferences.setFCMTokenSent(false);
-                Log.e(TAG, "Can't send a token to server");
+                Log.e(TAG, "Can't send a token to server: " + t.getMessage());
             }
         });
     }

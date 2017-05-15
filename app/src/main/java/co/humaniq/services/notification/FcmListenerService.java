@@ -2,9 +2,12 @@ package co.humaniq.services.notification;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.os.ResultReceiver;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -18,11 +21,23 @@ import co.humaniq.R;
 public class FcmListenerService extends FirebaseMessagingService {
     private static final String TAG = "FcmListenerService";
 
+    private void sendMessage(String message) {
+        Intent intent = new Intent("fcm-message");
+        intent.putExtra("method", message);
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
     @Override
     public void onMessageReceived(RemoteMessage message) {
         Map<String, String> data = message.getData();
         String category = data.get("category");
         Log.d(TAG, "notification received");
+
+        if (category == null) {
+            Log.w(TAG, "Category is null");
+            return;
+        }
 
         switch (category) {
             case "push":
@@ -34,22 +49,14 @@ public class FcmListenerService extends FirebaseMessagingService {
                 break;
 
             default:
-                Log.w(TAG, "Unknown notification category");
+                Log.w(TAG, "Unknown notification category: " + category);
         }
     }
 
     private void handleSystemNotification(RemoteMessage message) {
         Map<String, String> data = message.getData();
         String method = data.get("method");
-
-        switch (method) {
-            case "getBalance":
-                Log.d(TAG, "getBalance method");
-                break;
-
-            default:
-                Log.w(TAG, "Unknown notification system method");
-        }
+        sendMessage(method);
     }
 
     private void handlePushNotification(RemoteMessage message) {
@@ -59,6 +66,7 @@ public class FcmListenerService extends FirebaseMessagingService {
         String title = data.get("title");
 
         createNotification(msg, title);
+        sendMessage("update");
     }
 
     private void createNotification(String message, String title) {
@@ -67,6 +75,7 @@ public class FcmListenerService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
+                .setSmallIcon(R.drawable.cake)
                 .setSound(defaultSoundUri);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
