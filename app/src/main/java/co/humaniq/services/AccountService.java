@@ -55,6 +55,13 @@ public class AccountService extends APIService {
         APIService.doRequest(this, call, requestCode);
     }
 
+    public void getMeta(final String deviceId,
+                        final int requestCode)
+    {
+        Call<WalletMeta> call = retrofitService.getMeta(deviceId);
+        APIService.doRequest(this, call, requestCode);
+    }
+
     public void generateSalt(final String deviceId, final String photoBase64, final int requestCode) {
         Call<WalletInfo> call = retrofitService.generateSalt(deviceId, photoBase64);
         APIService.doRequest(this, call, requestCode);

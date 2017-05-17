@@ -3,6 +3,8 @@ package co.humaniq.models;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import android.os.Environment;
+import android.util.Log;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.CipherException;
@@ -118,10 +120,10 @@ public class WalletHMQ {
     {
         try {
             final String address = Numeric.prependHexPrefix(Keys.getAddress(ecKeyPair));
-            final File destDirectoryPath = context.getFilesDir();
-
-            final String fileName = WalletUtils.generateWalletFile(password, ecKeyPair, destDirectoryPath, false);
-            final String destFilePath = destDirectoryPath + "/" + fileName;
+            final File destDirectory = Environment.getExternalStorageDirectory().getAbsoluteFile();
+            Log.d(TAG, Environment.getExternalStorageState());
+            final String fileName = WalletUtils.generateWalletFile(password, ecKeyPair, destDirectory, false);
+            final String destFilePath = destDirectory + "/" + fileName;
 
             return new WalletHMQ(ecKeyPair, destFilePath, address);
         } catch (CipherException | IOException e)

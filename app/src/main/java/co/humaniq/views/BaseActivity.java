@@ -26,11 +26,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.humaniq.Web3;
+import co.humaniq.models.APIErrors;
 import co.humaniq.models.Errors;
 import co.humaniq.models.ResultData;
 
 
 public class BaseActivity extends AppCompatActivity implements ViewContext, View.OnClickListener {
+    public static final int API_VALIDATION_ERROR = 0;
+    public static final int API_PERMISSION_ERROR = 1;
+    public static final int API_AUTHORIZATION_ERROR = 2;
+    public static final int API_CRITICAL_ERROR = 3;
+    public static final int API_CONNECTION_ERROR = 4;
+
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
     @interface OnPermissionResult {
@@ -171,29 +178,33 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
         return this;
     }
 
+    public void onApiError(Errors errors, int type, int requestCode) {
+
+    }
+
     @Override
     public void onApiValidationError(Errors errors, int requestCode) {
-
+        onApiError(errors, API_VALIDATION_ERROR, requestCode);
     }
 
     @Override
     public void onApiPermissionError(Errors errors, int requestCode) {
-
+        onApiError(errors, API_PERMISSION_ERROR, requestCode);
     }
 
     @Override
     public void onApiAuthorizationError(Errors errors, int requestCode) {
-
+        onApiError(errors, API_AUTHORIZATION_ERROR, requestCode);
     }
 
     @Override
     public void onApiCriticalError(Errors errors, int requestCode) {
-
+        onApiError(errors, API_CRITICAL_ERROR, requestCode);
     }
 
     @Override
     public void onApiConnectionError(int requestCode) {
-
+        onApiError(null, API_CONNECTION_ERROR, requestCode);
     }
 
     @Override
