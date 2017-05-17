@@ -76,7 +76,7 @@ public class DashboardActivity extends ToolbarActivity {
 
         setContentView(R.layout.activity_dashboard);
         initToolbar();
-        getActivityActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white);
+//        getActivityActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white); TODO: убрать оттуда какую либо кнопку
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());

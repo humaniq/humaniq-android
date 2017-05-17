@@ -35,8 +35,8 @@ import okhttp3.Route;
 
 
 public class BaseActivity extends AppCompatActivity implements ViewContext, View.OnClickListener {
-    public float lastActivityTime = 0;
-    public static final float TIME_BACK_TO_LOGIN = 5;
+//    public float lastActivityTime = 0;
+//    public static final float TIME_BACK_TO_LOGIN = 5;
 
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
@@ -244,20 +244,20 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
     }*/
 
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        lastActivityTime = new Date().getTime();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        long now = new Date().getTime();
-        if (now - lastActivityTime > TIME_BACK_TO_LOGIN) {
-            Router.goActivity(getActivityInstance(), Router.PIN_CODE);
-        }
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        lastActivityTime = new Date().getTime();
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        long now = new Date().getTime();
+//        if (now - lastActivityTime > TIME_BACK_TO_LOGIN) {
+//            Router.goActivity(getActivityInstance(), Router.PIN_CODE);
+//        }
+//    }
 
 
 }

@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -61,6 +58,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
         attachOnClickView(view, R.id.buttonTransfer);
         attachOnClickView(view, R.id.buttonScanQR);
+        attachOnClickView(view, R.id.buttonClear);
 
         progressDialog = new ProgressDialog(getActivity());
         updateView();
@@ -128,9 +126,19 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
                 openQRScanner();
                 break;
 
+            case R.id.buttonClear:
+                clearInputWallet(view);
+                break;
+
             default:
                 break;
         }
+    }
+
+    private void clearInputWallet(View view) {
+        editTextToWallet.setText("");
+        view.setVisibility(View.GONE);
+
     }
 
     private void decorateViewToError(View view, boolean error) {
@@ -274,6 +282,14 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         } else {
             setValid(false);
         }
+
+        View clearButton = getView().findViewById(R.id.buttonClear);
+        if (s.equals("")){
+            clearButton.setVisibility(View.GONE);
+        }else {
+            clearButton.setVisibility(View.VISIBLE);
+        }
+
 
 
     }

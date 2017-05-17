@@ -188,13 +188,19 @@
             tools:layout_editor_absoluteX="98dp"
             tools:layout_editor_absoluteY="226dp" />
 
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_rect_white"
+            >
+
         <EditText
             android:id="@+id/textEditWallet"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="6dp"
-            android:layout_marginStart="6dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:background="@drawable/rounded_rect_white"
             android:ellipsize="end"
             android:gravity="center_vertical"
@@ -208,6 +214,16 @@
             android:text="0xca1f13059bec3f31187c540af9d6bfd83a7f0668"
             android:textColor="@color/darkBlue"
             android:textColorHint="@color/takePhotoPressed" />
+
+            <Button
+                android:id="@+id/buttonClear"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/ic_delete_pin_image"
+                android:visibility="gone"/>
+        </FrameLayout>
     </LinearLayout>
     <ImageView
         android:layout_width="wrap_content"
