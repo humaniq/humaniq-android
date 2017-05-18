@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,6 +42,9 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
     public static final int API_AUTHORIZATION_ERROR = 2;
     public static final int API_CRITICAL_ERROR = 3;
     public static final int API_CONNECTION_ERROR = 4;
+    private static final int OUT_TO_MENU_MINUTS = 5;
+
+    boolean outToMenu;
 
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
@@ -244,5 +248,35 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
     public void onAttachFragment(Fragment fragment) {
         fragments.add(new WeakReference<>(fragment));
     }
+
+    @Override
+   protected void onPause() {
+       super.onPause();
+       countDownTimer.start();
+   }
+
+   @Override
+   protected void onResume() {
+       super.onResume();
+       countDownTimer.cancel();
+       if (outToMenu){
+           Router.goActivity(getActivityInstance(), Router.GREETER);
+       }
+   }
+
+
+
+   CountDownTimer countDownTimer = new CountDownTimer(OUT_TO_MENU_MINUTS * 60000, 1000){
+
+       @Override
+       public void onTick(long millisUntilFinished) {
+
+       }
+
+       @Override
+       public void onFinish() {
+           outToMenu = true;
+       }
+   };
 
 }
