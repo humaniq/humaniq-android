@@ -37,7 +37,7 @@ public class ToolbarActivity extends BaseActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setHomeAsUpIndicator(R.mipmap.back);
+        actionBar.setHomeAsUpIndicator(R.mipmap.back);
 
         toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getTitle());

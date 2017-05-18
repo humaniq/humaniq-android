@@ -40,6 +40,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     private TextView textTotalInWallet;
     private ImageView imageValidOk;
     private View coinsLayout;
+    private View frameInput;
     private boolean formIsValid = false;
 
     @Override
@@ -53,6 +54,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         textTotalInWallet = (TextView) view.findViewById(R.id.textTotalInWallet);
         imageValidOk = (ImageView) view.findViewById(R.id.textValidOk);
         coinsLayout = view.findViewById(R.id.coinsLayout);
+        frameInput = view.findViewById(R.id.inputFrame);
 
         imageValidOk.setVisibility(View.INVISIBLE);
 
@@ -163,7 +165,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
     private void doTransfer() {
         decorateViewToError(coinsLayout, !coinsIsValid());
-        decorateViewToError(editTextToWallet, !walletIsValid());
+        decorateViewToError(frameInput, !walletIsValid());
 
         if (!formIsValid)
             return;
