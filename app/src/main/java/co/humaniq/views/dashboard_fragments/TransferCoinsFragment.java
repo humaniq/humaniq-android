@@ -54,7 +54,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         textTotalInWallet = (TextView) view.findViewById(R.id.textTotalInWallet);
         imageValidOk = (ImageView) view.findViewById(R.id.textValidOk);
         coinsLayout = view.findViewById(R.id.coinsLayout);
-        frameInput = view.findViewById(R.id.inputFrame);
+        frameInput = view.findViewById(R.id.inputWalletLayout);
 
         imageValidOk.setVisibility(View.INVISIBLE);
 

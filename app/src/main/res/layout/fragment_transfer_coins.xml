@@ -188,8 +188,8 @@
             tools:layout_editor_absoluteX="98dp"
             tools:layout_editor_absoluteY="226dp" />
 
-        <FrameLayout
-            android:id="@+id/inputFrame"
+        <LinearLayout
+            android:id="@+id/inputWalletLayout"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -214,7 +214,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingStart="15dp"
-                android:text="0xca1f13059bec3f31187c540af9d6bfd83a7f0668"
+                android:text=""
                 android:textColor="@color/darkBlue"
                 android:textColorHint="@color/takePhotoPressed" />
 
@@ -226,8 +226,8 @@
                 android:layout_marginRight="10dp"
                 android:background="@android:drawable/ic_menu_close_clear_cancel"
                 android:backgroundTint="@android:color/black"
-                android:visibility="visible" />
-        </FrameLayout>
+                android:visibility="gone" />
+        </LinearLayout>
     </LinearLayout>
     <ImageView
         android:layout_width="wrap_content"
