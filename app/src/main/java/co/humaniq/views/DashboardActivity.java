@@ -14,15 +14,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.firebase.iid.FirebaseInstanceId;
 
-import co.humaniq.Client;
 import co.humaniq.R;
 import co.humaniq.models.AuthToken;
 import co.humaniq.services.notification.FcmInstanceIDListenerService;
 import co.humaniq.views.dashboard_fragments.HistoryFragment;
 import co.humaniq.views.dashboard_fragments.ReceiveCoinsFragment;
-import co.humaniq.views.dashboard_fragments.SettingsFragment;
+import co.humaniq.views.dashboard_fragments.WorksFragment;
 import co.humaniq.views.dashboard_fragments.TransferCoinsFragment;
 import co.humaniq.views.widgets.BottomMenuView;
 import io.fabric.sdk.android.Fabric;
@@ -89,7 +87,7 @@ public class DashboardActivity extends ToolbarActivity {
         pagerAdapter.addFragment(new HistoryFragment());
         pagerAdapter.addFragment(new TransferCoinsFragment());
         pagerAdapter.addFragment(new ReceiveCoinsFragment());
-        pagerAdapter.addFragment(new SettingsFragment());
+        pagerAdapter.addFragment(new WorksFragment());
 
         viewPager.setAdapter(pagerAdapter);
         bottomMenuView = new BottomMenuView(bottomMenu, viewPager);

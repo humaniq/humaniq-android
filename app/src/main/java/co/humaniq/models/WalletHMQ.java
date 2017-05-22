@@ -67,6 +67,14 @@ public class WalletHMQ {
         }.execute();
     }
 
+    public static boolean hasKeyOnDevice(Context context) {
+        final Preferences preferences = App.getPreferences(context);
+        final String accountKeyFile = preferences.getAccountKeyFile();
+        final String address = preferences.getAccountAddress();
+
+        return !accountKeyFile.equals("") && !address.equals("");
+    }
+
     public HMQTokenContract getTokenContract() {
         return tokenContract;
     }
