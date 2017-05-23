@@ -126,7 +126,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonTransfer:
-                new AccountService(this).isExist(wallet.getAddress(), REQUEST_IS_EXIST);
+                new AccountService(this).isExist(editTextToWallet.getText().toString(), REQUEST_IS_EXIST);
                 break;
 
             case R.id.buttonScanQR:
