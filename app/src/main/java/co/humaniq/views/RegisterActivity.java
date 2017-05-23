@@ -4,10 +4,6 @@ import android.util.Log;
 
 //import org.web3j.protocol.core.methods.response.EthAccounts;
 
-import org.ethereum.geth.Account;
-import org.ethereum.geth.AccountManager;
-import org.ethereum.geth.Geth;
-
 import co.humaniq.Web3;
 
 import com.crashlytics.android.answers.Answers;

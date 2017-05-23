@@ -240,9 +240,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
             return;
         }
 
-        if (result.getContents() == null) {
-            Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_LONG).show();
-        } else {
+        if (result.getContents() != null) {
             editTextToWallet.setText(result.getContents());
         }
     }
@@ -268,6 +266,11 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         if (!hash.startsWith("0x"))
             return false;
 
+        final WalletHMQ wallet = WalletHMQ.getWorkWallet();
+
+        if (wallet == null || wallet.getAddress().equals(hash))
+            return false;
+
         if (hash.length() != hashPattern.length()) {
             return false;
         } else if (!stringContainChars(hash, allowChars)) {
@@ -286,7 +289,8 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         }
 
         View clearButton = getView().findViewById(R.id.buttonClear);
-        if (s.equals("")){
+
+        if (s.equals("")) {
             clearButton.setVisibility(View.GONE);
         }else {
             clearButton.setVisibility(View.VISIBLE);
