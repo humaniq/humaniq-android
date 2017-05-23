@@ -26,29 +26,33 @@ public class BaseFragment extends Fragment implements ViewContext, View.OnClickL
         return (BaseActivity) getActivity();
     }
 
+    public void onApiError(Errors errors, int type, int requestCode) {
+
+    }
+
     @Override
     public void onApiValidationError(Errors errors, int requestCode) {
-
+        onApiError(errors, API_VALIDATION_ERROR, requestCode);
     }
 
     @Override
     public void onApiPermissionError(Errors errors, int requestCode) {
-
+        onApiError(errors, API_PERMISSION_ERROR, requestCode);
     }
 
     @Override
     public void onApiAuthorizationError(Errors errors, int requestCode) {
-
+        onApiError(errors, API_AUTHORIZATION_ERROR, requestCode);
     }
 
     @Override
     public void onApiCriticalError(Errors errors, int requestCode) {
-
+        onApiError(errors, API_CRITICAL_ERROR, requestCode);
     }
 
     @Override
     public void onApiConnectionError(int requestCode) {
-
+        onApiError(null, API_CONNECTION_ERROR, requestCode);
     }
 
     @Override
@@ -70,4 +74,6 @@ public class BaseFragment extends Fragment implements ViewContext, View.OnClickL
     public void onClick(View view) {
 
     }
+
+
 }

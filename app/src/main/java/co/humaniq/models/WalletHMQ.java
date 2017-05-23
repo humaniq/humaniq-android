@@ -45,6 +45,18 @@ public class WalletHMQ {
         void onFinish(Uint256 balance);
     }
 
+    public class Existence {
+        private boolean exist;
+
+        public Existence(boolean exist) {
+            this.exist = exist;
+        }
+
+        public boolean isExist() {
+            return exist;
+        }
+    }
+
     public void getBalance(BalanceCallback callback) {
         new AsyncTask<Void, Void, Uint256>() {
             @Override

@@ -28,12 +28,15 @@ import java.util.concurrent.ExecutionException;
 
 import co.humaniq.R;
 import co.humaniq.models.*;
+import co.humaniq.services.AccountService;
 import co.humaniq.views.BaseFragment;
+import co.humaniq.views.ViewContext;
 
 
 public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     private ProgressDialog progressDialog;
     private final String TAG = "TransferCoinsFragment";
+    final static int REQUEST_IS_EXIST = 2001;
 
     private EditText editTextToWallet;
     private EditText editTextCoins;
@@ -42,12 +45,14 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     private View coinsLayout;
     private View frameInput;
     private boolean formIsValid = false;
+    private WalletHMQ wallet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_transfer_coins, container, false);
+        wallet = WalletHMQ.getWorkWallet();
 
         editTextToWallet = (EditText) view.findViewById(R.id.textEditWallet);
         editTextCoins = (EditText) view.findViewById(R.id.textEditCoins);
@@ -121,7 +126,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonTransfer:
-                doTransfer();
+                new AccountService(this).isExist(wallet.getAddress(), REQUEST_IS_EXIST);
                 break;
 
             case R.id.buttonScanQR:
@@ -290,18 +295,44 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
         View clearButton = getView().findViewById(R.id.buttonClear);
 
-        if (s.equals("")) {
+        if (editTextToWallet.getText().toString().equals("")) {
             clearButton.setVisibility(View.GONE);
-        }else {
+        } else {
             clearButton.setVisibility(View.VISIBLE);
         }
-
-
-
     }
 
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    @Override
+    public void onApiError(Errors errors, int type, int requestCode) {
+        if (type == API_VALIDATION_ERROR) {
+            alert("Error", "Wallet doesn't exist");
+        } else {
+            alert("Error", "Something went wrong");
+        }
+    }
+
+    @Override
+    public void onApiSuccess(ResultData result, int requestCode) {
+        super.onApiSuccess(result, requestCode);
+
+        switch (requestCode) {
+            case REQUEST_IS_EXIST:
+                WalletHMQ.Existence existence = (WalletHMQ.Existence) result.data();
+
+                if (existence.isExist()) {
+                    doTransfer();
+                } else {
+                    onApiValidationError(null, REQUEST_IS_EXIST);
+                    //onApiError(null, API_VALIDATION_ERROR, REQUEST_IS_EXIST);
+                }
+
+            default:
+                break;
+        }
     }
 }

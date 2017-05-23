@@ -1,6 +1,7 @@
 package co.humaniq.services;
 
 import co.humaniq.Client;
+import co.humaniq.models.WalletHMQ;
 import co.humaniq.models.WalletInfo;
 import co.humaniq.models.WalletMeta;
 import co.humaniq.views.ViewContext;
@@ -17,6 +18,11 @@ public class AccountService extends APIService {
         Call<WalletInfo> getSalt(
                 @Field("photo") String photoBase64,
                 @Field("public_address") String publicAddress
+        );
+
+        @GET("account/check_existence/")
+        Call<WalletHMQ.Existence> getExist(
+                @Query("address") String walletAddress
         );
 
         @GET("account/get_meta/")
@@ -55,9 +61,12 @@ public class AccountService extends APIService {
         APIService.doRequest(this, call, requestCode);
     }
 
-    public void getMeta(final String deviceId,
-                        final int requestCode)
-    {
+    public void isExist(String walletAddress, int requestCode){
+        Call<WalletHMQ.Existence> call = retrofitService.getExist(walletAddress);
+        APIService.doRequest(this, call, requestCode);
+    }
+
+    public void getMeta(final String deviceId, final int requestCode) {
         Call<WalletMeta> call = retrofitService.getMeta(deviceId);
         APIService.doRequest(this, call, requestCode);
     }

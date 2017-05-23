@@ -288,9 +288,11 @@ public class PinCodeActivity extends ToolbarActivity {
 
         hideProgressbar();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog alertDialog = builder.setTitle(title).setMessage(message).create();
-        alertDialog.show();
+        DebugTool.showDialog(this, title, message);
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        AlertDialog alertDialog = builder.setTitle(title).setMessage(message).create();
+//        alertDialog.show();
     }
 
     // Пин код введен не верно

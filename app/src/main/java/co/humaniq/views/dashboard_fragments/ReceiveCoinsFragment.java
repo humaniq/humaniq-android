@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import co.humaniq.DebugTool;
 import co.humaniq.ImageTool;
 import co.humaniq.R;
 import co.humaniq.models.AuthToken;
@@ -71,13 +72,15 @@ public class ReceiveCoinsFragment extends BaseFragment {
         ClipData clip = ClipData.newPlainText("Wallet", textMyWallet.getText().toString());
         clipboard.setPrimaryClip(clip);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        AlertDialog alertDialog = builder
-                .setTitle("Success")
-                .setMessage("Copied")
-                .setPositiveButton("Ok", (dialog, which) -> {})
-                .create();
+        DebugTool.showDialog(getActivity(), "Success", "Copied", () -> {
+        }, null);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        AlertDialog alertDialog = builder
+//                .setTitle("Success")
+//                .setMessage("Copied")
+//                .setPositiveButton("Ok", (dialog, which) -> {})
+//                .create();
 
-        alertDialog.show();
+//        alertDialog.show();
     }
 }
