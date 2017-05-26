@@ -26,6 +26,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
+import co.humaniq.DebugTool;
 import co.humaniq.R;
 import co.humaniq.models.*;
 import co.humaniq.services.AccountService;
@@ -76,7 +77,8 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         editTextCoins.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                doTransfer();
+                if (isValidTransferCash())
+                    new AccountService(this).isExist(editTextToWallet.getText().toString(), REQUEST_IS_EXIST);
                 return true;
             }
 
@@ -98,14 +100,17 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     public void updateView() {
+
         if (WalletHMQ.lastBalance != null) {
             final String total = WalletHMQ.lastBalance.getValue().toString() + " HMQ";
             textTotalInWallet.setText(total);
         }
 
-        WalletHMQ.getWorkWallet().getBalance(val -> {
-            textTotalInWallet.setText(val.getValue().toString() + " HMQ");
-        });
+        if (WalletHMQ.getWorkWallet() != null) {//!
+            WalletHMQ.getWorkWallet().getBalance(val -> {
+                textTotalInWallet.setText(val.getValue().toString() + " HMQ");
+            });
+        }
     }
 
     @Override
@@ -126,7 +131,8 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonTransfer:
-                new AccountService(this).isExist(editTextToWallet.getText().toString(), REQUEST_IS_EXIST);
+                if (isValidTransferCash())
+                    new AccountService(this).isExist(editTextToWallet.getText().toString(), REQUEST_IS_EXIST);
                 break;
 
             case R.id.buttonScanQR:
@@ -167,6 +173,17 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         progressDialog = null;  // Revoke
     }
 
+    private boolean isValidTransferCash(){
+        String balance = textTotalInWallet.getText().toString().split(" ")[0];
+        int clientCash = Integer.parseInt(balance);
+        int needCash = Integer.parseInt(editTextCoins.getText().toString());
+        if (clientCash < needCash){
+            DebugTool.showDialog(getContext(), "error", "not enough money");
+            return false;
+        }
+
+        return true;
+    }
 
     private void doTransfer() {
         decorateViewToError(coinsLayout, !coinsIsValid());
@@ -174,6 +191,9 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
         if (!formIsValid)
             return;
+
+
+
 
         showProgressbar();
 
@@ -212,10 +232,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         task.execute(toAddress, tokens);
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    }
 
     private boolean stringContainChars(final String inString, final String validChars) {
         // 2 т.к. первые 2 символа - это всегда 0x
@@ -303,6 +320,11 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
     public void afterTextChanged(Editable s) {
 
     }
@@ -335,4 +357,5 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
                 break;
         }
     }
+
 }

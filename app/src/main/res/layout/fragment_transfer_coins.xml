@@ -214,7 +214,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingStart="15dp"
-                android:text=""
+                android:text="0xb7c8e22bc0b2d805dc50f811e0e384b8f4afbc5c"
                 android:textColor="@color/darkBlue"
                 android:textColorHint="@color/takePhotoPressed" />
 

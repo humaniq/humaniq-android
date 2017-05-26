@@ -33,7 +33,7 @@ import co.humaniq.models.WalletHMQ;
 
 
 public class BaseActivity extends AppCompatActivity implements ViewContext, View.OnClickListener {
-    private static final int OUT_TO_MENU_MINUTES = 5;
+    protected static final int OUT_TO_MENU_MINUTES = 50 * 1000;
 
     boolean outToMenu;
 
@@ -244,6 +244,7 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
     protected void onPause() {
         super.onPause();
         countDownTimer.start();
+        System.out.print("kk");
     }
 
     @Override
@@ -256,7 +257,7 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
         }
     }
 
-    CountDownTimer countDownTimer = new CountDownTimer(OUT_TO_MENU_MINUTES * 60000, 1000) {
+    CountDownTimer countDownTimer = new CountDownTimer(OUT_TO_MENU_MINUTES , 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
 

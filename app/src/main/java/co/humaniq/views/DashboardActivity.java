@@ -17,6 +17,7 @@ import com.crashlytics.android.Crashlytics;
 
 import co.humaniq.R;
 import co.humaniq.models.AuthToken;
+import co.humaniq.models.WalletHMQ;
 import co.humaniq.services.notification.FcmInstanceIDListenerService;
 import co.humaniq.views.dashboard_fragments.HistoryFragment;
 import co.humaniq.views.dashboard_fragments.ReceiveCoinsFragment;
@@ -78,7 +79,6 @@ public class DashboardActivity extends ToolbarActivity {
         getActivityActionBar().setDisplayHomeAsUpEnabled(false);
         getActivityActionBar().setDisplayShowHomeEnabled(false);
         getActivityActionBar().setHomeButtonEnabled(false);
-//        getActivityActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white); TODO: убрать оттуда какую либо кнопку
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
@@ -138,22 +138,23 @@ public class DashboardActivity extends ToolbarActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();
         FcmInstanceIDListenerService.checkUpdateToken(this);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver,
                 new IntentFilter("fcm-message"));
+        super.onResume();
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
+        super.onPause();
     }
 
     @Override
     public void finish() {
         HistoryFragment.dataSetChanged = true;
         AuthToken.revoke();
+        WalletHMQ.revoke();
         super.finish();
     }
 

@@ -29,7 +29,7 @@
                   android:label="Authorize"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
-        <activity android:name=".views.RegisterActivity"
+        <activaity android:name=".views.RegisterActivity"
                   android:label="New user"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>

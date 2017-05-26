@@ -47,4 +47,6 @@ public class HistoryRecyclerAdapter extends ItemRecyclerAdapter<HistoryItem> {
                 return super.onCreateViewHolder(parent, viewType);
         }
     }
+
+
 }

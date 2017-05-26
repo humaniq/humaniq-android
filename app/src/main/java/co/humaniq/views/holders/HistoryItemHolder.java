@@ -25,6 +25,7 @@ public class HistoryItemHolder extends RecyclerItemHolder<HistoryItem> {
         textViewCoins.setText(total);
         textViewDate.setText(data.getFormattedDate());
 
+
         super.initViews(data);
     }
 }

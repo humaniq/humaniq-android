@@ -59,6 +59,7 @@ public class HistoryFragment extends BaseFragment {
     }
 
     private void initRecycler() {
+
         recyclerLayoutManager = new LinearLayoutManager(getActivityInstance());
         recyclerAdapter = new HistoryRecyclerAdapter(getActivityInstance(),
                 items,
