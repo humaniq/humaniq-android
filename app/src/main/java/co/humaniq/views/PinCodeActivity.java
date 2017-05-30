@@ -200,13 +200,13 @@ public class PinCodeActivity extends ToolbarActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.pin_code_menu, menu);
-
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+////        inflater.inflate(R.menu.pin_code_menu, menu);
+//
+//        return true;
+//    }
 
     @OnPermissionResult(REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION)
     public void nextStepOrLogin() {

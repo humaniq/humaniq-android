@@ -12,10 +12,13 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.VideoView;
 
 import com.crashlytics.android.Crashlytics;
 
+import co.humaniq.DebugTool;
 import co.humaniq.R;
+import co.humaniq.Router;
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.WalletHMQ;
 import co.humaniq.services.notification.FcmInstanceIDListenerService;
@@ -32,6 +35,8 @@ import java.util.ArrayList;
 public class DashboardActivity extends ToolbarActivity {
     private BottomMenuView bottomMenuView;
     private PagerAdapter pagerAdapter;
+    ViewPager viewPager;
+    private VideoView videoView;
 
     private class PagerAdapter extends FragmentPagerAdapter {
         ArrayList<BaseFragment> fragments = new ArrayList<>();
@@ -80,9 +85,10 @@ public class DashboardActivity extends ToolbarActivity {
         getActivityActionBar().setDisplayShowHomeEnabled(false);
         getActivityActionBar().setHomeButtonEnabled(false);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         View bottomMenu = findViewById(R.id.bottomMenu);
+        videoView = (VideoView) findViewById(R.id.video_view);
 
         pagerAdapter.addFragment(new HistoryFragment());
         pagerAdapter.addFragment(new TransferCoinsFragment());
@@ -131,9 +137,42 @@ public class DashboardActivity extends ToolbarActivity {
             case android.R.id.home:
                 return true;
 
+            case R.id.help:
+                showVideo();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showVideo() {
+        String videoName = "";
+
+        switch (viewPager.getCurrentItem()){
+            case 0:
+                videoName += R.raw.humaniq_2;
+                break;
+
+            case 1:
+                videoName += R.raw.humaniq_3;
+                break;
+
+            case 2:
+                videoName += R.raw.humaniq_4;
+                break;
+
+            default:
+                videoName += R.raw.humaniq_2;
+
+        }
+
+        String videoPath = "android.resource://" + getPackageName() + "/" + videoName;
+        Bundle bundle = new Bundle();
+        bundle.putString("path", videoPath);
+        Router.setBundle(bundle);
+        Router.goActivity(this, Router.VIDEO);
+
     }
 
     @Override

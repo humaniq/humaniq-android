@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.lang.annotation.ElementType;
@@ -24,6 +25,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import co.humaniq.Router;
@@ -33,7 +35,7 @@ import co.humaniq.models.WalletHMQ;
 
 
 public class BaseActivity extends AppCompatActivity implements ViewContext, View.OnClickListener {
-    protected static final int OUT_TO_MENU_MINUTES = 50 * 1000;
+    protected static final int OUT_TO_MENU_MINUTES = 3;
 
     boolean outToMenu;
 
@@ -240,32 +242,48 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
         fragments.add(new WeakReference<>(fragment));
     }
 
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        countDownTimer.start();
+//        System.out.print("kk");
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        countDownTimer.cancel();
+//        if (outToMenu) {
+//            WalletHMQ.revoke();
+//            Router.goActivity(getActivityInstance(), Router.GREETER);
+//        }
+//    }
+//
+//    CountDownTimer countDownTimer = new CountDownTimer(OUT_TO_MENU_MINUTES , 1000) {
+//        @Override
+//        public void onTick(long millisUntilFinished) {
+//
+//        }
+//
+//        @Override
+//        public void onFinish() {
+//            outToMenu = true;
+//       }
+//   };
+    long lastActivity = new Date().getTime();
     @Override
-    protected void onPause() {
-        super.onPause();
-        countDownTimer.start();
-        System.out.print("kk");
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        lastActivity = new Date().getTime();
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        countDownTimer.cancel();
-        if (outToMenu) {
-            WalletHMQ.revoke();
-            Router.goActivity(getActivityInstance(), Router.GREETER);
+        long now = new Date().getTime();
+        if (now - lastActivity > 60000 * OUT_TO_MENU_MINUTES) {
+            Router.goActivity(this, Router.GREETER);
+            // startActivity and force logon
         }
     }
-
-    CountDownTimer countDownTimer = new CountDownTimer(OUT_TO_MENU_MINUTES , 1000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-
-        }
-
-        @Override
-        public void onFinish() {
-            outToMenu = true;
-       }
-   };
 }

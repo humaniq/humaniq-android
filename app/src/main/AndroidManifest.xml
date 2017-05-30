@@ -57,6 +57,10 @@
         <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
                   android:screenOrientation="fullSensor"
                   tools:replace="screenOrientation" />
+        <activity android:name=".views.VideoActivity"
+            android:label="video"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="co.humaniq.fileprovider"

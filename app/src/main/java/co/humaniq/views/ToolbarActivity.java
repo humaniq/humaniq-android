@@ -1,5 +1,6 @@
 package co.humaniq.views;
 
+import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -73,14 +74,23 @@ public class ToolbarActivity extends BaseActivity {
                 return true;
 
             case R.id.help:
-                if (AuthToken.getInstance() != null && AuthToken.getInstance().getUser() != null)
-                    Router.goActivity(this, Router.PROFILE);
-
+//                if (AuthToken.getInstance() != null && AuthToken.getInstance().getUser() != null)
+//                    Router.goActivity(this, Router.PROFILE);
+                showVideo();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showVideo() {
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.humaniq_2;
+
+        Bundle bundle = new Bundle();
+        bundle.putString("path", videoPath);
+        Router.setBundle(bundle);
+        Router.goActivity(this, Router.VIDEO);
     }
 
     @Override

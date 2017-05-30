@@ -30,6 +30,7 @@ public class Router {
 
     public static Integer DASHBOARD = 3000;
     public static Integer PROFILE = 4000;
+    public static Integer VIDEO = 5000;
 
     private static Integer lastScreen = null;
 
@@ -57,6 +58,7 @@ public class Router {
         routes.put(PROFILE, new Route(ProfileActivity.class));
         routes.put(PIN_CODE, new Route(PinCodeActivity.class));
         routes.put(TAKE_PHOTO, new Route(TakePhotoActivity.class));
+        routes.put(VIDEO, new Route(VideoActivity.class));
     }
 
     private Router() {}
