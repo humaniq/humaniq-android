@@ -1,9 +1,12 @@
 package co.humaniq.views.dashboard_fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -33,6 +36,18 @@ public class HistoryFragment extends BaseFragment {
     static public boolean dataSetChanged = true;
     private HistoryService historyService;
     private WalletHMQ wallet;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate (R.menu.default_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import co.humaniq.R;
 import co.humaniq.Router;
-import co.humaniq.models.AuthToken;
 
 
 public class ToolbarActivity extends BaseActivity {
@@ -76,7 +75,7 @@ public class ToolbarActivity extends BaseActivity {
             case R.id.help:
 //                if (AuthToken.getInstance() != null && AuthToken.getInstance().getUser() != null)
 //                    Router.goActivity(this, Router.PROFILE);
-                showVideo();
+                showHelp();
                 return true;
 
             default:
@@ -84,11 +83,9 @@ public class ToolbarActivity extends BaseActivity {
         }
     }
 
-    private void showVideo() {
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.humaniq_2;
-
+    private void showHelp() {
         Bundle bundle = new Bundle();
-        bundle.putString("path", videoPath);
+        bundle.putInt("gifId", R.drawable.humaniq_1_medium);
         Router.setBundle(bundle);
         Router.goActivity(this, Router.VIDEO);
     }

@@ -80,6 +80,7 @@ dependencies {
     compile project(path: ':faceenginemobile')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
 }
 
 apply plugin: 'com.google.gms.google-services'

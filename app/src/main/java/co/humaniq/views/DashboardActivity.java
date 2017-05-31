@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -28,6 +30,7 @@ import co.humaniq.views.dashboard_fragments.WorksFragment;
 import co.humaniq.views.dashboard_fragments.TransferCoinsFragment;
 import co.humaniq.views.widgets.BottomMenuView;
 import io.fabric.sdk.android.Fabric;
+import pl.droidsonroids.gif.GifImageView;
 
 import java.util.ArrayList;
 
@@ -36,7 +39,6 @@ public class DashboardActivity extends ToolbarActivity {
     private BottomMenuView bottomMenuView;
     private PagerAdapter pagerAdapter;
     ViewPager viewPager;
-    private VideoView videoView;
 
     private class PagerAdapter extends FragmentPagerAdapter {
         ArrayList<BaseFragment> fragments = new ArrayList<>();
@@ -88,7 +90,6 @@ public class DashboardActivity extends ToolbarActivity {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         View bottomMenu = findViewById(R.id.bottomMenu);
-        videoView = (VideoView) findViewById(R.id.video_view);
 
         pagerAdapter.addFragment(new HistoryFragment());
         pagerAdapter.addFragment(new TransferCoinsFragment());
@@ -132,6 +133,11 @@ public class DashboardActivity extends ToolbarActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected (MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -149,27 +155,27 @@ public class DashboardActivity extends ToolbarActivity {
     private void showVideo() {
         String videoName = "";
 
+        int gifId;
         switch (viewPager.getCurrentItem()){
             case 0:
-                videoName += R.raw.humaniq_2;
+                gifId = R.drawable.humaniq_2_medium;
                 break;
 
             case 1:
-                videoName += R.raw.humaniq_3;
+                gifId = R.drawable.humaniq_3_medium;
                 break;
 
             case 2:
-                videoName += R.raw.humaniq_4;
+                gifId = R.drawable.humaniq_3_medium;
                 break;
 
             default:
-                videoName += R.raw.humaniq_2;
-
+                gifId = R.drawable.humaniq_2_medium;
         }
 
-        String videoPath = "android.resource://" + getPackageName() + "/" + videoName;
+
         Bundle bundle = new Bundle();
-        bundle.putString("path", videoPath);
+        bundle.putInt("gifId", gifId);
         Router.setBundle(bundle);
         Router.goActivity(this, Router.VIDEO);
 

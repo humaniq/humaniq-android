@@ -7,7 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import co.humaniq.DebugTool;
 import co.humaniq.ImageTool;
 import co.humaniq.R;
+import co.humaniq.Router;
 import co.humaniq.models.AuthToken;
 import co.humaniq.models.User;
 import co.humaniq.models.Wallet;
@@ -26,6 +30,18 @@ import co.humaniq.views.BaseFragment;
 
 public class ReceiveCoinsFragment extends BaseFragment {
     private TextView textMyWallet;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate (R.menu.default_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +58,7 @@ public class ReceiveCoinsFragment extends BaseFragment {
 
         attachOnClickView(view, R.id.buttonCopyWallet);
         attachOnClickView(view, R.id.buttonShareWallet);
+        attachOnClickView(view, R.id.buttonHelp);
         return view;
     }
 
@@ -55,7 +72,18 @@ public class ReceiveCoinsFragment extends BaseFragment {
             case R.id.buttonShareWallet:
                 shareWallet();
                 break;
+
+            case  R.id.buttonHelp:
+                showHelp();
+                break;
         }
+    }
+
+    private void showHelp() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("gifId", R.drawable.humaniq_2_medium);
+        Router.setBundle(bundle);
+        Router.goActivity(this, Router.VIDEO);
     }
 
     private void shareWallet() {

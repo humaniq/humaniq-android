@@ -86,5 +86,15 @@
             app:srcCompat="@mipmap/share"
             style="@style/RoundButton"/>
 
+        <ImageButton
+            android:id="@+id/buttonHelp"
+            android:layout_margin="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@mipmap/help"
+            style="@style/RoundButton"/>
+
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
