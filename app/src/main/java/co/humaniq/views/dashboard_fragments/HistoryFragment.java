@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.web3j.abi.datatypes.generated.Uint256;
-
 import co.humaniq.R;
 import co.humaniq.models.*;
 import co.humaniq.services.HistoryService;
@@ -22,6 +20,7 @@ import java.util.*;
 
 public class HistoryFragment extends BaseFragment {
     public static final int GET_HISTORY_REQUEST = 2001;
+    public static final int UPDATE_HISTORY_REQUEST = 2002;
     public static final String TAG = "HistoryFragment";
 
     private ArrayList<HistoryItem> items = new ArrayList<>();
@@ -29,7 +28,6 @@ public class HistoryFragment extends BaseFragment {
     private ItemRecyclerAdapter<HistoryItem> recyclerAdapter;
     private RecyclerView recyclerView;
     private Integer nextPage = 1;
-    private boolean loaded = false;
     static public boolean dataSetChanged = true;
     private HistoryService historyService;
     private WalletHMQ wallet;
@@ -45,16 +43,16 @@ public class HistoryFragment extends BaseFragment {
         historyService = new HistoryService(this);
 
         initRecycler();
-        load();
+        updateHistoryRequest();
 
         return view;
     }
 
-    private void load() {
-//        if (!loaded || dataSetChanged) {
-        dataSetChanged = false;
-        loaded = true;
-//        }
+    private void updateHistoryRequest() {
+        historyService.updateHistory(wallet.getAddress(), UPDATE_HISTORY_REQUEST);
+    }
+
+    private void retrieveHistoryRequest() {
         historyService.getHistory(wallet.getAddress(), GET_HISTORY_REQUEST);
     }
 
@@ -82,12 +80,32 @@ public class HistoryFragment extends BaseFragment {
             case GET_HISTORY_REQUEST:
                 fillHistoryViews((Page<HistoryItem>) result.data());
                 break;
+
+            case UPDATE_HISTORY_REQUEST:
+//                retrieveHistoryRequest();
+                break;
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        load();
+        updateHistoryRequest();
+    }
+
+    @Override
+    public void onMessageReceived(String message) {
+        switch (message) {
+            case "update":
+                updateHistoryRequest();
+                break;
+
+            case "retrieveHistory":
+                retrieveHistoryRequest();
+                break;
+
+            default:
+                break;
+        }
     }
 }

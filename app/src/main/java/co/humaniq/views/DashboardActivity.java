@@ -32,7 +32,7 @@ public class DashboardActivity extends ToolbarActivity {
     private BottomMenuView bottomMenuView;
     private PagerAdapter pagerAdapter;
 
-    private class PagerAdapter extends FragmentPagerAdapter {
+    private static class PagerAdapter extends FragmentPagerAdapter {
         ArrayList<BaseFragment> fragments = new ArrayList<>();
 
         PagerAdapter(FragmentManager fm) {
@@ -63,7 +63,7 @@ public class DashboardActivity extends ToolbarActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String method = intent.getStringExtra("message");
-            pagerAdapter.fragments.get(bottomMenuView.getCurrentTabIndex()).onResume();
+            pagerAdapter.fragments.get(bottomMenuView.getCurrentTabIndex()).onMessageReceived(method);
         }
     };
 

@@ -28,7 +28,7 @@ public class Web3 {
     }
 
     private Web3() {
-        service = new HttpService(Config.SERVER_URL + "/eth_rpc/");
+        service = new HttpService(Config.GETH_SERVER_URL);
         web3 = Web3jFactory.build(service);
         parity = ParityFactory.build(service);
     }

@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'io.fabric'
 
 repositories {
-  maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.fabric.io/public' }
     mavenCentral()
 }
 
@@ -44,7 +44,6 @@ android {
 }
 
 dependencies {
-    compile project(path: ':faceenginemobile')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     //        exclude group: 'com.android.support', module: 'support-annotations'
@@ -77,9 +76,10 @@ dependencies {
     compile 'com.google.firebase:firebase-core:10.2.6'
     compile 'com.google.firebase:firebase-messaging:10.2.6'
     //    testCompile 'junit:junit:4.12'
-    compile project(path: ':faceenginemobile')
+//    compile project(path: ':faceenginemobile')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile project(path: ':faceenginemobile')
 }
 
 apply plugin: 'com.google.gms.google-services'

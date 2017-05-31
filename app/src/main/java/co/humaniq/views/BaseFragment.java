@@ -70,4 +70,8 @@ public class BaseFragment extends Fragment implements ViewContext, View.OnClickL
     public void onClick(View view) {
 
     }
+
+    public void onMessageReceived(String message) {
+
+    }
 }

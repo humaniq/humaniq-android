@@ -23,7 +23,7 @@ public class FcmListenerService extends FirebaseMessagingService {
 
     private void sendMessage(String message) {
         Intent intent = new Intent("fcm-message");
-        intent.putExtra("method", message);
+        intent.putExtra("message", message);
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }

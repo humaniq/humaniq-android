@@ -27,7 +27,7 @@ class ResetPinCodeController(private val context: Context) {
     }
 
     private fun displayYesNoDialog() {
-        val dialogClickListener = { dialog: DialogInterface, which: Int ->
+        val dialogClickListener = {  _: DialogInterface, which: Int ->
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> {
                 }
