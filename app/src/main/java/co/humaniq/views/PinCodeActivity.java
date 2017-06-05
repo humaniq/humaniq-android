@@ -374,6 +374,13 @@ public class PinCodeActivity extends ToolbarActivity {
     static class WalletAsyncTaskParam {
         int action;
         WalletInfo walletInfo;
+        WalletHMQ wallet;
+
+        WalletAsyncTaskParam(int action, WalletInfo walletInfo, WalletHMQ wallet) {
+            this.action = action;
+            this.walletInfo = walletInfo;
+            this.wallet = wallet;
+        }
 
         WalletAsyncTaskParam(int action, WalletInfo walletInfo) {
             this.action = action;
@@ -387,8 +394,9 @@ public class PinCodeActivity extends ToolbarActivity {
 
     private class WalletAsyncTask extends AsyncTask<WalletAsyncTaskParam, Void, WalletHMQ> {
         final static int GENERATE_WALLET = 0;
-        final static int SAVE_WALLET = 1;
-        final static int SIGN_WALLET = 2;
+        final static int SET_AS_WORK_WALLET = 1;
+        final static int SAVE_WALLET = 2;
+        final static int SIGN_WALLET = 3;
 
         private WalletAsyncTaskParam param;
 
@@ -442,6 +450,9 @@ public class PinCodeActivity extends ToolbarActivity {
                 case SIGN_WALLET:
                     return getSignedWalletTask();
 
+                case SET_AS_WORK_WALLET:
+                    return setAsWorkWalletTask();
+
                 default:
                     throw new UnsupportedOperationException();
             }
@@ -479,9 +490,28 @@ public class PinCodeActivity extends ToolbarActivity {
 //            }
         }
 
-        private void getSignedWalletPostExecute(WalletHMQ signedWallet) {
-            signedWallet.setAsWorkWallet();
+        private WalletHMQ setAsWorkWalletTask() {
+            if (param.wallet.setAsWorkWallet()) {
+                return param.wallet;
+            } else {
+                return null;
+            }
+        }
 
+        private void getSignedWalletPostExecute(WalletHMQ signedWallet) {
+            new WalletAsyncTask().execute(new WalletAsyncTaskParam(WalletAsyncTask.SET_AS_WORK_WALLET, param.walletInfo, signedWallet));
+//            signedWallet.setAsWorkWallet();
+//
+//            if (param.walletInfo != null)
+//                preferences.setAccountSalt(param.walletInfo.getSalt());
+//
+//            preferences.setLoginCount(preferences.getLoginCount() + 1);
+//
+//            setResult(RESULT_OK);
+//            finish();
+        }
+
+        private void setAsWorkWalletPostExecute(WalletHMQ signedWallet) {
             if (param.walletInfo != null)
                 preferences.setAccountSalt(param.walletInfo.getSalt());
 
@@ -509,6 +539,10 @@ public class PinCodeActivity extends ToolbarActivity {
 
                 case SIGN_WALLET:
                     getSignedWalletPostExecute(result);
+                    break;
+
+                case SET_AS_WORK_WALLET:
+                    setAsWorkWalletPostExecute(result);
                     break;
 
                 default:

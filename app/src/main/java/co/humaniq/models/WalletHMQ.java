@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import android.os.Environment;
 import android.util.Log;
+import co.humaniq.contracts.Emission;
 import co.humaniq.contracts.HumaniqToken;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint256;
@@ -39,6 +40,7 @@ public class WalletHMQ {
     private Credentials credentials;
     private WalletInfo walletInfo;
     private HumaniqToken tokenContract;
+    private Emission emissionContract;
     public static Uint256 lastBalance = null;
 
     public interface BalanceCallback {
@@ -191,17 +193,37 @@ public class WalletHMQ {
         }
     }
 
-    public void setAsWorkWallet() {
+    public boolean setAsWorkWallet() {
         workWallet = this;
 
         Web3 web3 = Web3.getInstance();
-        workWallet.tokenContract = new HumaniqToken(
-                Config.HMQ_TOKEN_CONTRACT_ADDRESS,
+
+        workWallet.emissionContract = new Emission(
+                Config.EMISSION_CONTRACT_ADDRESS,
                 web3.getWeb3(),
                 workWallet.credentials,
                 ManagedTransaction.GAS_PRICE,
                 Contract.GAS_LIMIT
         );
+
+        try {
+            Address address = workWallet.emissionContract.humaniqToken().get();
+            workWallet.tokenContract = new HumaniqToken(
+                    address.toString(),
+                    web3.getWeb3(),
+                    workWallet.credentials,
+                    ManagedTransaction.GAS_PRICE,
+                    Contract.GAS_LIMIT
+            );
+            return true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        workWallet = null;
+        return false;
     }
 
     public static void revoke() {

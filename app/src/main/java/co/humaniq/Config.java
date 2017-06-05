@@ -9,4 +9,5 @@ public class Config {
     public static final int PREVIEW_HEIGHT = 768;
 
     public static final String HMQ_TOKEN_CONTRACT_ADDRESS = "0xf87ba182343fdb09d66842edc039b8fa14d1ccd4";
+    public static final String EMISSION_CONTRACT_ADDRESS = "0xc9e376ae4f8fa2cbdd50bbbd3ac380012ff0c6d0";
 }

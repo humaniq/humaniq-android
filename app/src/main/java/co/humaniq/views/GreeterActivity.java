@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import co.humaniq.HMQTokenContract;
 import co.humaniq.R;
 import co.humaniq.Router;
 import co.humaniq.Web3;
