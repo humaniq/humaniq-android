@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import android.os.Environment;
 import android.util.Log;
+import co.humaniq.contracts.HumaniqToken;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.CipherException;
@@ -25,7 +26,6 @@ import java.util.concurrent.ExecutionException;
 
 import co.humaniq.App;
 import co.humaniq.Config;
-import co.humaniq.HMQTokenContract;
 import co.humaniq.Preferences;
 import co.humaniq.Web3;
 
@@ -38,7 +38,7 @@ public class WalletHMQ {
     private ECKeyPair ecKeyPair;
     private Credentials credentials;
     private WalletInfo walletInfo;
-    private HMQTokenContract tokenContract;
+    private HumaniqToken tokenContract;
     public static Uint256 lastBalance = null;
 
     public interface BalanceCallback {
@@ -75,7 +75,7 @@ public class WalletHMQ {
         return !accountKeyFile.equals("") && !address.equals("");
     }
 
-    public HMQTokenContract getTokenContract() {
+    public HumaniqToken getTokenContract() {
         return tokenContract;
     }
 
@@ -195,7 +195,7 @@ public class WalletHMQ {
         workWallet = this;
 
         Web3 web3 = Web3.getInstance();
-        workWallet.tokenContract = new HMQTokenContract(
+        workWallet.tokenContract = new HumaniqToken(
                 Config.HMQ_TOKEN_CONTRACT_ADDRESS,
                 web3.getWeb3(),
                 workWallet.credentials,
