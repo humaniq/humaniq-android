@@ -108,13 +108,16 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
         }
     }
 
+    private float sqr(float val) {
+        return val*val;
+    }
+
     private Point freePointAboutTouch(float X, float Y) {
         for (Point point : points) {
             float pointX = point.X;
             float pointY = point.Y;
-            boolean isTouchOnX = Math.abs(pointX - X) <= BIG_CIRCLE_PIXELS;
-            boolean isTouchOnY = Math.abs(pointY - Y) <= BIG_CIRCLE_PIXELS;
-            if (isTouchOnX && isTouchOnY && !point.selected) {
+            float vecLength = (float) Math.sqrt(sqr(pointX - X) + sqr(pointY - Y));
+            if (vecLength <= BIG_CIRCLE_PIXELS && !point.selected) {
                 return point;
             }
         }

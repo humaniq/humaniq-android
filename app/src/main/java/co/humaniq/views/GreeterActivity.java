@@ -64,7 +64,7 @@ public class GreeterActivity extends BaseActivity {
 //                transaction.
 //                WalletHMQ wallet = WalletHMQ.getOrCreateWallet(this, "123321");
 
-//                Web3 web3 = Web3.getInstance();
+//                Web3 web3 = Web3.getInstance();A
 //                Web3j web3j = web3.getWeb3();
 
 //                try {
@@ -72,7 +72,7 @@ public class GreeterActivity extends BaseActivity {
 //                    HMQTokenContract contract = new HMQTokenContract(Web3.contractAddress, web3j, credentials, GAS_PRICE, GAS_LIMIT);
 //
 //                    Log.d("WALLET BALANCE", contract.balanceOf(new Address("0x9ddbd6be2d3a88f6877b562868385569e5d66fe5")).get().getValue().toString());
-//
+//+
 //                    Log.d("WALLET", credentials.getAddress());
 //                    Log.d("WALLET", wallet.getWalletPath());
 

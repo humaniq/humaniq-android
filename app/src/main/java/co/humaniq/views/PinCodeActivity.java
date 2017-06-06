@@ -502,15 +502,6 @@ public class PinCodeActivity extends ToolbarActivity {
 
         private void getSignedWalletPostExecute(WalletHMQ signedWallet) {
             new WalletAsyncTask().execute(new WalletAsyncTaskParam(WalletAsyncTask.SET_AS_WORK_WALLET, param.walletInfo, signedWallet));
-//            signedWallet.setAsWorkWallet();
-//
-//            if (param.walletInfo != null)
-//                preferences.setAccountSalt(param.walletInfo.getSalt());
-//
-//            preferences.setLoginCount(preferences.getLoginCount() + 1);
-//
-//            setResult(RESULT_OK);
-//            finish();
         }
 
         private void setAsWorkWalletPostExecute(WalletHMQ signedWallet) {
