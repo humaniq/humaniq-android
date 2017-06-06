@@ -19,8 +19,8 @@ import co.humaniq.R;
 
 public class GraphicKeyView extends View implements View.OnTouchListener {
     final static int BIG_CIRCLE_PIXELS = 40;
-    final static int MEDIUM_CIRCLE_PIXELS  = 15;
-    final static int SMALL_CIRCLE_PIXELS  = 7;
+    final static int MEDIUM_CIRCLE_PIXELS = 15;
+    final static int SMALL_CIRCLE_PIXELS = 7;
 
 
     public interface GraphicKeyCallback {
@@ -47,7 +47,7 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
         initComponents();
     }
 
-    public void setNewPasswordRegime(boolean newPasswordRegime){
+    public void setNewPasswordRegime(boolean newPasswordRegime) {
         this.newPasswordRegime = newPasswordRegime;
     }
 
@@ -71,7 +71,8 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
     }
 
     private void initComponents() {
-        callback = password -> {};
+        callback = password -> {
+        };
 
         paint = new Paint();
         edges = new ArrayList<>();
@@ -98,18 +99,20 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
         float space = thirdWidth / 2;
 
         int k = 0;
+
+        // Create points and assign number interpretation for each point from 1 to 9
         for (int j = -1; j <= 1; j++) {
-            for (int i = 1; i <= 3; i++) {                             //цифровая интерпритация
-                float X = thirdWidth * (i - 0.5f);                  // 1 2 3
-                float Y = halfHeight + (j * space * 2);             // 4 5 6
-                points[k] = new Point(X, Y, k + 1);         // 7 8 9
+            for (int i = 1; i <= 3; i++) {
+                float X = thirdWidth * (i - 0.5f);
+                float Y = halfHeight + (j * space * 2);
+                points[k] = new Point(X, Y, k + 1);
                 k++;
             }
         }
     }
 
     private float sqr(float val) {
-        return val*val;
+        return val * val;
     }
 
     private Point freePointAboutTouch(float X, float Y) {
@@ -124,31 +127,40 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
         return null;
     }
 
-    private boolean notBarier(Point point){
+    private boolean notBarier(Point point) {
         if (selectedPoints.isEmpty()) return true;
         Point lastPoint = selectedPoints.get(selectedPoints.size() - 1);
 
         boolean oddLastPoint = lastPoint.number % 2 != 0;
         boolean oddSelectedPoint = point.number % 2 != 0;
-        if (oddLastPoint && lastPoint.number != 5){
-            if (oddSelectedPoint && point.number != 5){
+        if (oddLastPoint && lastPoint.number != 5) {
+            if (oddSelectedPoint && point.number != 5) {
                 return false;
             }
         }
 
-        if (!oddLastPoint) {
-            switch (lastPoint.number){
-                case 2: if (point.number == 8) return false;
-                        break;
-                case 8: if (point.number == 2) return false;
-                    break;
-                case 4: if (point.number == 6) return false;
-                        break;
-                case 6: if (point.number == 4) return false;
-                    break;
-            }
+        if (oddLastPoint)
+            return true;
 
+        switch (lastPoint.number) {
+            case 2:
+                if (point.number == 8)
+                    return false;
+                break;
+            case 8:
+                if (point.number == 2)
+                    return false;
+                break;
+            case 4:
+                if (point.number == 6)
+                    return false;
+                break;
+            case 6:
+                if (point.number == 4)
+                    return false;
+                break;
         }
+
         return true;
     }
 
@@ -176,11 +188,10 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
             currentEdge.pointA.setPosition(selectedPoint.X, selectedPoint.Y);
             currentEdge.pointB.setPosition(selectedPoint.X, selectedPoint.Y);
         }
-
     }
 
     private void onActionUp() {
-        if (newPasswordRegime){
+        if (newPasswordRegime) {
             newPasswordActionUp();
         } else {
             actionUp();
@@ -215,7 +226,7 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
         }
     }
 
-    public String getKey(){
+    public String getKey() {
         enteredPassword = "";
         for (Point point : selectedPoints) {
             enteredPassword += point.number;
@@ -225,7 +236,7 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
         return enteredPassword;
     }
 
-    public void clearKey(){
+    public void clearKey() {
         currentEdge = null;
         edges.clear();
         selectedPoints.clear();

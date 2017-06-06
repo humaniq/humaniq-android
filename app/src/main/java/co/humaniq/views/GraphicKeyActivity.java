@@ -87,9 +87,9 @@ public class GraphicKeyActivity extends ToolbarActivity {
         });
         preferences = App.getPreferences(this);
 
-        graphicKeyView.setNewPasswordRegime(true);
+//        graphicKeyView.setNewPasswordRegime(true);
 
-        if (preferences.getFirstRun()){
+        if (!WalletHMQ.hasKeyOnDevice(this)){
             findViewById(R.id.clear_key).setVisibility(View.VISIBLE);
             findViewById(R.id.save_key).setVisibility(View.VISIBLE);
             graphicKeyView.setNewPasswordRegime(true);
