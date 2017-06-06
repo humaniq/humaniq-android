@@ -9,14 +9,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.VideoView;
 
 import com.crashlytics.android.Crashlytics;
 
+import co.humaniq.DebugTool;
 import co.humaniq.R;
+import co.humaniq.Router;
 import co.humaniq.models.AuthToken;
+import co.humaniq.models.WalletHMQ;
 import co.humaniq.services.notification.FcmInstanceIDListenerService;
 import co.humaniq.views.dashboard_fragments.HistoryFragment;
 import co.humaniq.views.dashboard_fragments.ReceiveCoinsFragment;
@@ -24,6 +30,7 @@ import co.humaniq.views.dashboard_fragments.WorksFragment;
 import co.humaniq.views.dashboard_fragments.TransferCoinsFragment;
 import co.humaniq.views.widgets.BottomMenuView;
 import io.fabric.sdk.android.Fabric;
+import pl.droidsonroids.gif.GifImageView;
 
 import java.util.ArrayList;
 
@@ -31,6 +38,7 @@ import java.util.ArrayList;
 public class DashboardActivity extends ToolbarActivity {
     private BottomMenuView bottomMenuView;
     private PagerAdapter pagerAdapter;
+    ViewPager viewPager;
 
     private static class PagerAdapter extends FragmentPagerAdapter {
         ArrayList<BaseFragment> fragments = new ArrayList<>();
@@ -78,9 +86,8 @@ public class DashboardActivity extends ToolbarActivity {
         getActivityActionBar().setDisplayHomeAsUpEnabled(false);
         getActivityActionBar().setDisplayShowHomeEnabled(false);
         getActivityActionBar().setHomeButtonEnabled(false);
-//        getActivityActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white); TODO: убрать оттуда какую либо кнопку
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         View bottomMenu = findViewById(R.id.bottomMenu);
 
@@ -126,9 +133,18 @@ public class DashboardActivity extends ToolbarActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected (MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                return true;
+
+            case R.id.help:
+                showVideo();
                 return true;
 
             default:
@@ -136,24 +152,56 @@ public class DashboardActivity extends ToolbarActivity {
         }
     }
 
+    private void showVideo() {
+        String videoName = "";
+
+        int gifId;
+        switch (viewPager.getCurrentItem()){
+            case 0:
+                gifId = R.drawable.humaniq_2_medium;
+                break;
+
+            case 1:
+                gifId = R.drawable.humaniq_3_medium;
+                break;
+
+            case 2:
+                gifId = R.drawable.humaniq_3_medium;
+                break;
+
+            default:
+                gifId = R.drawable.humaniq_2_medium;
+        }
+
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("gifId", gifId);
+        Router.setBundle(bundle);
+        Router.goActivity(this, Router.VIDEO);
+
+    }
+
     @Override
     protected void onResume() {
-        super.onResume();
         FcmInstanceIDListenerService.checkUpdateToken(this);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver,
                 new IntentFilter("fcm-message"));
+        super.onResume();
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
+        super.onPause();
     }
 
     @Override
     public void finish() {
         HistoryFragment.dataSetChanged = true;
         AuthToken.revoke();
+        WalletHMQ.revoke();
         super.finish();
     }
+
+
 }

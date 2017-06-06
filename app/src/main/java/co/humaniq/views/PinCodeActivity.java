@@ -200,13 +200,13 @@ public class PinCodeActivity extends ToolbarActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.pin_code_menu, menu);
-
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+////        inflater.inflate(R.menu.pin_code_menu, menu);
+//
+//        return true;
+//    }
 
     @OnPermissionResult(REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION)
     public void nextStepOrLogin() {
@@ -288,9 +288,11 @@ public class PinCodeActivity extends ToolbarActivity {
 
         hideProgressbar();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog alertDialog = builder.setTitle(title).setMessage(message).create();
-        alertDialog.show();
+        DebugTool.showDialog(this, title, message);
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        AlertDialog alertDialog = builder.setTitle(title).setMessage(message).create();
+//        alertDialog.show();
     }
 
     // Пин код введен не верно

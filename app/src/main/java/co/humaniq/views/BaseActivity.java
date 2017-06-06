@@ -29,20 +29,13 @@ import java.util.Date;
 import java.util.List;
 
 import co.humaniq.Router;
-import co.humaniq.Web3;
-import co.humaniq.models.APIErrors;
 import co.humaniq.models.Errors;
 import co.humaniq.models.ResultData;
-import okhttp3.Route;
+import co.humaniq.models.WalletHMQ;
 
 
 public class BaseActivity extends AppCompatActivity implements ViewContext, View.OnClickListener {
-    public static final int API_VALIDATION_ERROR = 0;
-    public static final int API_PERMISSION_ERROR = 1;
-    public static final int API_AUTHORIZATION_ERROR = 2;
-    public static final int API_CRITICAL_ERROR = 3;
-    public static final int API_CONNECTION_ERROR = 4;
-    private static final int OUT_TO_MENU_MINUTS = 5;
+    protected static final int OUT_TO_MENU_MINUTES = 3;
 
     boolean outToMenu;
 
@@ -249,34 +242,48 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
         fragments.add(new WeakReference<>(fragment));
     }
 
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        countDownTimer.start();
+//        System.out.print("kk");
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        countDownTimer.cancel();
+//        if (outToMenu) {
+//            WalletHMQ.revoke();
+//            Router.goActivity(getActivityInstance(), Router.GREETER);
+//        }
+//    }
+//
+//    CountDownTimer countDownTimer = new CountDownTimer(OUT_TO_MENU_MINUTES , 1000) {
+//        @Override
+//        public void onTick(long millisUntilFinished) {
+//
+//        }
+//
+//        @Override
+//        public void onFinish() {
+//            outToMenu = true;
+//       }
+//   };
+    long lastActivity = new Date().getTime();
     @Override
-   protected void onPause() {
-       super.onPause();
-       countDownTimer.start();
-   }
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        lastActivity = new Date().getTime();
+        return super.dispatchTouchEvent(ev);
+    }
 
-   @Override
-   protected void onResume() {
-       super.onResume();
-       countDownTimer.cancel();
-       if (outToMenu){
-           Router.goActivity(getActivityInstance(), Router.GREETER);
-       }
-   }
-
-
-
-   CountDownTimer countDownTimer = new CountDownTimer(OUT_TO_MENU_MINUTS * 60000, 1000){
-
-       @Override
-       public void onTick(long millisUntilFinished) {
-
-       }
-
-       @Override
-       public void onFinish() {
-           outToMenu = true;
-       }
-   };
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        long now = new Date().getTime();
+        if (now - lastActivity > 60000 * OUT_TO_MENU_MINUTES) {
+            Router.goActivity(this, Router.GREETER);
+            // startActivity and force logon
+        }
+    }
 }

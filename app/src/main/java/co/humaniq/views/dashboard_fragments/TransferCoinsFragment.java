@@ -26,14 +26,18 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
+import co.humaniq.DebugTool;
 import co.humaniq.R;
 import co.humaniq.models.*;
+import co.humaniq.services.AccountService;
 import co.humaniq.views.BaseFragment;
+import co.humaniq.views.ViewContext;
 
 
 public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     private ProgressDialog progressDialog;
     private final String TAG = "TransferCoinsFragment";
+    final static int REQUEST_IS_EXIST = 2001;
 
     private EditText editTextToWallet;
     private EditText editTextCoins;
@@ -42,12 +46,14 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     private View coinsLayout;
     private View frameInput;
     private boolean formIsValid = false;
+    private WalletHMQ wallet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_transfer_coins, container, false);
+        wallet = WalletHMQ.getWorkWallet();
 
         editTextToWallet = (EditText) view.findViewById(R.id.textEditWallet);
         editTextCoins = (EditText) view.findViewById(R.id.textEditCoins);
@@ -71,7 +77,8 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         editTextCoins.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                doTransfer();
+                if (isValidTransferCash())
+                    new AccountService(this).isExist(editTextToWallet.getText().toString(), REQUEST_IS_EXIST);
                 return true;
             }
 
@@ -93,14 +100,17 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     }
 
     public void updateView() {
+
         if (WalletHMQ.lastBalance != null) {
             final String total = WalletHMQ.lastBalance.getValue().toString() + " HMQ";
             textTotalInWallet.setText(total);
         }
 
-        WalletHMQ.getWorkWallet().getBalance(val -> {
-            textTotalInWallet.setText(val.getValue().toString() + " HMQ");
-        });
+        if (WalletHMQ.getWorkWallet() != null) {//!
+            WalletHMQ.getWorkWallet().getBalance(val -> {
+                textTotalInWallet.setText(val.getValue().toString() + " HMQ");
+            });
+        }
     }
 
     @Override
@@ -121,7 +131,8 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonTransfer:
-                doTransfer();
+                if (isValidTransferCash())
+                    new AccountService(this).isExist(editTextToWallet.getText().toString(), REQUEST_IS_EXIST);
                 break;
 
             case R.id.buttonScanQR:
@@ -162,6 +173,17 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         progressDialog = null;  // Revoke
     }
 
+    private boolean isValidTransferCash(){
+        String balance = textTotalInWallet.getText().toString().split(" ")[0];
+        int clientCash = Integer.parseInt(balance);
+        int needCash = Integer.parseInt(editTextCoins.getText().toString());
+        if (clientCash < needCash){
+            DebugTool.showDialog(getContext(), "error", "not enough money");
+            return false;
+        }
+
+        return true;
+    }
 
     private void doTransfer() {
         decorateViewToError(coinsLayout, !coinsIsValid());
@@ -169,6 +191,9 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
         if (!formIsValid)
             return;
+
+
+
 
         showProgressbar();
 
@@ -207,10 +232,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         task.execute(toAddress, tokens);
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    }
 
     private boolean stringContainChars(final String inString, final String validChars) {
         // 2 т.к. первые 2 символа - это всегда 0x
@@ -290,13 +312,15 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
         View clearButton = getView().findViewById(R.id.buttonClear);
 
-        if (s.equals("")) {
+        if (editTextToWallet.getText().toString().equals("")) {
             clearButton.setVisibility(View.GONE);
-        }else {
+        } else {
             clearButton.setVisibility(View.VISIBLE);
         }
+    }
 
-
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
 
@@ -304,4 +328,34 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     public void afterTextChanged(Editable s) {
 
     }
+
+    @Override
+    public void onApiError(Errors errors, int type, int requestCode) {
+        if (type == API_VALIDATION_ERROR) {
+            alert("Error", "Wallet doesn't exist");
+        } else {
+            alert("Error", "Something went wrong");
+        }
+    }
+
+    @Override
+    public void onApiSuccess(ResultData result, int requestCode) {
+        super.onApiSuccess(result, requestCode);
+
+        switch (requestCode) {
+            case REQUEST_IS_EXIST:
+                WalletHMQ.Existence existence = (WalletHMQ.Existence) result.data();
+
+                if (existence.isExist()) {
+                    doTransfer();
+                } else {
+                    onApiValidationError(null, REQUEST_IS_EXIST);
+                    //onApiError(null, API_VALIDATION_ERROR, REQUEST_IS_EXIST);
+                }
+
+            default:
+                break;
+        }
+    }
+
 }

@@ -21,6 +21,7 @@ public class HistoryItem extends DummyModel {
     private Long logIndex;
     private Long timestamp;
 
+    @SerializedName("is_gift") private boolean isGift;
     @SerializedName("event_from") private String from;
     @SerializedName("event_to") private String to;
     @SerializedName("event_value") private Long value;
@@ -41,6 +42,9 @@ public class HistoryItem extends DummyModel {
 
         else if (wallet.getAddress().equals(to))
             return ViewType.HISTORY_RECEIVED;
+
+        else if (isGift)
+            return ViewType.HISTORY_BONUS;
 
         return viewType;
     }

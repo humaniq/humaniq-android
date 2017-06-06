@@ -1,5 +1,6 @@
 package co.humaniq.views;
 
+import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import co.humaniq.R;
 import co.humaniq.Router;
-import co.humaniq.models.AuthToken;
 
 
 public class ToolbarActivity extends BaseActivity {
@@ -73,14 +73,21 @@ public class ToolbarActivity extends BaseActivity {
                 return true;
 
             case R.id.help:
-                if (AuthToken.getInstance() != null && AuthToken.getInstance().getUser() != null)
-                    Router.goActivity(this, Router.PROFILE);
-
+//                if (AuthToken.getInstance() != null && AuthToken.getInstance().getUser() != null)
+//                    Router.goActivity(this, Router.PROFILE);
+                showHelp();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showHelp() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("gifId", R.drawable.humaniq_1_medium);
+        Router.setBundle(bundle);
+        Router.goActivity(this, Router.VIDEO);
     }
 
     @Override
