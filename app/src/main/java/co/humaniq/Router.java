@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import co.humaniq.views.*;
 import co.humaniq.views.take_photo.TakePhotoActivity;
+import co.humaniq.views.widgets.GraphicKeyView;
 
 import java.util.HashMap;
 
@@ -31,6 +32,7 @@ public class Router {
     public static Integer DASHBOARD = 3000;
     public static Integer PROFILE = 4000;
     public static Integer VIDEO = 5000;
+    public static Integer GRAPHIC_KEY = 6000;
 
     private static Integer lastScreen = null;
 
@@ -59,6 +61,7 @@ public class Router {
         routes.put(PIN_CODE, new Route(PinCodeActivity.class));
         routes.put(TAKE_PHOTO, new Route(TakePhotoActivity.class));
         routes.put(VIDEO, new Route(VideoActivity.class));
+        routes.put(GRAPHIC_KEY, new Route(GraphicKeyActivity.class));
     }
 
     private Router() {}

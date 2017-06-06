@@ -11,6 +11,7 @@
     <color name="pin_active_overlay">#44ffffff</color>
     <color name="takePhotoRipple">#2B50BC</color>
     <color name="takePhotoPressed">#5a2b50bc</color>
+    <color name="alphaWhite">#deffffff</color>
 
     <color name="success">#47bc58</color>
     <color name="error">#bc2b2b</color>

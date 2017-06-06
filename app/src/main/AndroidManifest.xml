@@ -29,12 +29,16 @@
                   android:label="Authorize"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
-        <activaity android:name=".views.RegisterActivity"
+        <activity android:name=".views.RegisterActivity"
                   android:label="New user"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
         <activity android:name=".views.PinCodeActivity"
                   android:label="Pincode"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme"/>
+        <activity android:name=".views.GraphicKeyActivity"
+                  android:label="key"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
         <activity android:name=".views.take_photo.TakePhotoActivity"
