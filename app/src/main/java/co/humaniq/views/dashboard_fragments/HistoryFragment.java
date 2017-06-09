@@ -27,13 +27,12 @@ public class HistoryFragment extends BaseFragment {
     public static final String TAG = "HistoryFragment";
 
     private ArrayList<HistoryItem> items = new ArrayList<>();
-    private LinearLayoutManager recyclerLayoutManager;
     private ItemRecyclerAdapter<HistoryItem> recyclerAdapter;
     private RecyclerView recyclerView;
     private Integer nextPage = 1;
     static public boolean dataSetChanged = true;
     private HistoryService historyService;
-    private WalletHMQ wallet;
+    private Wallet wallet;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +53,7 @@ public class HistoryFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         recyclerView = (RecyclerView) view;
 
-        wallet = WalletHMQ.getWorkWallet();
+        wallet = Wallet.getWorkWallet();
         historyService = new HistoryService(this);
 
         initRecycler();
@@ -73,7 +72,7 @@ public class HistoryFragment extends BaseFragment {
 
     private void initRecycler() {
 
-        recyclerLayoutManager = new LinearLayoutManager(getActivityInstance());
+        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(getActivityInstance());
         recyclerAdapter = new HistoryRecyclerAdapter(getActivityInstance(),
                 items,
                 HistoryItemHolder::new);

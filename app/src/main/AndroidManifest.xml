@@ -25,18 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".views.LoginActivity"
-                  android:label="Authorize"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme"/>
-        <activity android:name=".views.RegisterActivity"
-                  android:label="New user"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme"/>
-        <activity android:name=".views.PinCodeActivity"
-                  android:label="Pincode"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme"/>
         <activity android:name=".views.GraphicKeyActivity"
                   android:label="key"
                   android:screenOrientation="portrait"
@@ -50,18 +38,10 @@
                   android:windowSoftInputMode="adjustPan"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"/>
-        <activity android:name=".views.ProfileActivity"
-                  android:label="Profile"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme"/>
-        <activity android:name=".views.LoginSignatureActivity"
-                  android:label="Profile"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme"/>
         <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
                   android:screenOrientation="fullSensor"
                   tools:replace="screenOrientation" />
-        <activity android:name=".views.VideoActivity"
+        <activity android:name=".views.HelpVideoActivity"
             android:label="video"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
@@ -90,5 +70,4 @@
             </intent-filter>
         </service>
     </application>
-
 </manifest>

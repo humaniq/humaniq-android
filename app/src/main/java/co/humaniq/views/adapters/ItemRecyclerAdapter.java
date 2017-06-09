@@ -11,6 +11,7 @@ import co.humaniq.views.holders.LoadingHolder;
 import co.humaniq.views.holders.RecyclerItemHolder;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 
 public class ItemRecyclerAdapter<T extends BaseModel>
@@ -37,12 +38,13 @@ public class ItemRecyclerAdapter<T extends BaseModel>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
+        final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         if (viewType == BaseModel.ViewType.LOADING) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_loading, parent, false);
+            view = inflater.inflate(R.layout.recycler_item_loading,parent, false);
             return new LoadingHolder(viewContext, view);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
+            view = inflater.inflate(layout, parent, false);
             return holderFactory.createInstance(viewContext, view);
         }
     }

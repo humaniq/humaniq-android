@@ -11,20 +11,58 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import co.humaniq.R;
-
-/**
- * Created by filaps on 31.05.17.
- */
 
 public class GraphicKeyView extends View implements View.OnTouchListener {
     final static int BIG_CIRCLE_PIXELS = 40;
+    final static int TOUCH = 60;
     final static int MEDIUM_CIRCLE_PIXELS = 15;
     final static int SMALL_CIRCLE_PIXELS = 7;
 
-
     public interface GraphicKeyCallback {
         void onFinish(final String password);
+    }
+
+    class Point {
+        float X;
+        float Y;
+        boolean selected;
+        int number;
+
+        Point() {
+            X = 0;
+            Y = 0;
+        }
+
+        Point(float X, float Y) {
+            this.X = X;
+            this.Y = Y;
+            selected = false;
+        }
+
+        Point(float X, float Y, int number) {
+            this(X, Y);
+            this.number = number;
+
+        }
+
+        void setPosition(float X, float Y) {
+            this.X = X;
+            this.Y = Y;
+        }
+    }
+
+    class Edge {
+        Point pointA;
+        Point pointB;
+
+        Edge() {
+            pointA = new Point();
+            pointB = new Point();
+        }
+
+        void draw(Canvas canvas) {
+            canvas.drawLine(pointA.X, pointA.Y, pointB.X, pointB.Y, paint);
+        }
     }
 
     GraphicKeyCallback callback;
@@ -37,7 +75,7 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
     ArrayList<Point> selectedPoints;
     String enteredPassword;
 
-    boolean newPasswordRegime;
+    boolean newPasswordMode;
     boolean blockedPoints;
     int screenWidth;
     int screenHeight;
@@ -47,10 +85,9 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
         initComponents();
     }
 
-    public void setNewPasswordRegime(boolean newPasswordRegime) {
-        this.newPasswordRegime = newPasswordRegime;
+    public void setNewPasswordMode(final boolean newPasswordMode) {
+        this.newPasswordMode = newPasswordMode;
     }
-
 
     public GraphicKeyView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -71,20 +108,19 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
     }
 
     private void initComponents() {
-        callback = password -> {
-        };
-
+        callback = password -> {};
         paint = new Paint();
         edges = new ArrayList<>();
         selectedPoints = new ArrayList<>();
-        initPoints();
 
+        initPoints();
         setOnTouchListener(this);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+
         screenWidth = w;
         screenHeight = h;
 
@@ -120,7 +156,7 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
             float pointX = point.X;
             float pointY = point.Y;
             float vecLength = (float) Math.sqrt(sqr(pointX - X) + sqr(pointY - Y));
-            if (vecLength <= BIG_CIRCLE_PIXELS && !point.selected) {
+            if (vecLength <= TOUCH && !point.selected) {
                 return point;
             }
         }
@@ -191,14 +227,14 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
     }
 
     private void onActionUp() {
-        if (newPasswordRegime) {
+        if (newPasswordMode) {
             newPasswordActionUp();
+            blockedPoints = true;
         } else {
             actionUp();
         }
         currentEdge = null;
         invalidate();
-        blockedPoints = true;
     }
 
     private void actionUp() {
@@ -232,7 +268,6 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
             enteredPassword += point.number;
         }
 
-//        blockedPoints = false;
         return enteredPassword;
     }
 
@@ -263,18 +298,20 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //background
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
+
+        // Background
         canvas.drawARGB(255, 69, 148, 255);
 
-        //Точки графического ключа
-
+        // Points of the graphic key
         paint.setColor(Color.WHITE);
         int circleSize;
+
         for (Point point : points) {
-            float X = point.X;
-            float Y = point.Y;
+            final float X = point.X;
+            final float Y = point.Y;
+
             if (point.selected) {
                 paint.setStrokeWidth(5);
                 circleSize = BIG_CIRCLE_PIXELS;
@@ -290,7 +327,7 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
             canvas.drawCircle(X, Y, circleSize, paint);
         }
 
-        //Линии которые уже зацепились за точки
+        // Active edges
         paint.setStrokeWidth(10);
         paint.setColor(Color.argb(150, 255, 255, 255));
 
@@ -325,54 +362,10 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
                 break;
 
             default:
-                return true;//super.onTouch(v, event);
+                return true;
         }
 
         invalidate();
         return true;
-    }
-
-    class Point {
-        float X;
-        float Y;
-        boolean selected;
-        int number;
-        String hideValue;
-
-        Point() {
-            X = 0;
-            Y = 0;
-        }
-
-        Point(float X, float Y) {
-            this.X = X;
-            this.Y = Y;
-            selected = false;
-        }
-
-        Point(float X, float Y, int number) {
-            this(X, Y);
-            this.number = number;
-
-        }
-
-        void setPosition(float X, float Y) {
-            this.X = X;
-            this.Y = Y;
-        }
-    }
-
-    class Edge {
-        Point pointA;
-        Point pointB;
-
-        Edge() {
-            pointA = new Point();
-            pointB = new Point();
-        }
-
-        void draw(Canvas canvas) {
-            canvas.drawLine(pointA.X, pointA.Y, pointB.X, pointB.Y, paint);
-        }
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import co.humaniq.views.*;
 import co.humaniq.views.take_photo.TakePhotoActivity;
-import co.humaniq.views.widgets.GraphicKeyView;
 
 import java.util.HashMap;
 
@@ -23,14 +22,10 @@ public class Router {
     // Это необходимо чтобы было меньше конфликтов при слиянии веток.
 
     public static Integer GREETER = 1000;
-    public static Integer LOGIN = 2000;
-    public static Integer LOGIN_SIGNATURE = 2001;
     public static Integer REGISTER = 2002;
-    public static Integer PIN_CODE = 2003;
     public static Integer TAKE_PHOTO = 2004;
 
     public static Integer DASHBOARD = 3000;
-    public static Integer PROFILE = 4000;
     public static Integer VIDEO = 5000;
     public static Integer GRAPHIC_KEY = 6000;
 
@@ -41,7 +36,6 @@ public class Router {
         Class klass;
 
         Route(final Class klass, final String title) {
-            this.title = title;
             this.klass = klass;
         }
 
@@ -53,14 +47,9 @@ public class Router {
     private static HashMap<Integer, Route> routes = new HashMap<>();
     static {
         routes.put(GREETER, new Route(GreeterActivity.class));
-        routes.put(LOGIN, new Route(LoginActivity.class));
-        routes.put(REGISTER, new Route(RegisterActivity.class));
-        routes.put(LOGIN_SIGNATURE, new Route(LoginSignatureActivity.class));
         routes.put(DASHBOARD, new Route(DashboardActivity.class));
-        routes.put(PROFILE, new Route(ProfileActivity.class));
-        routes.put(PIN_CODE, new Route(PinCodeActivity.class));
         routes.put(TAKE_PHOTO, new Route(TakePhotoActivity.class));
-        routes.put(VIDEO, new Route(VideoActivity.class));
+        routes.put(VIDEO, new Route(HelpVideoActivity.class));
         routes.put(GRAPHIC_KEY, new Route(GraphicKeyActivity.class));
     }
 
@@ -117,41 +106,5 @@ public class Router {
             activity.startActivity(intent);
         else
             activity.startActivityForResult(intent, requestCode);
-    }
-
-    public static void goFragment(final ViewContext context, final Integer screenCode) {
-        Bundle bundle = Router.bundle;
-        Router.bundle = null;
-
-        Class fragmentClass = routes.get(screenCode).klass;
-        String title = routes.get(screenCode).title;
-
-        if (fragmentClass == null)
-            return;
-
-        Object fragmentInstance = null;
-        BaseActivity activity = context.getActivityInstance();
-
-        try {
-            fragmentInstance = fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-        assert fragmentInstance != null;
-
-        if (!title.equals(""))
-            activity.setTitle(title);
-
-        lastScreen = screenCode;
-
-        if (bundle != null)
-            ((BaseFragment) fragmentInstance).setArguments(bundle);
-
-//        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.contentLayout, (BaseFragment) fragmentInstance)
-//                .commit();
     }
 }

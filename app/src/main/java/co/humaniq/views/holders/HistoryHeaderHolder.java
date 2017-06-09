@@ -3,10 +3,8 @@ package co.humaniq.views.holders;
 import android.view.View;
 import android.widget.TextView;
 import co.humaniq.R;
-import co.humaniq.models.AuthToken;
 import co.humaniq.models.BaseModel;
 import co.humaniq.models.Wallet;
-import co.humaniq.models.WalletHMQ;
 import co.humaniq.views.ViewContext;
 
 
@@ -21,12 +19,12 @@ public class HistoryHeaderHolder extends RecyclerItemHolder<BaseModel> {
 
     @Override
     public void initViews(BaseModel data) {
-        final WalletHMQ wallet = WalletHMQ.getWorkWallet();
+        final Wallet wallet = Wallet.getWorkWallet();
         if (wallet == null)
             return;
 
-        if (WalletHMQ.lastBalance != null) {
-            final String total = WalletHMQ.lastBalance.getValue().toString() + " HMQ";
+        if (Wallet.lastBalance != null) {
+            final String total = Wallet.lastBalance.getValue().toString() + " HMQ";
             textTotalInWallet.setText(total);
         }
 

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,7 +30,6 @@ import java.util.List;
 import co.humaniq.Router;
 import co.humaniq.models.Errors;
 import co.humaniq.models.ResultData;
-import co.humaniq.models.WalletHMQ;
 
 
 public class BaseActivity extends AppCompatActivity implements ViewContext, View.OnClickListener {
@@ -242,35 +240,8 @@ public class BaseActivity extends AppCompatActivity implements ViewContext, View
         fragments.add(new WeakReference<>(fragment));
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        countDownTimer.start();
-//        System.out.print("kk");
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        countDownTimer.cancel();
-//        if (outToMenu) {
-//            WalletHMQ.revoke();
-//            Router.goActivity(getActivityInstance(), Router.GREETER);
-//        }
-//    }
-//
-//    CountDownTimer countDownTimer = new CountDownTimer(OUT_TO_MENU_MINUTES , 1000) {
-//        @Override
-//        public void onTick(long millisUntilFinished) {
-//
-//        }
-//
-//        @Override
-//        public void onFinish() {
-//            outToMenu = true;
-//       }
-//   };
     long lastActivity = new Date().getTime();
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         lastActivity = new Date().getTime();

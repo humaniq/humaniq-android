@@ -35,10 +35,6 @@ public interface Preferences {
     void setLoginCount(Integer count);
 
     // Account
-//    @DefaultInteger(0)
-//    Integer getAccountId();
-//    void setAccountId(Integer id);
-
     @DefaultString("")
     String getAccountAddress();
     void setAccountAddress(String account);
@@ -56,7 +52,6 @@ public interface Preferences {
     void setAccountSalt(String accountSalt);
 
     // Firebase
-
     @DefaultString("")
     String getFCMToken();
     void setFCMToken(String token);

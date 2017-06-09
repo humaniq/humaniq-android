@@ -29,7 +29,6 @@
             android:paddingBottom="15dp" android:id="@+id/toolbar_logo"/>
     </android.support.v7.widget.Toolbar>
 
-
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gif_view"
         android:layout_width="0dp"
@@ -44,5 +43,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:layout_editor_absoluteY="202dp" />
-
 </android.support.constraint.ConstraintLayout>

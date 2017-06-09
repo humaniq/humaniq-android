@@ -1,6 +1,5 @@
 package co.humaniq.views.dashboard_fragments;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,14 +13,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint256;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
@@ -31,7 +28,6 @@ import co.humaniq.R;
 import co.humaniq.models.*;
 import co.humaniq.services.AccountService;
 import co.humaniq.views.BaseFragment;
-import co.humaniq.views.ViewContext;
 
 
 public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
@@ -46,14 +42,14 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
     private View coinsLayout;
     private View frameInput;
     private boolean formIsValid = false;
-    private WalletHMQ wallet;
+    private Wallet wallet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_transfer_coins, container, false);
-        wallet = WalletHMQ.getWorkWallet();
+        wallet = Wallet.getWorkWallet();
 
         editTextToWallet = (EditText) view.findViewById(R.id.textEditWallet);
         editTextCoins = (EditText) view.findViewById(R.id.textEditCoins);
@@ -93,23 +89,16 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         formIsValid = isValid;
     }
 
-    private void alert(final String title, final String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        AlertDialog alertDialog = builder.setTitle(title).setMessage(message).create();
-        alertDialog.show();
-    }
-
     public void updateView() {
-
-        if (WalletHMQ.lastBalance != null) {
-            final String total = WalletHMQ.lastBalance.getValue().toString() + " HMQ";
+        if (Wallet.lastBalance != null) {
+            final String total = Wallet.lastBalance.getValue().toString() + " HMQ";
             textTotalInWallet.setText(total);
         }
 
-        if (WalletHMQ.getWorkWallet() != null) {//!
-            WalletHMQ.getWorkWallet().getBalance(val -> {
-                textTotalInWallet.setText(val.getValue().toString() + " HMQ");
-            });
+        if (Wallet.getWorkWallet() != null) {//!
+            Wallet.getWorkWallet().getBalance(
+                    val -> textTotalInWallet.setText(val.getValue().toString() + " HMQ")
+            );
         }
     }
 
@@ -185,6 +174,40 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         return true;
     }
 
+    static class TransferTask extends AsyncTask<String, Void, Uint256> {
+        private TransferCoinsFragment fragment;
+
+        TransferTask(TransferCoinsFragment fragment) {
+            this.fragment = fragment;
+        }
+
+        @Override
+        protected Uint256 doInBackground(String... params) {
+            Wallet wallet = Wallet.getWorkWallet();
+
+            try {
+                final String toAddress = params[0];
+                final String tokens = params[1];
+
+                final String address = wallet.getAddress();
+                final Uint256 value = new Uint256(new BigInteger(tokens));
+
+                return wallet.getTokenContract().balanceOf(new Address(address)).get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Uint256 result) {
+            fragment.hideProgressbar();
+
+            if (result == null)
+                DebugTool.showDialog(fragment.getContext(), "Error", "Can't do transfer");
+        }
+    };
+
     private void doTransfer() {
         decorateViewToError(coinsLayout, !coinsIsValid());
         decorateViewToError(frameInput, !walletIsValid());
@@ -192,50 +215,17 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         if (!formIsValid)
             return;
 
-
-
-
         showProgressbar();
-
-        AsyncTask<String, Void, Uint256> task = new AsyncTask<String, Void, Uint256>() {
-            @Override
-            protected Uint256 doInBackground(String... params) {
-                WalletHMQ wallet = WalletHMQ.getWorkWallet();
-
-                try {
-                    final String toAddress = params[0];
-                    final String tokens = params[1];
-
-                    final String address = wallet.getAddress();
-                    final Uint256 value = new Uint256(new BigInteger(tokens));
-
-                    TransactionReceipt receipt = wallet.getTokenContract().transfer(new Address(toAddress), value).get();
-                    return wallet.getTokenContract().balanceOf(new Address(address)).get();
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Uint256 result) {
-                hideProgressbar();
-
-                if (result == null)
-                    alert("Error", "Can't do transfer");
-            }
-        };
 
         final String toAddress = editTextToWallet.getText().toString();
         final String tokens = editTextCoins.getText().toString();
 
-        task.execute(toAddress, tokens);
+        new TransferTask(this).execute(toAddress, tokens);
     }
 
-
-
+    // Test that inString contains acceptable chars which in validChars
     private boolean stringContainChars(final String inString, final String validChars) {
-        // 2 т.к. первые 2 символа - это всегда 0x
+        // i = 2 because of first two symbols always are '0', 'x'
         for (int i = 2; i < inString.length(); ++i){
             final char c1 = inString.charAt(i);
             boolean matched = false;
@@ -288,7 +278,7 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
         if (!hash.startsWith("0x"))
             return false;
 
-        final WalletHMQ wallet = WalletHMQ.getWorkWallet();
+        final Wallet wallet = Wallet.getWorkWallet();
 
         if (wallet == null || wallet.getAddress().equals(hash))
             return false;
@@ -331,10 +321,10 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
     @Override
     public void onApiError(Errors errors, int type, int requestCode) {
-        if (type == API_VALIDATION_ERROR) {
-            alert("Error", "Wallet doesn't exist");
+        if (requestCode == REQUEST_IS_EXIST) {
+            DebugTool.showDialog(getContext(), "Error", "Wallet doesn't exist");
         } else {
-            alert("Error", "Something went wrong");
+            DebugTool.showDialog(getContext(), "Error", "Something went wrong");
         }
     }
 
@@ -344,18 +334,16 @@ public class TransferCoinsFragment extends BaseFragment implements TextWatcher {
 
         switch (requestCode) {
             case REQUEST_IS_EXIST:
-                WalletHMQ.Existence existence = (WalletHMQ.Existence) result.data();
+                Wallet.Existence existence = (Wallet.Existence) result.data();
 
                 if (existence.isExist()) {
                     doTransfer();
                 } else {
                     onApiValidationError(null, REQUEST_IS_EXIST);
-                    //onApiError(null, API_VALIDATION_ERROR, REQUEST_IS_EXIST);
                 }
 
             default:
                 break;
         }
     }
-
 }

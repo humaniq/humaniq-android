@@ -78,6 +78,4 @@ public class BaseFragment extends Fragment implements ViewContext, View.OnClickL
     public void onMessageReceived(String message) {
 
     }
-
-
 }

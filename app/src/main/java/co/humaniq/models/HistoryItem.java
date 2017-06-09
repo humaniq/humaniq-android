@@ -2,12 +2,9 @@ package co.humaniq.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.web3j.abi.datatypes.generated.Uint256;
-
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class HistoryItem extends DummyModel {
@@ -35,7 +32,7 @@ public class HistoryItem extends DummyModel {
         if (viewType != ViewType.DATA)
             return viewType;
 
-        WalletHMQ wallet = WalletHMQ.getWorkWallet();
+        Wallet wallet = Wallet.getWorkWallet();
 
         if (wallet.getAddress().equals(from))
             return ViewType.HISTORY_TRANSFERRED;

@@ -24,7 +24,7 @@ public class HistoryRecyclerAdapter extends ItemRecyclerAdapter<HistoryItem> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType) {
             case BaseModel.ViewType.HISTORY_HEADER:
@@ -47,6 +47,4 @@ public class HistoryRecyclerAdapter extends ItemRecyclerAdapter<HistoryItem> {
                 return super.onCreateViewHolder(parent, viewType);
         }
     }
-
-
 }

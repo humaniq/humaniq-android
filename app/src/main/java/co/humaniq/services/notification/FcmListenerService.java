@@ -75,7 +75,7 @@ public class FcmListenerService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
-                .setSmallIcon(R.drawable.cake)
+                .setSmallIcon(R.drawable.cake)  // TODO: change icon
                 .setSound(defaultSoundUri);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)

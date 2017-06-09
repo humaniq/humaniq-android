@@ -13,7 +13,7 @@ import co.humaniq.App;
 import co.humaniq.Client;
 import co.humaniq.Preferences;
 import co.humaniq.models.DummyModel;
-import co.humaniq.models.WalletHMQ;
+import co.humaniq.models.Wallet;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,10 +37,10 @@ public class FcmInstanceIDListenerService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();
-        WalletHMQ wallet = null;
+        Wallet wallet = null;
 
         while (wallet == null) {
-            wallet = WalletHMQ.getWorkWallet();
+            wallet = Wallet.getWorkWallet();
         }
 
         final String token = FirebaseInstanceId.getInstance().getToken();
@@ -77,13 +77,13 @@ public class FcmInstanceIDListenerService extends FirebaseInstanceIdService {
         Preferences preferences = App.getPreferences(context);
         final boolean tokenSent = preferences.getFCMTokenSent();
 
-//        if (tokenSent)
-//            return;
+        if (tokenSent)
+            return;
 
         RetrofitService retrofitService = Client.getRetrofitInstance()
                 .create(RetrofitService.class);
 
-        WalletHMQ wallet = WalletHMQ.getWorkWallet();
+        Wallet wallet = Wallet.getWorkWallet();
 
         if (wallet == null) {
             Log.e(TAG, "Work wallet is null");

@@ -10,19 +10,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.VideoView;
 
+import co.humaniq.models.Wallet;
 import com.crashlytics.android.Crashlytics;
 
-import co.humaniq.DebugTool;
 import co.humaniq.R;
 import co.humaniq.Router;
-import co.humaniq.models.AuthToken;
-import co.humaniq.models.WalletHMQ;
 import co.humaniq.services.notification.FcmInstanceIDListenerService;
 import co.humaniq.views.dashboard_fragments.HistoryFragment;
 import co.humaniq.views.dashboard_fragments.ReceiveCoinsFragment;
@@ -30,7 +26,6 @@ import co.humaniq.views.dashboard_fragments.WorksFragment;
 import co.humaniq.views.dashboard_fragments.TransferCoinsFragment;
 import co.humaniq.views.widgets.BottomMenuView;
 import io.fabric.sdk.android.Fabric;
-import pl.droidsonroids.gif.GifImageView;
 
 import java.util.ArrayList;
 
@@ -198,10 +193,7 @@ public class DashboardActivity extends ToolbarActivity {
     @Override
     public void finish() {
         HistoryFragment.dataSetChanged = true;
-        AuthToken.revoke();
-        WalletHMQ.revoke();
+        Wallet.revoke();
         super.finish();
     }
-
-
 }

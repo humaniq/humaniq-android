@@ -6,13 +6,13 @@ import co.humaniq.models.ResultData;
 
 
 public interface ViewContext {
-    public static final int GENERAL_REQUEST = 1000;
-    public static final int API_UNSPECIFIED_ERROR = -1;
-    public static final int API_VALIDATION_ERROR = 0;
-    public static final int API_PERMISSION_ERROR = 1;
-    public static final int API_AUTHORIZATION_ERROR = 2;
-    public static final int API_CRITICAL_ERROR = 3;
-    public static final int API_CONNECTION_ERROR = 4;
+    int GENERAL_REQUEST = 1000;
+    int API_UNSPECIFIED_ERROR = -1;
+    int API_VALIDATION_ERROR = 0;
+    int API_PERMISSION_ERROR = 1;
+    int API_AUTHORIZATION_ERROR = 2;
+    int API_CRITICAL_ERROR = 3;
+    int API_CONNECTION_ERROR = 4;
 
     Context getInstance();
     BaseActivity getActivityInstance();

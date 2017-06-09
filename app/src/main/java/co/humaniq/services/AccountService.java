@@ -1,7 +1,7 @@
 package co.humaniq.services;
 
 import co.humaniq.Client;
-import co.humaniq.models.WalletHMQ;
+import co.humaniq.models.Wallet;
 import co.humaniq.models.WalletInfo;
 import co.humaniq.models.WalletMeta;
 import co.humaniq.views.ViewContext;
@@ -21,7 +21,7 @@ public class AccountService extends APIService {
         );
 
         @GET("account/check_existence/")
-        Call<WalletHMQ.Existence> getExist(
+        Call<Wallet.Existence> getExist(
                 @Query("address") String walletAddress
         );
 
@@ -62,7 +62,7 @@ public class AccountService extends APIService {
     }
 
     public void isExist(String walletAddress, int requestCode){
-        Call<WalletHMQ.Existence> call = retrofitService.getExist(walletAddress);
+        Call<Wallet.Existence> call = retrofitService.getExist(walletAddress);
         APIService.doRequest(this, call, requestCode);
     }
 

@@ -8,6 +8,6 @@ public class Config {
     public static final int PREVIEW_WIDTH = 1024;
     public static final int PREVIEW_HEIGHT = 768;
 
-    public static final String HMQ_TOKEN_CONTRACT_ADDRESS = "0xf87ba182343fdb09d66842edc039b8fa14d1ccd4";
-    public static final String EMISSION_CONTRACT_ADDRESS = "0xc9e376ae4f8fa2cbdd50bbbd3ac380012ff0c6d0";
+    public static final String HMQ_TOKEN_CONTRACT_ADDRESS = "0x1269666b14729f6b7d67e2935cf5632f0a9f1cda";
+    public static final String EMISSION_CONTRACT_ADDRESS = "0x89a867f444ae9beafa99c2021c3111ac69525e52";
 }
