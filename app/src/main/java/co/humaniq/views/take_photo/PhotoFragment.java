@@ -284,33 +284,33 @@ public class PhotoFragment extends RxFragment implements Camera.PreviewCallback,
         RectF rectDisplay = new RectF();
         RectF rectPreview = new RectF();
 
-        // RectF экрана, соотвествует размерам экрана
+        // RectF of screen, corresponds to the screen size
         rectDisplay.set(0, 0, width, height);
 
-        // RectF первью
+        // RectF preview
         if (widthIsMax) {
-            // превью в горизонтальной ориентации
+            // preview in horizontal orientation
             rectPreview.set(0, 0, photoProcessor.getPreviewWidth(), photoProcessor.getPreviewHeight());
         } else {
-            // превью в вертикальной ориентации
-            //noinspection SuspiciousNameCombination
+            // preview in vertical orientation
+            // noinspection SuspiciousNameCombination
             rectPreview.set(0, 0, photoProcessor.getPreviewHeight(), photoProcessor.getPreviewWidth());
         }
 
         Matrix matrix = new Matrix();
-        // подготовка матрицы преобразования
+        // transformation matrix preparation
         if (!fullScreen) {
-            // если превью будет "втиснут" в экран
+            // If the preview is placed into the screen
             matrix.setRectToRect(rectPreview, rectDisplay, Matrix.ScaleToFit.START);
         } else {
-            // если экран будет "втиснут" в превью
+            // If the screen is placed in the preview
             matrix.setRectToRect(rectDisplay, rectPreview, Matrix.ScaleToFit.START);
             matrix.invert(matrix);
         }
-        // преобразование
+        // transformation
         matrix.mapRect(rectPreview);
 
-        // установка размеров surface из получившегося преобразования
+        // setting the surface dimensions from the resulting transformation
         final ViewGroup.LayoutParams layoutParams = preview.getLayoutParams();
         if (layoutParams.width != (int) rectPreview.right || layoutParams.height != (int) rectPreview.bottom) {
             layoutParams.height = (int) (rectPreview.bottom);
@@ -322,7 +322,7 @@ public class PhotoFragment extends RxFragment implements Camera.PreviewCallback,
     }
 
     void setCameraDisplayOrientation(int cameraId) {
-        // определяем насколько повернут экран от нормального положения
+        // determine how much the screen is rotated from its normal position
         int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
         int degrees = 0;
         switch (rotation) {

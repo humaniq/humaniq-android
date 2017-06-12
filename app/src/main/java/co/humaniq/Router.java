@@ -11,19 +11,9 @@ import java.util.HashMap;
 public class Router {
     private final static String TAG = "Router";
 
-    // В качестве нумерации использовуется следующий формат:
-    // первые две цифры - номер страници/экрана и все что к нему относится, к пример
-    // к главной странице относятся - сам экран главная, тур, новости и полезные советы
-    // первые две цифры = 20, Когда заканчиваются цифры, к примеру 90 уже есть, заполняется
-    // вторая цифра, к примеру 11.
-    //
-    // Вторе две цифры - номер секции, к примеру тур - 01, новости - 02 итд.
-    //
-    // Это необходимо чтобы было меньше конфликтов при слиянии веток.
-
     public static Integer GREETER = 1000;
-    public static Integer REGISTER = 2002;
-    public static Integer TAKE_PHOTO = 2004;
+    public static Integer REGISTER = 2000;
+    public static Integer TAKE_PHOTO = 2001;
 
     public static Integer DASHBOARD = 3000;
     public static Integer VIDEO = 5000;
