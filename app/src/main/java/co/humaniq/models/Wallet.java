@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import android.os.Environment;
 import android.util.Log;
+import co.humaniq.BuildConfig;
 import co.humaniq.contracts.Emission;
 import co.humaniq.contracts.HumaniqToken;
 import org.web3j.abi.datatypes.Address;
@@ -26,7 +27,6 @@ import java.security.NoSuchProviderException;
 import java.util.concurrent.ExecutionException;
 
 import co.humaniq.App;
-import co.humaniq.Config;
 import co.humaniq.Preferences;
 import co.humaniq.Web3;
 
@@ -207,53 +207,24 @@ public class Wallet {
 
     public boolean setAsWorkWallet() {
         workWallet = this;
-
         Web3 web3 = Web3.getInstance();
 
-//        workWallet.emissionContract = new Emission(
-//                Config.EMISSION_CONTRACT_ADDRESS,
-//                web3.getWeb3(),
-//                workWallet.credentials,
-//                ManagedTransaction.GAS_PRICE,
-//                Contract.GAS_LIMIT
-//        );
-
-        workWallet.tokenContract = new HumaniqToken(
-                Config.HMQ_TOKEN_CONTRACT_ADDRESS,
+        workWallet.emissionContract = new Emission(
+                BuildConfig.EMISSION_CONTRACT_ADDRESS,
                 web3.getWeb3(),
                 workWallet.credentials,
                 ManagedTransaction.GAS_PRICE,
                 Contract.GAS_LIMIT
         );
 
-//        try {
-//            TransactionReceipt receipt = workWallet.emissionContract.fixRegistration().get();
-//            return true;
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
+        workWallet.tokenContract = new HumaniqToken(
+                BuildConfig.HMQ_TOKEN_CONTRACT_ADDRESS,
+                web3.getWeb3(),
+                workWallet.credentials,
+                ManagedTransaction.GAS_PRICE,
+                Contract.GAS_LIMIT
+        );
 
-//        try {
-//            Address address = workWallet.emissionContract.humaniqToken().get();
-//            Log.d("HUMANIQ_CONTRACT", address.toString());
-//            Log.d("HUMANIQ_CONTRACT", Config.HMQ_TOKEN_CONTRACT_ADDRESS);
-//            workWallet.tokenContract = new HumaniqToken(
-//                    address.toString(),
-//                    web3.getWeb3(),
-//                    workWallet.credentials,
-//                    ManagedTransaction.GAS_PRICE,
-//                    Contract.GAS_LIMIT
-//            );
-//            return true;
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-
-//        workWallet = null;
         return true;
     }
 
@@ -268,7 +239,7 @@ public class Wallet {
     }
 
     public String getQRCodeImageURL() {
-        return Config.SERVER_URL + "/qr_codes/" + getAddress();
+        return BuildConfig.SERVER_URL + "/qr_codes/" + getAddress();
     }
 
     public String getWalletPath() {

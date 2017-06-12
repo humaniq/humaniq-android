@@ -21,12 +21,30 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+
+        buildConfigField "int", "PREVIEW_WIDTH", "1024"
+        buildConfigField "int", "PREVIEW_HEIGHT", "768"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
+
+            buildConfigField "String", "GETH_SERVER_URL", '"http://23.97.76.3/eth_rpc/"'
+            buildConfigField "String", "SERVER_URL", '"http://52.15.49.76"'
+            buildConfigField "String", "API_URL", '"/api/"'
+
+            buildConfigField "String", "HMQ_TOKEN_CONTRACT_ADDRESS", '"0x1269666b14729f6b7d67e2935cf5632f0a9f1cda"'
+            buildConfigField "String", "EMISSION_CONTRACT_ADDRESS", '"0x89a867f444ae9beafa99c2021c3111ac69525e52"'
+        }
+        debug {
+            buildConfigField "String", "GETH_SERVER_URL", '"http://23.97.76.3/eth_rpc/"'
+            buildConfigField "String", "SERVER_URL", '"http://52.15.49.76"'
+            buildConfigField "String", "API_URL", '"/api/"'
+
+            buildConfigField "String", "HMQ_TOKEN_CONTRACT_ADDRESS", '"0x1269666b14729f6b7d67e2935cf5632f0a9f1cda"'
+            buildConfigField "String", "EMISSION_CONTRACT_ADDRESS", '"0x89a867f444ae9beafa99c2021c3111ac69525e52"'
         }
     }
     compileOptions {
@@ -68,8 +86,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }
-    compile 'com.google.firebase:firebase-core:10.2.6'
-    compile 'com.google.firebase:firebase-messaging:10.2.6'
+    compile 'com.google.firebase:firebase-messaging:10.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
     compile project(path: ':faceenginemobile')

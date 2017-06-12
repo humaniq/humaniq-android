@@ -28,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import co.humaniq.*;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.trello.rxlifecycle.components.support.RxFragment;
@@ -39,11 +40,6 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import co.humaniq.App;
-import co.humaniq.Config;
-import co.humaniq.R;
-import co.humaniq.Preferences;
-import co.humaniq.VLUtils;
 import co.humaniq.views.widgets.FaceBoundSurfaceView;
 import ru.visionlab.faceenginemobile.PhotoProcessor;
 import rx.Observable;
@@ -501,7 +497,7 @@ public class PhotoFragment extends RxFragment implements Camera.PreviewCallback,
         final List<Camera.Size> supportedPreviewSizes = camera.getParameters().getSupportedPreviewSizes();
         final List<Camera.Size> filteredSizes = new ArrayList<>();
         for (Camera.Size previewSize : supportedPreviewSizes) {
-            if (previewSize.width <= Config.PREVIEW_WIDTH && previewSize.height <= Config.PREVIEW_HEIGHT) {
+            if (previewSize.width <= BuildConfig.PREVIEW_WIDTH && previewSize.height <= BuildConfig.PREVIEW_HEIGHT) {
                 filteredSizes.add(previewSize);
             }
         }
