@@ -1,14 +1,13 @@
+### Important note
+This application is used only for testing purposes. It will not be moved to production. This library will become fully depricated after the main Humaniq application in August, 2017.
+
 # What is Humaniq?
 
-Humaniq is a simple and secure 4th generation mobile banking app, based on Ethereum Blockchain. Safe and strong, this tool of financial inclusion connects 2 billion unbanked people to the global economy. 
+Humaniq is a simple and secure 4th generation mobile banking app, based on [Ethereum](https://ethereum.org/) technologies. Safe and strong, this tool of financial inclusion connects 2 billion unbanked people to the global economy. 
 
 <a href="https://play.google.com/store/apps/details?id=co.humaniq"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=50px /></a>
 
 Humaniq harnesses the power of Blockchain to break down barriers to earning, spending, and accessing finance. We put you in total control of all your transactions. Payments are entirely transparent and accessible at all times, and with our Blockchain-based app you can track all your funds.
-
-### Important note
-This application is used only for testing purposes. It will not be moved to production. This library will become fully depricated after the main Humaniq application in August, 2017.
-
 
 ## Testnet
 
@@ -33,3 +32,5 @@ Current library provides following functionality:
 * Send and receive tokens — freely send and receive money to testnet accounts
 * Earn bonus tokens — perform social actions and receive bonus points. Egalitarian emission system is in action.
 
+## Contacts
+Feel free to email us at [info@humaniq.co](mailto:support@status.im) 
