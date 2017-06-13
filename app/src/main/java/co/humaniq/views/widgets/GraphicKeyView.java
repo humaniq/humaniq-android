@@ -1,11 +1,13 @@
 package co.humaniq.views.widgets;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -13,13 +15,14 @@ import java.util.ArrayList;
 
 
 public class GraphicKeyView extends View implements View.OnTouchListener {
-    final static int BIG_CIRCLE_PIXELS = 40;
-    final static int TOUCH = 60;
-    final static int MEDIUM_CIRCLE_PIXELS = 15;
-    final static int SMALL_CIRCLE_PIXELS = 7;
+    final static int BIG_CIRCLE_DP = 20;
+    final static int MEDIUM_CIRCLE_DP = 7;
+    final static int TOUCH_ROUND_DP = 40 ;
+    final static int SMALL_CIRCLE_DP = 3;
 
     public interface GraphicKeyCallback {
         void onFinish(final String password);
+        void onNewPassword(final String password);
     }
 
     class Point {
@@ -80,6 +83,12 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
     int screenWidth;
     int screenHeight;
 
+    public static float FromDpToPixels(float dp, Context context) {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
+
     public GraphicKeyView(Context context) {
         super(context);
         initComponents();
@@ -108,7 +117,16 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
     }
 
     private void initComponents() {
-        callback = password -> {};
+        callback = new GraphicKeyCallback() {
+            @Override
+            public void onFinish(String password) {
+            }
+
+            @Override
+            public void onNewPassword(String password) {
+            }
+        };
+
         paint = new Paint();
         edges = new ArrayList<>();
         selectedPoints = new ArrayList<>();
@@ -156,7 +174,7 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
             float pointX = point.X;
             float pointY = point.Y;
             float vecLength = (float) Math.sqrt(sqr(pointX - X) + sqr(pointY - Y));
-            if (vecLength <= TOUCH && !point.selected) {
+            if (vecLength <= FromDpToPixels(TOUCH_ROUND_DP, getContext()) && !point.selected) {
                 return point;
             }
         }
@@ -227,9 +245,11 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
     }
 
     private void onActionUp() {
+
         if (newPasswordMode) {
-            newPasswordActionUp();
             blockedPoints = true;
+            newPasswordActionUp();
+
         } else {
             actionUp();
         }
@@ -260,6 +280,8 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
         for (Point point : selectedPoints) {
             enteredPassword += point.number;
         }
+
+        callback.onNewPassword(enteredPassword);
     }
 
     public String getKey() {
@@ -306,21 +328,20 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
 
         // Points of the graphic key
         paint.setColor(Color.WHITE);
-        int circleSize;
-
+        float circleSize;
         for (Point point : points) {
             final float X = point.X;
             final float Y = point.Y;
 
             if (point.selected) {
-                paint.setStrokeWidth(5);
-                circleSize = BIG_CIRCLE_PIXELS;
+                paint.setStrokeWidth(FromDpToPixels(3, getContext()));
+                circleSize = FromDpToPixels(BIG_CIRCLE_DP, getContext());
                 paint.setStyle(Paint.Style.FILL);
-                canvas.drawCircle(X, Y, SMALL_CIRCLE_PIXELS, paint);
+                canvas.drawCircle(X, Y, FromDpToPixels(SMALL_CIRCLE_DP, getContext()), paint);
                 paint.setStyle(Paint.Style.STROKE);
             } else {
-                paint.setStrokeWidth(2);
-                circleSize = MEDIUM_CIRCLE_PIXELS;
+                paint.setStrokeWidth(FromDpToPixels(2, getContext()));
+                circleSize = FromDpToPixels(MEDIUM_CIRCLE_DP, getContext());
             }
 
             //canvas.drawPoint(X, Y, paint);
@@ -328,7 +349,7 @@ public class GraphicKeyView extends View implements View.OnTouchListener {
         }
 
         // Active edges
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(FromDpToPixels(5, getContext()));
         paint.setColor(Color.argb(150, 255, 255, 255));
 
         for (Edge edge : edges) {

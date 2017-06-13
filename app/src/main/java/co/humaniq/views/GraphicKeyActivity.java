@@ -4,13 +4,16 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
 import android.support.v4.content.FileProvider;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +42,7 @@ public class GraphicKeyActivity extends ToolbarActivity {
     private String capturedPhotoPath;
     private WalletInfo walletInfo = null;
     private String photoBase64 = "";
-    private String pinCode;
+    private String pinCode = "";
     private Wallet generatedWallet;
     private boolean triedGetMeta = false;
 
@@ -60,21 +63,40 @@ public class GraphicKeyActivity extends ToolbarActivity {
         initToolbar();
 
         graphicKeyView = (GraphicKeyView) findViewById(R.id.graphic_key);
-        graphicKeyView.setCallback(password -> {
-            if (password.length() >= 4) {
-                // Go to next step - nextStepOrLogin method
-                grantPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION);
+        graphicKeyView.setCallback(new GraphicKeyView.GraphicKeyCallback() {
+            @Override
+            public void onFinish(String password) {
+                if (password.length() >= 4) {  // Go to next step - nextStepOrLogin method
+                    grantPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION);
+                }
+            }
+
+            @Override
+            public void onNewPassword(String password) {
+                pinCode = password;
+                int color;
+                if (password.length() >= 4){
+                    findViewById(R.id.clear_key).setClickable(true);
+                    findViewById(R.id.save_key).setClickable(true);
+                    color = Color.WHITE;
+                } else {
+                    graphicKeyView.clearKey();
+                    color = Color.GRAY;
+                }
+
+                ((ImageButton)findViewById(R.id.clear_key)).setColorFilter(color);
+                ((ImageButton)findViewById(R.id.save_key)).setColorFilter(color);
             }
         });
 
         preferences = App.getPreferences(this);
 
-        if (!Wallet.hasKeyOnDevice(this)){
+        if (!Wallet.hasKeyOnDevice(this)) {
             findViewById(R.id.clear_key).setVisibility(View.VISIBLE);
             findViewById(R.id.save_key).setVisibility(View.VISIBLE);
             graphicKeyView.setNewPasswordMode(true);
-        } else  {
+        } else {
             findViewById(R.id.clear_key).setVisibility(View.GONE);
             findViewById(R.id.save_key).setVisibility(View.GONE);
             findViewById(R.id.textView3).setVisibility(View.GONE);
@@ -165,19 +187,35 @@ public class GraphicKeyActivity extends ToolbarActivity {
                 break;
 
             case R.id.clear_key:
-                graphicKeyView.clearKey();
+                onClearClick();
                 break;
 
             case R.id.save_key:
-                pinCode = graphicKeyView.getKey();
-                graphicKeyView.clearKey();
-                grantPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION);
+                onSaveClick();
                 break;
 
             default:
                 break;
         }
+    }
+
+    private void onClearClick() {
+        if (pinCode.length() < 4)
+            return;
+
+        ((ImageButton)findViewById(R.id.clear_key)).setColorFilter(Color.GRAY);
+        ((ImageButton)findViewById(R.id.save_key)).setColorFilter(Color.GRAY);
+
+        graphicKeyView.clearKey();
+    }
+
+    private void onSaveClick() {
+        if (pinCode.length() < 4)
+            return;
+
+        pinCode = graphicKeyView.getKey();
+        grantPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION);
     }
 
 // Take photo --------------------------------------------------------------------------------------
