@@ -1,0 +1,3 @@
+[submodule "faceenginemobile"]
+	path = faceenginemobile
+	url = git@bitbucket.org:theinvadersdev/faceenginemobile.git
