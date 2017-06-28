@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'io.fabric'
 
 repositories {
@@ -36,7 +36,7 @@ android {
             buildConfigField "String", "API_URL", '"/api/"'
 
             buildConfigField "String", "HMQ_TOKEN_CONTRACT_ADDRESS", '"0x1269666b14729f6b7d67e2935cf5632f0a9f1cda"'
-            buildConfigField "String", "EMISSION_CONTRACT_ADDRESS", '"0x89a867f444ae9beafa99c2021c3111ac69525e52"'
+            buildConfigField "String", "EMISSION_CONTRACT_ADDRESS", '"0x45d14cbf5f987053024d3c03aaf52feafd4621c4"'
         }
         debug {
             buildConfigField "String", "GETH_SERVER_URL", '"http://23.97.76.3/eth_rpc/"'
@@ -44,7 +44,7 @@ android {
             buildConfigField "String", "API_URL", '"/api/"'
 
             buildConfigField "String", "HMQ_TOKEN_CONTRACT_ADDRESS", '"0x1269666b14729f6b7d67e2935cf5632f0a9f1cda"'
-            buildConfigField "String", "EMISSION_CONTRACT_ADDRESS", '"0x89a867f444ae9beafa99c2021c3111ac69525e52"'
+            buildConfigField "String", "EMISSION_CONTRACT_ADDRESS", '"0x45d14cbf5f987053024d3c03aaf52feafd4621c4"'
         }
     }
     compileOptions {

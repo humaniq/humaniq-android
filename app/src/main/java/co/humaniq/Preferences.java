@@ -10,6 +10,10 @@ public interface Preferences {
     Boolean getFirstRun();
     void setFirstRun(Boolean value);
 
+    @DefaultBoolean(false)
+    Boolean getFixRegistrationBonus();
+    void setFixRegistrationBonus(Boolean value);
+
     @DefaultBoolean(true)
     Boolean getShowDetection();
     void setShowDetection(Boolean value);

@@ -344,7 +344,7 @@ public class GraphicKeyActivity extends ToolbarActivity {
         }
 
         private Wallet setAsWorkWalletTask() {
-            if (param.wallet.setAsWorkWallet()) {
+            if (param.wallet.setAsWorkWallet(getInstance())) {
                 return param.wallet;
             } else {
                 return null;
@@ -468,13 +468,17 @@ public class GraphicKeyActivity extends ToolbarActivity {
                 try {
                     generatedWallet.sign(pinCode, walletInfo);
                     generatedWallet.save(GraphicKeyActivity.this);
-                    generatedWallet.setAsWorkWallet();
+//                    generatedWallet.setAsWorkWallet(getInstance());
 
                     preferences.setAccountSalt(walletInfo.getSalt());
                     preferences.setLoginCount(preferences.getLoginCount() + 1);
 
-                    setResult(RESULT_OK);
-                    finish();
+//                    setResult(RESULT_OK);
+//                    finish();
+                    new WalletAsyncTask().execute(
+                            new WalletAsyncTaskParam(WalletAsyncTask.SET_AS_WORK_WALLET,
+                                    walletInfo, generatedWallet)
+                    );
                 } catch (Wallet.CantSignedException e) {
                     e.printStackTrace();
                     DebugTool.showDialog(this, "Error", "wallet can't be signed");
@@ -490,6 +494,8 @@ public class GraphicKeyActivity extends ToolbarActivity {
     @Override
     public void onApiError(Errors errors, int type, int requestCode) {
         super.onApiError(errors, type, requestCode);
+        hideProgressbar();
+
         if (type != API_CONNECTION_ERROR) {
             DebugTool.showDialog(this, "Error", "connection error");
             return;

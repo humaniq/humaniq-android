@@ -1,5 +1,6 @@
 package co.humaniq.models;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -15,6 +16,7 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.WalletUtils;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.Contract;
 import org.web3j.tx.ManagedTransaction;
 import org.web3j.utils.Numeric;
@@ -205,7 +207,7 @@ public class Wallet {
         }
     }
 
-    public boolean setAsWorkWallet() {
+    public boolean setAsWorkWallet(Context context) {
         workWallet = this;
         Web3 web3 = Web3.getInstance();
 
@@ -225,7 +227,22 @@ public class Wallet {
                 Contract.GAS_LIMIT
         );
 
-        return true;
+        Preferences preferences = App.getPreferences(context);
+
+        if (preferences.getFixRegistrationBonus())
+            return true;
+
+        try {
+            TransactionReceipt receipt = workWallet.emissionContract.fixRegistration().get();
+            preferences.setFixRegistrationBonus(true);
+            return true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static void revoke() {
