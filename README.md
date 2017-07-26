@@ -33,4 +33,4 @@ Current library provides following functionality:
 * Earn bonus tokens — perform social actions and receive bonus points. Egalitarian emission system is in action.
 
 ## Contacts
-Feel free to email us at [info@humaniq.co](mailto:support@status.im) 
+Feel free to email us at [info@humaniq.com](mailto:info@humaniq.com) 
